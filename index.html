@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pragya Singhal — GenAI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F5F3;
+    --ink:#16181D;
+    --ink-soft:#4A4F58;
+    --ink-faint:#8A909A;
+    --line:#DDE0DB;
+    --card:#FFFFFF;
+    --pass:#1F8A70;      /* green = verified / tests pass */
+    --gate:#C0803A;      /* amber = guardrail / human-in-the-loop */
+    --pass-bg:#E7F2EE;
+    --gate-bg:#F6ECDD;
+    --shadow:0 1px 0 var(--line);
+    --display:'Space Grotesk',system-ui,sans-serif;
+    --body:'Inter',system-ui,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  :root:not([data-theme="light"]){}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#101216;
+      --ink:#ECEEF0;
+      --ink-soft:#AEB4BD;
+      --ink-faint:#6B717B;
+      --line:#262A31;
+      --card:#171A1F;
+      --pass:#3FB79A;
+      --gate:#D6A15E;
+      --pass-bg:#132720;
+      --gate-bg:#28200F;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#101216;--ink:#ECEEF0;--ink-soft:#AEB4BD;--ink-faint:#6B717B;
+    --line:#262A31;--card:#171A1F;--pass:#3FB79A;--gate:#D6A15E;
+    --pass-bg:#132720;--gate-bg:#28200F;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--body);line-height:1.55;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px;}
+  a{color:inherit;}
+
+  /* ---------- header ---------- */
+  header{padding:64px 0 40px;}
+  .name{
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(34px,6vw,56px);line-height:1.02;
+    letter-spacing:-0.02em;margin:0;
+  }
+  .tagline{
+    font-family:var(--display);font-weight:500;
+    font-size:clamp(18px,2.6vw,23px);
+    color:var(--ink-soft);margin:16px 0 0;max-width:36ch;
+    line-height:1.3;
+  }
+  .whoami{
+    margin:20px 0 0;color:var(--ink-soft);
+    max-width:62ch;font-size:15.5px;
+  }
+  .contact{
+    display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:24px;
+    font-family:var(--mono);font-size:13.5px;
+  }
+  .contact a{
+    color:var(--ink-soft);text-decoration:none;
+    padding-bottom:2px;border-bottom:1px solid var(--line);
+    transition:color .15s,border-color .15s;
+  }
+  .contact a:hover{color:var(--pass);border-color:var(--pass);}
+
+  /* ---------- readout panel (the hero) ---------- */
+  .panel{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border:1px solid var(--line);border-radius:14px;
+    background:var(--card);overflow:hidden;margin-top:36px;
+  }
+  .stat{
+    padding:22px 20px;border-right:1px solid var(--line);
+  }
+  .stat:last-child{border-right:none;}
+  .stat .val{
+    font-family:var(--mono);font-weight:600;
+    font-size:clamp(26px,4.4vw,38px);line-height:1;
+    color:var(--pass);letter-spacing:-0.01em;
+  }
+  .stat .lab{
+    margin-top:10px;font-size:12.5px;color:var(--ink-soft);
+    line-height:1.35;
+  }
+  .stat .sub{color:var(--ink-faint);font-size:11.5px;margin-top:3px;}
+
+  /* ---------- section ---------- */
+  section{padding:44px 0;border-top:1px solid var(--line);}
+  .sec-head{
+    font-family:var(--mono);font-size:13px;color:var(--ink-faint);
+    font-weight:500;margin:0 0 28px;
+  }
+
+  /* ---------- projects ---------- */
+  .proj{
+    display:grid;grid-template-columns:150px 1fr;gap:28px;
+    padding:30px 0;border-top:1px dashed var(--line);
+  }
+  .proj:first-of-type{border-top:none;padding-top:0;}
+  .proj-rail{padding-top:3px;}
+  .proj-role{
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint);
+  }
+  .badge{
+    display:inline-block;margin-top:10px;padding:3px 9px;border-radius:20px;
+    font-family:var(--mono);font-size:11px;font-weight:500;
+  }
+  .badge.prod{background:var(--pass-bg);color:var(--pass);}
+  .badge.side{background:var(--gate-bg);color:var(--gate);}
+  .proj-title{
+    font-family:var(--display);font-weight:600;font-size:22px;
+    letter-spacing:-0.01em;margin:0;
+  }
+  .proj-title a{text-decoration:none;border-bottom:2px solid transparent;transition:border-color .15s;}
+  .proj-title a:hover{border-color:var(--pass);}
+  .stack{
+    font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);
+    margin:8px 0 14px;
+  }
+  .proj p{margin:0 0 16px;color:var(--ink-soft);font-size:15px;max-width:64ch;}
+  .metrics{display:flex;flex-wrap:wrap;gap:10px;}
+  .chip{
+    font-family:var(--mono);font-size:12.5px;
+    padding:5px 11px;border-radius:8px;
+    border:1px solid var(--line);background:var(--paper);
+    color:var(--ink);white-space:nowrap;
+  }
+  .chip b{color:var(--pass);font-weight:600;}
+  .chip.g b{color:var(--gate);}
+  .links{margin-top:16px;display:flex;gap:16px;font-family:var(--mono);font-size:13px;}
+  .links a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px;}
+  .links a:hover{color:var(--pass);border-color:var(--pass);}
+
+  /* ---------- background ---------- */
+  .bg-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 32px;}
+  .bg-item{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline;}
+  .bg-item .k{
+    font-family:var(--mono);font-size:12px;color:var(--pass);
+    white-space:nowrap;
+  }
+  .bg-item .v{color:var(--ink-soft);font-size:14.5px;}
+  .lede{color:var(--ink-soft);font-size:15px;max-width:66ch;margin:0 0 26px;}
+
+  /* ---------- skills ---------- */
+  .skills{display:grid;gap:16px;}
+  .skrow{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:start;}
+  .skrow .k{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);padding-top:4px;}
+  .sktags{display:flex;flex-wrap:wrap;gap:8px;}
+  .sktag{
+    font-size:13px;padding:5px 11px;border-radius:8px;
+    background:var(--card);border:1px solid var(--line);color:var(--ink-soft);
+  }
+
+  footer{padding:44px 0 72px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:13.5px;font-family:var(--mono);}
+  footer a{color:var(--ink-soft);}
+
+  @media (max-width:680px){
+    header{padding:44px 0 28px;}
+    .panel{grid-template-columns:1fr 1fr;}
+    .stat:nth-child(2){border-right:none;}
+    .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--line);}
+    .proj{grid-template-columns:1fr;gap:12px;}
+    .proj-rail{display:flex;align-items:center;gap:14px;}
+    .badge{margin-top:0;}
+    .bg-grid{grid-template-columns:1fr;}
+    .skrow{grid-template-columns:1fr;gap:8px;}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1 class="name">Pragya Singhal</h1>
+    <p class="tagline">I build the reliable plumbing that agents actually run on.</p>
+    <p class="whoami">Software engineer, ~4 years shipping production systems — now building agentic AI: stateful LangGraph agents, grounded RAG, real evaluation harnesses, and the resilient enterprise integration underneath. I ship things that are measured, not demoed.</p>
+    <nav class="contact">
+      <a href="mailto:pragyasinghal.652001@gmail.com">pragyasinghal.652001@gmail.com</a>
+      <a href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/pragya6" target="_blank" rel="noopener">GitHub</a>
+      <span style="color:var(--ink-faint)">New Delhi, India</span>
+    </nav>
+
+    <div class="panel" aria-label="Headline results">
+      <div class="stat">
+        <div class="val" data-count="0.0" data-decimals="1">0.0</div>
+        <div class="lab">Hallucination rate</div>
+        <div class="sub">RAG, 102 served queries</div>
+      </div>
+      <div class="stat">
+        <div class="val" data-count="100" data-suffix="%">100%</div>
+        <div class="lab">Agent tool-selection</div>
+        <div class="sub">50-query eval, guardrails on</div>
+      </div>
+      <div class="stat">
+        <div class="val" data-count="0.87" data-decimals="2">0.87</div>
+        <div class="lab">Retrieval hit@k</div>
+        <div class="sub">n=30, p50 ~2.0s</div>
+      </div>
+      <div class="stat">
+        <div class="val" data-count="0" data-decimals="0">0</div>
+        <div class="lab">Failed payments</div>
+        <div class="sub">enterprise integration, 30+ users</div>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <p class="sec-head">// selected work</p>
+
+    <article class="proj">
+      <div class="proj-rail">
+        <div class="proj-role">Agentic AI</div>
+        <span class="badge side">side project · deployed</span>
+      </div>
+      <div>
+        <h3 class="proj-title"><a href="https://pragya6-ai-agent.hf.space/" target="_blank" rel="noopener">CRM Agent</a></h3>
+        <div class="stack">LangGraph · FastAPI · SQLite/WAL · Gradio · HF Spaces</div>
+        <p>A stateful, tool-calling CRM agent: 6 tools with structured outputs, a prompt-independent human-in-the-loop approval gate for every sensitive action, error recovery (retry-with-backoff + circuit breaker), and cost tracking. Risky actions are safe by design — the gate lives in code, not the prompt.</p>
+        <div class="metrics">
+          <span class="chip g">HITL gate coverage <b>9/14 → 13/14</b></span>
+          <span class="chip">tool-selection &amp; params <b>→ 100%</b></span>
+          <span class="chip">50-query eval, 3 runs, fully stable</span>
+        </div>
+        <div class="links"><a href="https://pragya6-ai-agent.hf.space/" target="_blank" rel="noopener">live</a><a href="https://huggingface.co/spaces/pragya6/ai-agent" target="_blank" rel="noopener">code</a></div>
+      </div>
+    </article>
+
+    <article class="proj">
+      <div class="proj-rail">
+        <div class="proj-role">Grounded RAG</div>
+        <span class="badge side">side project · deployed</span>
+      </div>
+      <div>
+        <h3 class="proj-title"><a href="https://pragya6-homoeo-quiz.hf.space/" target="_blank" rel="noopener">HomeoQuiz</a></h3>
+        <div class="stack">Python · Gemini 2.5 Flash-Lite · ChromaDB · sentence-transformers · HF Spaces</div>
+        <p>Strict-grounding question-answering over a fixed corpus where every answer cites a source passage, with an automated eval harness (Wilson 95% CIs). A guardrail refuses when the source doesn't cover a topic. Hybrid local-embed + remote-generate — a deliberate cost/latency/rate-limit trade-off.</p>
+        <div class="metrics">
+          <span class="chip">hallucination <b>0.0</b> · quote-validity <b>1.0</b></span>
+          <span class="chip g">refusals <b>27/27</b> correct · over-refuse <b>2.9%</b></span>
+          <span class="chip">hit@k <b>0.87</b> · p50 <b>~2.0s</b></span>
+        </div>
+        <div class="links"><a href="https://pragya6-homoeo-quiz.hf.space/" target="_blank" rel="noopener">live</a><a href="https://huggingface.co/spaces/pragya6/homoeo-quiz" target="_blank" rel="noopener">code</a></div>
+      </div>
+    </article>
+
+    <article class="proj">
+      <div class="proj-rail">
+        <div class="proj-role">LLM in production</div>
+        <span class="badge prod">production</span>
+      </div>
+      <div>
+        <h3 class="proj-title"><a href="https://myhiveworld.web.app/horizon/discover" target="_blank" rel="noopener">MyHive Assistant</a></h3>
+        <div class="stack">OpenAI GPT · Firebase · Ionic · Angular · TypeScript · Node.js</div>
+        <p>A production conversational assistant on a cohort-based wellness marketplace — answers users' health queries and recommends available practitioners. Built personalized exercise recommendations that map each user's mood, pain, sleep and daily cycles to programs in the platform's catalog.</p>
+        <div class="metrics">
+          <span class="chip">live with real users</span>
+          <span class="chip">team's first user-facing LLM feature</span>
+        </div>
+        <div class="links"><a href="https://myhiveworld.web.app/horizon/discover" target="_blank" rel="noopener">product</a></div>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <p class="sec-head">// the plumbing underneath</p>
+    <p class="lede">Before GenAI, four years of backend and integration work — the resilience patterns that agentic systems live or die on.</p>
+    <div class="bg-grid">
+      <div class="bg-item"><span class="k">integration</span><span class="v">Stripe &amp; Secuconnect via REST + webhooks — auth, data mapping, idempotent retries, non-happy-path handling. Zero failed payments across 30+ users.</span></div>
+      <div class="bg-item"><span class="k">migrations</span><span class="v">Led CodeIgniter 3→4 and DataTables→Tabulator migrations on a large Laravel app with zero regression.</span></div>
+      <div class="bg-item"><span class="k">performance</span><span class="v">Cut page load 2min → 30–40s with custom pagination on a high-traffic booking platform.</span></div>
+      <div class="bg-item"><span class="k">team</span><span class="v">Mentored 5+ junior developers; built and shipped REST APIs across products. First MCP server built.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-head">// stack</p>
+    <div class="skills">
+      <div class="skrow"><span class="k">GenAI / LLM</span><div class="sktags">
+        <span class="sktag">RAG</span><span class="sktag">agentic AI</span><span class="sktag">tool calling</span><span class="sktag">structured outputs</span><span class="sktag">workflow orchestration</span><span class="sktag">MCP</span><span class="sktag">evals</span><span class="sktag">guardrails</span><span class="sktag">embeddings</span><span class="sktag">vector DBs</span><span class="sktag">cost/latency opt</span>
+      </div></div>
+      <div class="skrow"><span class="k">frameworks</span><div class="sktags">
+        <span class="sktag">LangGraph</span><span class="sktag">LangChain</span><span class="sktag">FastAPI</span><span class="sktag">OpenAI</span><span class="sktag">Gemini</span><span class="sktag">Groq</span><span class="sktag">ChromaDB</span><span class="sktag">FAISS</span>
+      </div></div>
+      <div class="skrow"><span class="k">engineering</span><div class="sktags">
+        <span class="sktag">TypeScript</span><span class="sktag">Python</span><span class="sktag">Node.js</span><span class="sktag">PHP / Laravel</span><span class="sktag">REST API design</span><span class="sktag">MySQL</span><span class="sktag">Docker</span><span class="sktag">HF Spaces</span><span class="sktag">CI/CD</span>
+      </div></div>
+    </div>
+  </section>
+
+  <footer>
+    Pragya Singhal · GenAI Engineer · <a href="mailto:pragyasinghal.652001@gmail.com">email</a> · <a href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.val[data-count]');
+  if(reduce){return;}
+  function animate(el){
+    var target = parseFloat(el.getAttribute('data-count'));
+    var dec = parseInt(el.getAttribute('data-decimals')||'0',10);
+    var suf = el.getAttribute('data-suffix')||'';
+    var dur = 900, start = null;
+    function step(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts-start)/dur,1);
+      var eased = 1-Math.pow(1-p,3);
+      var cur = (target*eased).toFixed(dec);
+      el.textContent = cur + suf;
+      if(p<1) requestAnimationFrame(step);
+      else el.textContent = target.toFixed(dec) + suf;
+    }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ animate(e.target); io.unobserve(e.target);} });
+    },{threshold:0.4});
+    els.forEach(function(el){ io.observe(el); });
+  } else {
+    els.forEach(animate);
+  }
+})();
+</script>
+</body>
+</html>
