@@ -3,41 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pragya Singhal — GenAI Engineer</title>
+  <title>Pragya Singhal — Software Engineer</title>
+  <meta name="description" content="Software engineer with ~4 years shipping production systems, now building applied GenAI: stateful LangGraph agents, grounded RAG, and the evaluation harnesses that prove they work.">
+  <meta name="author" content="Pragya Singhal">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pragya Singhal — Software Engineer">
+  <meta property="og:description" content="Software engineer with ~4 years shipping production systems, now building applied GenAI: stateful LangGraph agents, grounded RAG, and the evaluation harnesses that prove they work.">
+  <meta name="twitter:card" content="summary">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='system-ui'>P</text></svg>">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+
+  <script>
+    /* Set the theme and the js flag before first paint, so the page never
+       flashes the wrong colours and stays fully visible when JS is unavailable. */
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      try {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') {
+          root.setAttribute('data-theme', saved);
+        }
+      } catch (e) { /* storage blocked — fall back to the OS preference */ }
+    })();
+  </script>
 </head>
 <body>
-  <div class="page">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <header class="intro">
-      <h1 class="intro__name">Pragya Singhal</h1>
-      <p class="intro__tagline">I build the reliable plumbing that agents actually run on.</p>
-      <p class="intro__summary">Software engineer, ~4 years shipping production systems — now building agentic AI: stateful LangGraph agents, grounded RAG, real evaluation harnesses, and the resilient enterprise integration underneath. I ship things that are measured, not demoed.</p>
-
-      <nav aria-label="Contact">
-        <ul class="intro__contact">
-          <li><a class="intro__contact-link" href="mailto:pragyasinghal.652001@gmail.com">pragyasinghal.652001@gmail.com</a></li>
-          <li><a class="intro__contact-link" href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a class="intro__contact-link" href="https://github.com/pragya6" target="_blank" rel="noopener">GitHub</a></li>
-          <li class="intro__contact-location">New Delhi, India</li>
+  <header class="site-nav" id="site-nav">
+    <div class="page site-nav__inner">
+      <a class="site-nav__mark" href="#top">Pragya Singhal</a>
+      <nav aria-label="Sections">
+        <ul class="site-nav__links">
+          <li><a class="site-nav__link" href="#work">Work</a></li>
+          <li><a class="site-nav__link" href="#experience">Experience</a></li>
+          <li><a class="site-nav__link" href="#skills">Skills</a></li>
+          <li><a class="site-nav__link" href="#contact">Contact</a></li>
         </ul>
       </nav>
+      <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Switch colour theme">
+        <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        </svg>
+        <svg class="theme-toggle__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
 
-      <div class="results" role="group" aria-label="Headline results">
+  <div class="page" id="top">
+
+    <section class="hero">
+      <p class="hero__eyebrow">Software Engineer · New Delhi, India</p>
+      <h1 class="hero__name">Pragya Singhal</h1>
+      <p class="hero__tagline">I build AI features that are measured, guarded, and shipped.</p>
+      <p class="hero__summary">
+        Around four years building and maintaining production systems across backend, REST APIs and
+        enterprise integrations — now building applied GenAI on top of that foundation: stateful
+        LangGraph agents with tool calling and human-in-the-loop controls, grounded RAG, and the
+        evaluation harnesses that prove the whole thing actually works.
+      </p>
+
+      <div class="hero__actions">
+        <a class="button button--primary" href="#work">View work</a>
+        <a class="button" href="assets/Pragya_Singhal_GenAI_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+        <a class="button" href="mailto:pragyasinghal.652001@gmail.com">Email</a>
+        <a class="button" href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="button" href="https://github.com/pragya6" target="_blank" rel="noopener">GitHub</a>
+      </div>
+
+      <p class="hero__availability">
+        <span class="hero__availability-dot" aria-hidden="true"></span>
+        Open to Applied Engineer and Software Engineer roles with hands-on GenAI work
+      </p>
+
+      <div class="results" role="group" aria-label="Headline results" data-reveal>
         <figure class="results__item">
-          <p class="results__value" data-count="0.0" data-decimals="1">0.0</p>
+          <p class="results__value" data-count="0" data-decimals="1">0.0</p>
           <figcaption>
             <span class="results__label">Hallucination rate</span>
-            <span class="results__note">RAG, 102 served queries</span>
+            <span class="results__note">RAG, across 102 served queries</span>
           </figcaption>
         </figure>
         <figure class="results__item">
           <p class="results__value" data-count="100" data-suffix="%">100%</p>
           <figcaption>
-            <span class="results__label">Agent tool-selection</span>
+            <span class="results__label">Tool selection &amp; params</span>
             <span class="results__note">50-query eval, guardrails on</span>
           </figcaption>
         </figure>
@@ -45,170 +105,351 @@
           <p class="results__value" data-count="0.87" data-decimals="2">0.87</p>
           <figcaption>
             <span class="results__label">Retrieval hit@k</span>
-            <span class="results__note">n=30, p50 ~2.0s</span>
+            <span class="results__note">n=30, p50 ~2.0s latency</span>
           </figcaption>
         </figure>
         <figure class="results__item">
-          <p class="results__value" data-count="0" data-decimals="0">0</p>
+          <p class="results__value" data-count="40" data-prefix="~" data-suffix="K">~40K</p>
           <figcaption>
-            <span class="results__label">Failed payments</span>
-            <span class="results__note">enterprise integration, 30+ users</span>
+            <span class="results__label">Users on the platform</span>
+            <span class="results__note">served by workflows I built</span>
           </figcaption>
         </figure>
       </div>
-    </header>
+    </section>
 
-    <main>
-      <section class="section" aria-labelledby="work-title">
-        <h2 class="section__title" id="work-title">// selected work</h2>
+    <main id="main">
 
-        <article class="project">
-          <aside class="project__meta">
-            <p class="project__category">Agentic AI</p>
-            <span class="project__status project__status--side">side project · deployed</span>
-          </aside>
-          <div class="project__body">
-            <h3 class="project__title"><a class="project__title-link" href="https://pragya6-ai-agent.hf.space/" target="_blank" rel="noopener">CRM Agent</a></h3>
-            <p class="project__stack">LangGraph · FastAPI · SQLite/WAL · Gradio · HF Spaces</p>
-            <p class="project__description">A stateful, tool-calling CRM agent: 6 tools with structured outputs, a prompt-independent human-in-the-loop approval gate for every sensitive action, error recovery (retry-with-backoff + circuit breaker), and cost tracking. Risky actions are safe by design — the gate lives in code, not the prompt.</p>
-            <ul class="project__metrics">
-              <li class="project__metric project__metric--guardrail">HITL gate coverage <b class="project__metric-figure">9/14 → 13/14</b></li>
-              <li class="project__metric">tool-selection &amp; params <b class="project__metric-figure">→ 100%</b></li>
-              <li class="project__metric">50-query eval, 3 runs, fully stable</li>
-            </ul>
+      <section class="section" id="work" aria-labelledby="work-title">
+        <h2 class="section__title" id="work-title">Selected work</h2>
+        <p class="section__lede">
+          Systems I designed and built end to end — each one deployed and measured rather than
+          demoed. The numbers below come from evaluation harnesses I wrote.
+        </p>
+
+        <div class="projects">
+
+          <article class="project" data-reveal>
+            <div class="project__head">
+              <h3 class="project__title">
+                <a class="project__title-link" href="https://pragya6-ai-agent.hf.space/" target="_blank" rel="noopener">CRM Agent</a>
+              </h3>
+              <span class="project__tag">Agentic AI</span>
+              <span class="project__tag">Deployed</span>
+            </div>
+            <p class="project__stack">LangGraph · FastAPI · Supabase · Gradio · HF Spaces</p>
+            <p class="project__description">
+              An agent that can update and delete CRM records needs safety that does not depend on the
+              prompt. So the approval gate lives in code: a LangGraph interrupt that pauses every
+              sensitive action for a human, whatever the model decides to say.
+            </p>
+
+            <dl class="project__detail">
+              <div class="project__detail-group">
+                <dt class="project__detail-term">Built</dt>
+                <dd>
+                  <ul class="project__detail-list">
+                    <li>Stateful LangGraph agent orchestrating <span class="project__figure">6</span> CRM tools with structured JSON outputs.</li>
+                    <li>Human-in-the-loop approval gates for sensitive actions, enforced at the graph level rather than in the system prompt.</li>
+                    <li>Classified error recovery: retry-with-backoff plus an iteration circuit breaker, with structured JSON logging and cost tracking.</li>
+                  </ul>
+                </dd>
+              </div>
+              <div class="project__detail-group">
+                <dt class="project__detail-term">Measured</dt>
+                <dd>
+                  <ul class="project__detail-list">
+                    <li>A 50-query evaluation harness comparing guardrails off against on, three runs each, fully stable across runs.</li>
+                    <li><span class="project__figure">13/14</span> sensitive actions gated — every action that reached the gate was correctly caught. The one miss never reached it, because the agent picked the wrong tool, so no interrupt fired.</li>
+                    <li>Guardrails lifted tool selection and parameter extraction to <span class="project__figure">100%</span>.</li>
+                  </ul>
+                </dd>
+              </div>
+            </dl>
+
+            <figure class="diagram">
+              <svg viewBox="0 0 820 230" role="img" aria-labelledby="diagram-title diagram-desc">
+                <title id="diagram-title">CRM Agent request flow</title>
+                <desc id="diagram-desc">A user request reaches the LangGraph agent, which routes sensitive actions through a code-level approval gate before tool execution writes to Supabase. Failed tool calls return to the agent through retry with backoff and a circuit breaker.</desc>
+                <defs>
+                  <marker id="arrowhead" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+                    <path class="diagram__arrowhead" d="M0 0 L8 4 L0 8 z"></path>
+                  </marker>
+                </defs>
+
+                <text class="diagram__note" x="397" y="66" text-anchor="middle">sensitive actions pause here</text>
+                <path class="diagram__arrow" d="M397 72 L397 86" marker-end="url(#arrowhead)"></path>
+
+                <rect class="diagram__box" x="8" y="92" width="130" height="56" rx="8"></rect>
+                <text class="diagram__label" x="73" y="117" text-anchor="middle">User request</text>
+                <text class="diagram__sub" x="73" y="134" text-anchor="middle">Gradio</text>
+
+                <rect class="diagram__box" x="170" y="92" width="130" height="56" rx="8"></rect>
+                <text class="diagram__label" x="235" y="117" text-anchor="middle">LangGraph agent</text>
+                <text class="diagram__sub" x="235" y="134" text-anchor="middle">stateful graph</text>
+
+                <rect class="diagram__box diagram__box--accent" x="332" y="92" width="130" height="56" rx="8"></rect>
+                <text class="diagram__label" x="397" y="117" text-anchor="middle">Approval gate</text>
+                <text class="diagram__sub" x="397" y="134" text-anchor="middle">interrupt()</text>
+
+                <rect class="diagram__box" x="494" y="92" width="130" height="56" rx="8"></rect>
+                <text class="diagram__label" x="559" y="117" text-anchor="middle">Tool execution</text>
+                <text class="diagram__sub" x="559" y="134" text-anchor="middle">6 tools</text>
+
+                <rect class="diagram__box" x="656" y="92" width="130" height="56" rx="8"></rect>
+                <text class="diagram__label" x="721" y="117" text-anchor="middle">Supabase</text>
+                <text class="diagram__sub" x="721" y="134" text-anchor="middle">persistence</text>
+
+                <path class="diagram__arrow" d="M138 120 L162 120" marker-end="url(#arrowhead)"></path>
+                <path class="diagram__arrow" d="M300 120 L324 120" marker-end="url(#arrowhead)"></path>
+                <path class="diagram__arrow" d="M462 120 L486 120" marker-end="url(#arrowhead)"></path>
+                <path class="diagram__arrow" d="M624 120 L648 120" marker-end="url(#arrowhead)"></path>
+
+                <path class="diagram__arrow diagram__arrow--dashed" d="M559 148 L559 190 L243 190" marker-end="url(#arrowhead)"></path>
+                <text class="diagram__sub" x="401" y="208" text-anchor="middle">on failure: retry with backoff · circuit breaker</text>
+              </svg>
+            </figure>
+
             <ul class="project__links">
-              <li><a class="project__link" href="https://pragya6-ai-agent.hf.space/" target="_blank" rel="noopener">live</a></li>
-              <li><a class="project__link" href="https://huggingface.co/spaces/pragya6/ai-agent" target="_blank" rel="noopener">code</a></li>
+              <li><a class="project__link" href="https://pragya6-ai-agent.hf.space/" target="_blank" rel="noopener">Live demo ↗</a></li>
+              <li><a class="project__link" href="https://github.com/pragya6/ai-agent" target="_blank" rel="noopener">Code ↗</a></li>
             </ul>
-          </div>
-        </article>
+          </article>
 
-        <article class="project">
-          <aside class="project__meta">
-            <p class="project__category">Grounded RAG</p>
-            <span class="project__status project__status--side">side project · deployed</span>
-          </aside>
-          <div class="project__body">
-            <h3 class="project__title"><a class="project__title-link" href="https://pragya6-homoeo-quiz.hf.space/" target="_blank" rel="noopener">HomeoQuiz</a></h3>
+          <article class="project" data-reveal>
+            <div class="project__head">
+              <h3 class="project__title">
+                <a class="project__title-link" href="https://pragya6-homoeo-quiz.hf.space/" target="_blank" rel="noopener">HomeoQuiz</a>
+              </h3>
+              <span class="project__tag">Grounded RAG</span>
+              <span class="project__tag">Deployed</span>
+            </div>
             <p class="project__stack">Python · Gemini 2.5 Flash-Lite · ChromaDB · sentence-transformers · HF Spaces</p>
-            <p class="project__description">Strict-grounding question-answering over a fixed corpus where every answer cites a source passage, with an automated eval harness (Wilson 95% CIs). A guardrail refuses when the source doesn't cover a topic. Hybrid local-embed + remote-generate — a deliberate cost/latency/rate-limit trade-off.</p>
-            <ul class="project__metrics">
-              <li class="project__metric">hallucination <b class="project__metric-figure">0.0</b> · quote-validity <b class="project__metric-figure">1.0</b></li>
-              <li class="project__metric project__metric--guardrail">refusals <b class="project__metric-figure">27/27</b> correct · over-refuse <b class="project__metric-figure">2.9%</b></li>
-              <li class="project__metric">hit@k <b class="project__metric-figure">0.87</b> · p50 <b class="project__metric-figure">~2.0s</b></li>
-            </ul>
-            <ul class="project__links">
-              <li><a class="project__link" href="https://pragya6-homoeo-quiz.hf.space/" target="_blank" rel="noopener">live</a></li>
-              <li><a class="project__link" href="https://huggingface.co/spaces/pragya6/homoeo-quiz" target="_blank" rel="noopener">code</a></li>
-            </ul>
-          </div>
-        </article>
+            <p class="project__description">
+              A strict-grounding question-answering system over a fixed canonical corpus, where every
+              answer and explanation has to cite a source passage. The interesting part is not the
+              retrieval — it is the harness that proves the system is not making things up.
+            </p>
 
-        <article class="project">
-          <aside class="project__meta">
-            <p class="project__category">LLM in production</p>
-            <span class="project__status project__status--production">production</span>
-          </aside>
-          <div class="project__body">
-            <h3 class="project__title"><a class="project__title-link" href="https://myhiveworld.web.app/horizon/discover" target="_blank" rel="noopener">MyHive Assistant</a></h3>
-            <p class="project__stack">OpenAI GPT · Firebase · Ionic · Angular · TypeScript · Node.js</p>
-            <p class="project__description">A production conversational assistant on a cohort-based wellness marketplace — answers users' health queries and recommends available practitioners. Built personalized exercise recommendations that map each user's mood, pain, sleep and daily cycles to programs in the platform's catalog.</p>
-            <ul class="project__metrics">
-              <li class="project__metric">live with real users</li>
-              <li class="project__metric">team's first user-facing LLM feature</li>
-            </ul>
+            <dl class="project__detail">
+              <div class="project__detail-group">
+                <dt class="project__detail-term">Built</dt>
+                <dd>
+                  <ul class="project__detail-list">
+                    <li>Hybrid architecture — local embeddings (bge-small) with remote generation (Gemini 2.5 Flash-Lite) — a deliberate cost, latency and rate-limit trade-off.</li>
+                    <li>A guardrail that refuses to answer when the source material does not cover a topic, rather than improvising.</li>
+                    <li>An automated evaluation harness reporting Wilson 95% confidence intervals.</li>
+                  </ul>
+                </dd>
+              </div>
+              <div class="project__detail-group">
+                <dt class="project__detail-term">Measured</dt>
+                <dd>
+                  <ul class="project__detail-list">
+                    <li>Hallucination rate held at <span class="project__figure">0.0</span> and quote validity at <span class="project__figure">1.0</span> across 102 served queries.</li>
+                    <li>Correct refusals <span class="project__figure">27/27</span>, while over-refusing only <span class="project__figure">2.9%</span> of the time.</li>
+                    <li>Retrieval hit@k of <span class="project__figure">0.87</span> (n=30) at a p50 latency of roughly <span class="project__figure">2.0s</span>.</li>
+                  </ul>
+                </dd>
+              </div>
+            </dl>
+
             <ul class="project__links">
-              <li><a class="project__link" href="https://myhiveworld.web.app/horizon/discover" target="_blank" rel="noopener">product</a></li>
+              <li><a class="project__link" href="https://pragya6-homoeo-quiz.hf.space/" target="_blank" rel="noopener">Live demo ↗</a></li>
+              <li><a class="project__link" href="https://github.com/pragya6/homoeo-quiz" target="_blank" rel="noopener">Code ↗</a></li>
             </ul>
-          </div>
-        </article>
+          </article>
+
+          <article class="project" data-reveal>
+            <div class="project__head">
+              <h3 class="project__title">
+                <a class="project__title-link" href="https://myhiveworld.web.app/horizon/discover" target="_blank" rel="noopener">MyHive Assistant</a>
+              </h3>
+              <span class="project__tag">LLM in production</span>
+              <span class="project__tag project__tag--production">Production</span>
+            </div>
+            <p class="project__stack">OpenAI GPT · TypeScript · Firebase · Ionic · Angular · Node.js</p>
+            <p class="project__description">
+              A production conversational assistant on a cohort-based wellness marketplace, answering
+              users' health queries and recommending available practitioners from the platform's
+              catalogue. This was the team's first user-facing LLM capability.
+            </p>
+
+            <dl class="project__detail">
+              <div class="project__detail-group">
+                <dt class="project__detail-term">Built</dt>
+                <dd>
+                  <ul class="project__detail-list">
+                    <li>The assistant itself, shipped to real users on a live marketplace.</li>
+                    <li>Personalised exercise recommendations mapping each user's mood, pain, sleep and daily health cycles to relevant programs in the platform's catalogue.</li>
+                  </ul>
+                </dd>
+              </div>
+            </dl>
+
+            <ul class="project__links">
+              <li><a class="project__link" href="https://myhiveworld.web.app/horizon/discover" target="_blank" rel="noopener">Product ↗</a></li>
+            </ul>
+          </article>
+
+          <article class="project" data-reveal>
+            <div class="project__head">
+              <h3 class="project__title">
+                <a class="project__title-link" href="https://www.storylines.com/listings-7" target="_blank" rel="noopener">Storylines</a>
+              </h3>
+              <span class="project__tag">Platform engineering</span>
+              <span class="project__tag project__tag--production">Production</span>
+            </div>
+            <p class="project__stack">HubSpot · HubL · PHP · Laravel · REST APIs · MySQL</p>
+            <p class="project__description">
+              A high-traffic cruise-ship booking platform. I built automated workflows, developed REST
+              APIs, integrated the Secuconnect payment gateway and the Google Sheets API, and resolved
+              production performance issues.
+            </p>
+
+            <ul class="project__links">
+              <li><a class="project__link" href="https://www.storylines.com/listings-7" target="_blank" rel="noopener">Product ↗</a></li>
+            </ul>
+          </article>
+
+        </div>
       </section>
 
-      <section class="section" aria-labelledby="plumbing-title">
-        <h2 class="section__title" id="plumbing-title">// the plumbing underneath</h2>
-        <p class="section__lede">Before GenAI, four years of backend and integration work — the resilience patterns that agentic systems live or die on.</p>
-        <dl class="experience">
-          <div class="experience__item">
-            <dt class="experience__area">integration</dt>
-            <dd class="experience__detail">Stripe &amp; Secuconnect via REST + webhooks — auth, data mapping, idempotent retries, non-happy-path handling. Zero failed payments across 30+ users.</dd>
+      <section class="section" id="experience" aria-labelledby="experience-title">
+        <h2 class="section__title" id="experience-title">Experience</h2>
+        <div class="role" data-reveal>
+          <div>
+            <p class="role__company">29 Kreativ</p>
+            <p class="role__title">Software Engineer</p>
+            <p class="role__period">Aug 2022 — Present</p>
           </div>
-          <div class="experience__item">
-            <dt class="experience__area">migrations</dt>
-            <dd class="experience__detail">Led CodeIgniter 3→4 and DataTables→Tabulator migrations on a large Laravel app with zero regression.</dd>
-          </div>
-          <div class="experience__item">
-            <dt class="experience__area">performance</dt>
-            <dd class="experience__detail">Cut page load 2min → 30–40s with custom pagination on a high-traffic booking platform.</dd>
-          </div>
-          <div class="experience__item">
-            <dt class="experience__area">team</dt>
-            <dd class="experience__detail">Mentored 5+ junior developers; built and shipped REST APIs across products. First MCP server built.</dd>
-          </div>
-        </dl>
+          <ul class="role__list">
+            <li>Designed and shipped REST APIs, and integrated external enterprise systems through APIs and webhooks — including Stripe and Secuconnect — handling authentication, data mapping, error handling and production debugging.</li>
+            <li>Integrated OpenAI GPT into production, delivering the team's first user-facing chatbot and AI-assisted capabilities.</li>
+            <li>Built event-driven workflows for CRM operations, payment-status synchronisation and customer notifications across a platform serving ~40K users, reducing manual operational effort by ~75–80%.</li>
+            <li>Led a legacy CodeIgniter 3 → 4 migration and a DataTables.js → Tabulator.js migration with zero regression on a large Laravel application.</li>
+            <li>Mentored 5+ junior developers on engineering practices, debugging and cross-stack troubleshooting.</li>
+          </ul>
+        </div>
       </section>
 
-      <section class="section" aria-labelledby="stack-title">
-        <h2 class="section__title" id="stack-title">// stack</h2>
-        <dl class="skills">
+      <section class="section" id="skills" aria-labelledby="skills-title">
+        <h2 class="section__title" id="skills-title">Skills</h2>
+        <dl class="skills" data-reveal>
           <div class="skills__group">
-            <dt class="skills__category">GenAI / LLM</dt>
-            <dd>
-              <ul class="skills__list">
-                <li class="skills__item">RAG</li>
-                <li class="skills__item">agentic AI</li>
-                <li class="skills__item">tool calling</li>
-                <li class="skills__item">structured outputs</li>
-                <li class="skills__item">workflow orchestration</li>
-                <li class="skills__item">MCP</li>
-                <li class="skills__item">evals</li>
-                <li class="skills__item">guardrails</li>
-                <li class="skills__item">embeddings</li>
-                <li class="skills__item">vector DBs</li>
-                <li class="skills__item">cost/latency opt</li>
-              </ul>
-            </dd>
-          </div>
-          <div class="skills__group">
-            <dt class="skills__category">frameworks</dt>
+            <dt class="skills__category">Agent / LLM systems</dt>
             <dd>
               <ul class="skills__list">
                 <li class="skills__item">LangGraph</li>
                 <li class="skills__item">LangChain</li>
-                <li class="skills__item">FastAPI</li>
-                <li class="skills__item">OpenAI</li>
-                <li class="skills__item">Gemini</li>
-                <li class="skills__item">Groq</li>
-                <li class="skills__item">ChromaDB</li>
-                <li class="skills__item">FAISS</li>
+                <li class="skills__item">RAG</li>
+                <li class="skills__item">Agentic AI</li>
+                <li class="skills__item">Tool calling</li>
+                <li class="skills__item">Structured outputs</li>
+                <li class="skills__item">MCP</li>
+                <li class="skills__item">LLM evaluation</li>
+                <li class="skills__item">Guardrails</li>
+                <li class="skills__item">HITL</li>
+                <li class="skills__item">Embeddings</li>
+                <li class="skills__item">Cost / latency optimisation</li>
               </ul>
             </dd>
           </div>
           <div class="skills__group">
-            <dt class="skills__category">engineering</dt>
+            <dt class="skills__category">Backend &amp; languages</dt>
             <dd>
               <ul class="skills__list">
                 <li class="skills__item">TypeScript</li>
+                <li class="skills__item">JavaScript</li>
                 <li class="skills__item">Python</li>
                 <li class="skills__item">Node.js</li>
-                <li class="skills__item">PHP / Laravel</li>
+                <li class="skills__item">FastAPI</li>
+                <li class="skills__item">PHP</li>
+                <li class="skills__item">Laravel</li>
+                <li class="skills__item">CodeIgniter</li>
+              </ul>
+            </dd>
+          </div>
+          <div class="skills__group">
+            <dt class="skills__category">APIs &amp; systems</dt>
+            <dd>
+              <ul class="skills__list">
                 <li class="skills__item">REST API design</li>
+                <li class="skills__item">Webhooks</li>
+                <li class="skills__item">Authentication</li>
+                <li class="skills__item">Enterprise integrations</li>
+                <li class="skills__item">Workflow orchestration</li>
+                <li class="skills__item">Retries</li>
+                <li class="skills__item">Circuit breakers</li>
+              </ul>
+            </dd>
+          </div>
+          <div class="skills__group">
+            <dt class="skills__category">Data &amp; infrastructure</dt>
+            <dd>
+              <ul class="skills__list">
                 <li class="skills__item">MySQL</li>
+                <li class="skills__item">Firebase</li>
+                <li class="skills__item">Supabase</li>
+                <li class="skills__item">SQLite</li>
+                <li class="skills__item">ChromaDB</li>
+                <li class="skills__item">FAISS</li>
                 <li class="skills__item">Docker</li>
-                <li class="skills__item">HF Spaces</li>
+                <li class="skills__item">Git / GitHub</li>
                 <li class="skills__item">CI/CD</li>
+                <li class="skills__item">Hugging Face Spaces</li>
+              </ul>
+            </dd>
+          </div>
+          <div class="skills__group">
+            <dt class="skills__category">Frontend</dt>
+            <dd>
+              <ul class="skills__list">
+                <li class="skills__item">Angular</li>
+                <li class="skills__item">Ionic</li>
+                <li class="skills__item">HTML / CSS</li>
               </ul>
             </dd>
           </div>
         </dl>
       </section>
+
+      <section class="section" id="education" aria-labelledby="education-title">
+        <h2 class="section__title" id="education-title">Education</h2>
+        <div class="education" data-reveal>
+          <p class="education__period">2018 — 2022</p>
+          <div>
+            <p class="education__degree">B.Tech, Electronics &amp; Communication Engineering</p>
+            <p class="education__school">ADGITM, Delhi</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact" aria-labelledby="contact-title">
+        <h2 class="section__title" id="contact-title">Contact</h2>
+        <p class="contact__lede">
+          I want to put four years of production fundamentals — reliable APIs, integrations and
+          error handling — to work on GenAI systems that hold up outside a demo, and to keep
+          learning and growing alongside people already building them well. If that sounds like
+          your team, I would be glad to talk.
+        </p>
+        <div class="hero__actions">
+          <a class="button button--primary" href="mailto:pragyasinghal.652001@gmail.com">pragyasinghal.652001@gmail.com</a>
+          <a class="button" href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="button" href="https://github.com/pragya6" target="_blank" rel="noopener">GitHub</a>
+          <a class="button" href="tel:+919354500686">+91 93545 00686</a>
+        </div>
+      </section>
+
     </main>
 
     <footer class="site-footer">
-      Pragya Singhal · GenAI Engineer · <a class="site-footer__link" href="mailto:pragyasinghal.652001@gmail.com">email</a> · <a class="site-footer__link" href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
+      <span>Pragya Singhal · New Delhi, India</span>
+      <span>Static page — no framework, no build step.</span>
     </footer>
 
   </div>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>
