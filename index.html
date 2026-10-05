@@ -38,7 +38,7 @@
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-nav" id="site-nav">
-    <div class="page site-nav__inner">
+    <div class="prtflo-page site-nav__inner">
       <a class="site-nav__mark" href="#top">Pragya Singhal</a>
       <nav aria-label="Sections">
         <ul class="site-nav__links">
@@ -60,7 +60,7 @@
     </div>
   </header>
 
-  <div class="page" id="top">
+  <div class="prtflo-page" id="top">
 
     <section class="hero">
       <p class="hero__eyebrow">Software Engineer · New Delhi, India</p>
@@ -74,11 +74,11 @@
       </p>
 
       <div class="hero__actions">
-        <a class="button button--primary" href="#work">View work</a>
-        <a class="button" href="assets/Pragya_Singhal_GenAI_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
-        <a class="button" href="mailto:pragyasinghal.652001@gmail.com">Email</a>
-        <a class="button" href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="button" href="https://github.com/pragya6" target="_blank" rel="noopener">GitHub</a>
+        <a class="prtflo-button prtflo-button--primary" href="#work">View work</a>
+        <a class="prtflo-button" href="assets/Pragya_Singhal_GenAI_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+        <a class="prtflo-button" href="mailto:pragyasinghal.652001@gmail.com">Email</a>
+        <a class="prtflo-button" href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="prtflo-button" href="https://github.com/pragya6" target="_blank" rel="noopener">GitHub</a>
       </div>
 
       <p class="hero__availability">
@@ -86,33 +86,33 @@
         Open to Applied Engineer and Software Engineer roles with hands-on GenAI work
       </p>
 
-      <div class="results" role="group" aria-label="Headline results" data-reveal>
-        <figure class="results__item">
-          <p class="results__value" data-count="0" data-decimals="1">0.0</p>
+      <div class="prtflo-results" role="group" aria-label="Headline results" data-reveal>
+        <figure class="prtflo-results__item">
+          <p class="prtflo-results__value" data-count="0" data-decimals="1">0.0</p>
           <figcaption>
-            <span class="results__label">Hallucination rate</span>
-            <span class="results__note">RAG, across 102 served queries</span>
+            <span class="prtflo-results__label">Hallucination rate</span>
+            <span class="prtflo-results__note">RAG, across 102 served queries</span>
           </figcaption>
         </figure>
-        <figure class="results__item">
-          <p class="results__value" data-count="100" data-suffix="%">100%</p>
+        <figure class="prtflo-results__item">
+          <p class="prtflo-results__value" data-count="100" data-suffix="%">100%</p>
           <figcaption>
-            <span class="results__label">Tool selection &amp; params</span>
-            <span class="results__note">50-query eval, guardrails on</span>
+            <span class="prtflo-results__label">Tool selection &amp; params</span>
+            <span class="prtflo-results__note">50-query eval, guardrails on</span>
           </figcaption>
         </figure>
-        <figure class="results__item">
-          <p class="results__value" data-count="0.87" data-decimals="2">0.87</p>
+        <figure class="prtflo-results__item">
+          <p class="prtflo-results__value" data-count="0.87" data-decimals="2">0.87</p>
           <figcaption>
-            <span class="results__label">Retrieval hit@k</span>
-            <span class="results__note">n=30, p50 ~2.0s latency</span>
+            <span class="prtflo-results__label">Retrieval hit@k</span>
+            <span class="prtflo-results__note">n=30, p50 ~2.0s latency</span>
           </figcaption>
         </figure>
-        <figure class="results__item">
-          <p class="results__value" data-count="40" data-prefix="~" data-suffix="K">~40K</p>
+        <figure class="prtflo-results__item">
+          <p class="prtflo-results__value" data-count="40" data-prefix="~" data-suffix="K">~40K</p>
           <figcaption>
-            <span class="results__label">Users on the platform</span>
-            <span class="results__note">served by workflows I built</span>
+            <span class="prtflo-results__label">Users on the platform</span>
+            <span class="prtflo-results__note">served by workflows I built</span>
           </figcaption>
         </figure>
       </div>
@@ -120,14 +120,14 @@
 
     <main id="main">
 
-      <section class="section" id="work" aria-labelledby="work-title">
-        <h2 class="section__title" id="work-title">Selected work</h2>
-        <p class="section__lede">
+      <section class="prtflo-section" id="work" aria-labelledby="work-title">
+        <h2 class="prtflo-section__title" id="work-title">Selected work</h2>
+        <p class="prtflo-section__lede">
           Systems I designed and built end to end — each one deployed and measured rather than
           demoed. The numbers below come from evaluation harnesses I wrote.
         </p>
 
-        <div class="projects">
+        <div class="prtflo-projects">
 
           <article class="project" data-reveal>
             <div class="project__head">
@@ -167,46 +167,46 @@
               </div>
             </dl>
 
-            <figure class="diagram">
+            <figure class="prtflo-diagram">
               <svg viewBox="0 0 820 230" role="img" aria-labelledby="diagram-title diagram-desc">
                 <title id="diagram-title">CRM Agent request flow</title>
                 <desc id="diagram-desc">A user request reaches the LangGraph agent, which routes sensitive actions through a code-level approval gate before tool execution writes to Supabase. Failed tool calls return to the agent through retry with backoff and a circuit breaker.</desc>
                 <defs>
                   <marker id="arrowhead" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
-                    <path class="diagram__arrowhead" d="M0 0 L8 4 L0 8 z"></path>
+                    <path class="prtflo-diagram__arrowhead" d="M0 0 L8 4 L0 8 z"></path>
                   </marker>
                 </defs>
 
-                <text class="diagram__note" x="397" y="66" text-anchor="middle">sensitive actions pause here</text>
-                <path class="diagram__arrow" d="M397 72 L397 86" marker-end="url(#arrowhead)"></path>
+                <text class="prtflo-diagram__note" x="397" y="66" text-anchor="middle">sensitive actions pause here</text>
+                <path class="prtflo-diagram__arrow" d="M397 72 L397 86" marker-end="url(#arrowhead)"></path>
 
-                <rect class="diagram__box" x="8" y="92" width="130" height="56" rx="8"></rect>
-                <text class="diagram__label" x="73" y="117" text-anchor="middle">User request</text>
-                <text class="diagram__sub" x="73" y="134" text-anchor="middle">Gradio</text>
+                <rect class="prtflo-diagram__box" x="8" y="92" width="130" height="56" rx="8"></rect>
+                <text class="prtflo-diagram__label" x="73" y="117" text-anchor="middle">User request</text>
+                <text class="prtflo-diagram__sub" x="73" y="134" text-anchor="middle">Gradio</text>
 
-                <rect class="diagram__box" x="170" y="92" width="130" height="56" rx="8"></rect>
-                <text class="diagram__label" x="235" y="117" text-anchor="middle">LangGraph agent</text>
-                <text class="diagram__sub" x="235" y="134" text-anchor="middle">stateful graph</text>
+                <rect class="prtflo-diagram__box" x="170" y="92" width="130" height="56" rx="8"></rect>
+                <text class="prtflo-diagram__label" x="235" y="117" text-anchor="middle">LangGraph agent</text>
+                <text class="prtflo-diagram__sub" x="235" y="134" text-anchor="middle">stateful graph</text>
 
-                <rect class="diagram__box diagram__box--accent" x="332" y="92" width="130" height="56" rx="8"></rect>
-                <text class="diagram__label" x="397" y="117" text-anchor="middle">Approval gate</text>
-                <text class="diagram__sub" x="397" y="134" text-anchor="middle">interrupt()</text>
+                <rect class="prtflo-diagram__box prtflo-diagram__box--accent" x="332" y="92" width="130" height="56" rx="8"></rect>
+                <text class="prtflo-diagram__label" x="397" y="117" text-anchor="middle">Approval gate</text>
+                <text class="prtflo-diagram__sub" x="397" y="134" text-anchor="middle">interrupt()</text>
 
-                <rect class="diagram__box" x="494" y="92" width="130" height="56" rx="8"></rect>
-                <text class="diagram__label" x="559" y="117" text-anchor="middle">Tool execution</text>
-                <text class="diagram__sub" x="559" y="134" text-anchor="middle">6 tools</text>
+                <rect class="prtflo-diagram__box" x="494" y="92" width="130" height="56" rx="8"></rect>
+                <text class="prtflo-diagram__label" x="559" y="117" text-anchor="middle">Tool execution</text>
+                <text class="prtflo-diagram__sub" x="559" y="134" text-anchor="middle">6 tools</text>
 
-                <rect class="diagram__box" x="656" y="92" width="130" height="56" rx="8"></rect>
-                <text class="diagram__label" x="721" y="117" text-anchor="middle">Supabase</text>
-                <text class="diagram__sub" x="721" y="134" text-anchor="middle">persistence</text>
+                <rect class="prtflo-diagram__box" x="656" y="92" width="130" height="56" rx="8"></rect>
+                <text class="prtflo-diagram__label" x="721" y="117" text-anchor="middle">Supabase</text>
+                <text class="prtflo-diagram__sub" x="721" y="134" text-anchor="middle">persistence</text>
 
-                <path class="diagram__arrow" d="M138 120 L162 120" marker-end="url(#arrowhead)"></path>
-                <path class="diagram__arrow" d="M300 120 L324 120" marker-end="url(#arrowhead)"></path>
-                <path class="diagram__arrow" d="M462 120 L486 120" marker-end="url(#arrowhead)"></path>
-                <path class="diagram__arrow" d="M624 120 L648 120" marker-end="url(#arrowhead)"></path>
+                <path class="prtflo-diagram__arrow" d="M138 120 L162 120" marker-end="url(#arrowhead)"></path>
+                <path class="prtflo-diagram__arrow" d="M300 120 L324 120" marker-end="url(#arrowhead)"></path>
+                <path class="prtflo-diagram__arrow" d="M462 120 L486 120" marker-end="url(#arrowhead)"></path>
+                <path class="prtflo-diagram__arrow" d="M624 120 L648 120" marker-end="url(#arrowhead)"></path>
 
-                <path class="diagram__arrow diagram__arrow--dashed" d="M559 148 L559 190 L243 190" marker-end="url(#arrowhead)"></path>
-                <text class="diagram__sub" x="401" y="208" text-anchor="middle">on failure: retry with backoff · circuit breaker</text>
+                <path class="prtflo-diagram__arrow prtflo-diagram__arrow--dashed" d="M559 148 L559 190 L243 190" marker-end="url(#arrowhead)"></path>
+                <text class="prtflo-diagram__sub" x="401" y="208" text-anchor="middle">on failure: retry with backoff · circuit breaker</text>
               </svg>
             </figure>
 
@@ -315,15 +315,13 @@
         </div>
       </section>
 
-      <section class="section" id="experience" aria-labelledby="experience-title">
-        <h2 class="section__title" id="experience-title">Experience</h2>
-        <div class="role" data-reveal>
-          <div>
-            <p class="role__company">29 Kreativ</p>
-            <p class="role__title">Software Engineer</p>
-            <p class="role__period">Aug 2022 — Present</p>
-          </div>
-          <ul class="role__list">
+      <section class="prtflo-section" id="experience" aria-labelledby="experience-title">
+        <h2 class="prtflo-section__title" id="experience-title">Experience</h2>
+        <div class="prtflo-role" data-reveal>
+          <p class="prtflo-role__company">29 Kreativ</p>
+          <p class="prtflo-role__title">Software Engineer</p>
+          <p class="prtflo-role__period">Aug 2022 — Present</p>
+          <ul class="prtflo-role__list">
             <li>Designed and shipped REST APIs, and integrated external enterprise systems through APIs and webhooks — including Stripe and Secuconnect — handling authentication, data mapping, error handling and production debugging.</li>
             <li>Integrated OpenAI GPT into production, delivering the team's first user-facing chatbot and AI-assisted capabilities.</li>
             <li>Built event-driven workflows for CRM operations, payment-status synchronisation and customer notifications across a platform serving ~40K users, reducing manual operational effort by ~75–80%.</li>
@@ -333,100 +331,98 @@
         </div>
       </section>
 
-      <section class="section" id="skills" aria-labelledby="skills-title">
-        <h2 class="section__title" id="skills-title">Skills</h2>
-        <dl class="skills" data-reveal>
-          <div class="skills__group">
-            <dt class="skills__category">Agent / LLM systems</dt>
+      <section class="prtflo-section" id="skills" aria-labelledby="skills-title">
+        <h2 class="prtflo-section__title" id="skills-title">Skills</h2>
+        <dl class="prtflo-skills" data-reveal>
+          <div class="prtflo-skills__group">
+            <dt class="prtflo-skills__category">Agent / LLM systems</dt>
             <dd>
-              <ul class="skills__list">
-                <li class="skills__item">LangGraph</li>
-                <li class="skills__item">LangChain</li>
-                <li class="skills__item">RAG</li>
-                <li class="skills__item">Agentic AI</li>
-                <li class="skills__item">Tool calling</li>
-                <li class="skills__item">Structured outputs</li>
-                <li class="skills__item">MCP</li>
-                <li class="skills__item">LLM evaluation</li>
-                <li class="skills__item">Guardrails</li>
-                <li class="skills__item">HITL</li>
-                <li class="skills__item">Embeddings</li>
-                <li class="skills__item">Cost / latency optimisation</li>
+              <ul class="prtflo-skills__list">
+                <li class="prtflo-skills__item">LangGraph</li>
+                <li class="prtflo-skills__item">LangChain</li>
+                <li class="prtflo-skills__item">RAG</li>
+                <li class="prtflo-skills__item">Agentic AI</li>
+                <li class="prtflo-skills__item">Tool calling</li>
+                <li class="prtflo-skills__item">Structured outputs</li>
+                <li class="prtflo-skills__item">MCP</li>
+                <li class="prtflo-skills__item">LLM evaluation</li>
+                <li class="prtflo-skills__item">Guardrails</li>
+                <li class="prtflo-skills__item">HITL</li>
+                <li class="prtflo-skills__item">Embeddings</li>
+                <li class="prtflo-skills__item">Cost / latency optimisation</li>
               </ul>
             </dd>
           </div>
-          <div class="skills__group">
-            <dt class="skills__category">Backend &amp; languages</dt>
+          <div class="prtflo-skills__group">
+            <dt class="prtflo-skills__category">Backend &amp; languages</dt>
             <dd>
-              <ul class="skills__list">
-                <li class="skills__item">TypeScript</li>
-                <li class="skills__item">JavaScript</li>
-                <li class="skills__item">Python</li>
-                <li class="skills__item">Node.js</li>
-                <li class="skills__item">FastAPI</li>
-                <li class="skills__item">PHP</li>
-                <li class="skills__item">Laravel</li>
-                <li class="skills__item">CodeIgniter</li>
+              <ul class="prtflo-skills__list">
+                <li class="prtflo-skills__item">TypeScript</li>
+                <li class="prtflo-skills__item">JavaScript</li>
+                <li class="prtflo-skills__item">Python</li>
+                <li class="prtflo-skills__item">Node.js</li>
+                <li class="prtflo-skills__item">FastAPI</li>
+                <li class="prtflo-skills__item">PHP</li>
+                <li class="prtflo-skills__item">Laravel</li>
+                <li class="prtflo-skills__item">CodeIgniter</li>
               </ul>
             </dd>
           </div>
-          <div class="skills__group">
-            <dt class="skills__category">APIs &amp; systems</dt>
+          <div class="prtflo-skills__group">
+            <dt class="prtflo-skills__category">APIs &amp; systems</dt>
             <dd>
-              <ul class="skills__list">
-                <li class="skills__item">REST API design</li>
-                <li class="skills__item">Webhooks</li>
-                <li class="skills__item">Authentication</li>
-                <li class="skills__item">Enterprise integrations</li>
-                <li class="skills__item">Workflow orchestration</li>
-                <li class="skills__item">Retries</li>
-                <li class="skills__item">Circuit breakers</li>
+              <ul class="prtflo-skills__list">
+                <li class="prtflo-skills__item">REST API design</li>
+                <li class="prtflo-skills__item">Webhooks</li>
+                <li class="prtflo-skills__item">Authentication</li>
+                <li class="prtflo-skills__item">Enterprise integrations</li>
+                <li class="prtflo-skills__item">Workflow orchestration</li>
+                <li class="prtflo-skills__item">Retries</li>
+                <li class="prtflo-skills__item">Circuit breakers</li>
               </ul>
             </dd>
           </div>
-          <div class="skills__group">
-            <dt class="skills__category">Data &amp; infrastructure</dt>
+          <div class="prtflo-skills__group">
+            <dt class="prtflo-skills__category">Data &amp; infrastructure</dt>
             <dd>
-              <ul class="skills__list">
-                <li class="skills__item">MySQL</li>
-                <li class="skills__item">Firebase</li>
-                <li class="skills__item">Supabase</li>
-                <li class="skills__item">SQLite</li>
-                <li class="skills__item">ChromaDB</li>
-                <li class="skills__item">FAISS</li>
-                <li class="skills__item">Docker</li>
-                <li class="skills__item">Git / GitHub</li>
-                <li class="skills__item">CI/CD</li>
-                <li class="skills__item">Hugging Face Spaces</li>
+              <ul class="prtflo-skills__list">
+                <li class="prtflo-skills__item">MySQL</li>
+                <li class="prtflo-skills__item">Firebase</li>
+                <li class="prtflo-skills__item">Supabase</li>
+                <li class="prtflo-skills__item">SQLite</li>
+                <li class="prtflo-skills__item">ChromaDB</li>
+                <li class="prtflo-skills__item">FAISS</li>
+                <li class="prtflo-skills__item">Docker</li>
+                <li class="prtflo-skills__item">Git / GitHub</li>
+                <li class="prtflo-skills__item">CI/CD</li>
+                <li class="prtflo-skills__item">Hugging Face Spaces</li>
               </ul>
             </dd>
           </div>
-          <div class="skills__group">
-            <dt class="skills__category">Frontend</dt>
+          <div class="prtflo-skills__group">
+            <dt class="prtflo-skills__category">Frontend</dt>
             <dd>
-              <ul class="skills__list">
-                <li class="skills__item">Angular</li>
-                <li class="skills__item">Ionic</li>
-                <li class="skills__item">HTML / CSS</li>
+              <ul class="prtflo-skills__list">
+                <li class="prtflo-skills__item">Angular</li>
+                <li class="prtflo-skills__item">Ionic</li>
+                <li class="prtflo-skills__item">HTML / CSS</li>
               </ul>
             </dd>
           </div>
         </dl>
       </section>
 
-      <section class="section" id="education" aria-labelledby="education-title">
-        <h2 class="section__title" id="education-title">Education</h2>
-        <div class="education" data-reveal>
-          <p class="education__period">2018 — 2022</p>
-          <div>
-            <p class="education__degree">B.Tech, Electronics &amp; Communication Engineering</p>
-            <p class="education__school">ADGITM, Delhi</p>
-          </div>
+      <section class="prtflo-section" id="education" aria-labelledby="education-title">
+        <h2 class="prtflo-section__title" id="education-title">Education</h2>
+        <div class="prtflo-education" data-reveal>
+          <p class="prtflo-education__period">2018 — 2022</p>
+          <p class="prtflo-education__degree">B.Tech, Electronics &amp; Communication Engineering</p>
+          <p class="prtflo-education__school">ADGITM, Delhi</p>
         </div>
       </section>
 
-      <section class="section" id="contact" aria-labelledby="contact-title">
-        <h2 class="section__title" id="contact-title">Contact</h2>
+      <section class="prtflo-section" id="contact" aria-labelledby="contact-title">
+        <h2 class="prtflo-section__title" id="contact-title">Contact</h2>
         <p class="contact__lede">
           I want to put four years of production fundamentals — reliable APIs, integrations and
           error handling — to work on GenAI systems that hold up outside a demo, and to keep
@@ -434,10 +430,10 @@
           your team, I would be glad to talk.
         </p>
         <div class="hero__actions">
-          <a class="button button--primary" href="mailto:pragyasinghal.652001@gmail.com">pragyasinghal.652001@gmail.com</a>
-          <a class="button" href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
-          <a class="button" href="https://github.com/pragya6" target="_blank" rel="noopener">GitHub</a>
-          <a class="button" href="tel:+919354500686">+91 93545 00686</a>
+          <a class="prtflo-button prtflo-button--primary" href="mailto:pragyasinghal.652001@gmail.com">pragyasinghal.652001@gmail.com</a>
+          <a class="prtflo-button" href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="prtflo-button" href="https://github.com/pragya6" target="_blank" rel="noopener">GitHub</a>
+          <a class="prtflo-button" href="tel:+919354500686">+91 93545 00686</a>
         </div>
       </section>
 
