@@ -55,6 +55,135 @@
     sync();
   }
 
+  /* ---------- profile: genai (default) or swe ---------- */
+  /* One page, two readings. The client/PHP cards are always in the document —
+     they are collapsed for genai and expanded for swe, never removed. That
+     matters for the assistant: it can cite one of these projects on either
+     profile and still have a real element to open, scroll to and highlight,
+     instead of a citation pointing at nothing.
+
+     The URL selects the profile: ?r=swe. No `r`, or a value the list below
+     does not know, falls back to genai. */
+  var PROFILE_PARAM = 'r';
+  var PROFILES = ['genai', 'swe'];
+  var DEFAULT_PROFILE = 'genai';
+
+  function readParam(name) {
+    var query = window.location.search;
+    if (!query) {
+      return null;
+    }
+
+    if (window.URLSearchParams) {
+      return new URLSearchParams(query).get(name);
+    }
+
+    /* No URLSearchParams: read the pair by hand. */
+    var pairs = query.replace(/^\?/, '').split('&');
+    for (var i = 0; i < pairs.length; i++) {
+      var pair = pairs[i].split('=');
+      if (decodeURIComponent(pair[0]) === name) {
+        return decodeURIComponent((pair[1] || '').replace(/\+/g, ' '));
+      }
+    }
+
+    return null;
+  }
+
+  /* The profile the URL actually asked for, or null when it named none or named
+     one we do not publish. Null is the "audience unknown" case, which the hero
+     answers by offering both resumes rather than guessing at one. */
+  function requestedProfile() {
+    var requested = readParam(PROFILE_PARAM);
+    if (requested === null) {
+      return null;
+    }
+
+    requested = requested.trim().toLowerCase();
+    return PROFILES.indexOf(requested) === -1 ? null : requested;
+  }
+
+  function currentProfile() {
+    return requestedProfile() || DEFAULT_PROFILE;
+  }
+
+  /* Open the disclosure a target sits in, so anything that points at a
+     collapsed card — a #hash link, the assistant, a keyboard user — lands on
+     open content rather than on a closed summary. */
+  function expand(el) {
+    var node = el;
+    while (node && node !== document.body) {
+      if (node.tagName === 'DETAILS') {
+        node.open = true;
+      }
+      if (node.hasAttribute && node.hasAttribute('hidden')) {
+        node.removeAttribute('hidden');
+      }
+      node = node.parentNode;
+    }
+  }
+
+  function revealProject(id) {
+    var el = document.getElementById(id);
+    if (!el) {
+      return false;
+    }
+
+    expand(el);
+    el.scrollIntoView({
+      behavior: reduceMotion.matches ? 'auto' : 'smooth',
+      block: 'start'
+    });
+    return true;
+  }
+
+  function initProfile() {
+    var profile = currentProfile();
+
+    /* On the root so CSS, and anything reading the page, can see the profile. */
+    root.setAttribute('data-profile', profile);
+
+    var swe = profile === 'swe';
+    var disclosures = document.querySelectorAll('[data-gated] .project__disclosure');
+    for (var i = 0; i < disclosures.length; i++) {
+      disclosures[i].open = swe;
+    }
+
+    /* The resume button follows the profile. Both paths live on the element, so
+       the markup stays the single place a file name is written down. */
+    var resume = document.getElementById('resume-primary');
+    if (resume) {
+      var href = resume.getAttribute('data-resume-' + profile);
+      if (href) {
+        resume.setAttribute('href', href);
+      }
+    }
+
+    /* The second link exists for visitors who arrived without `r`, where the
+       audience is unknown and offering one resume could hand them the wrong
+       one. Once the URL names a profile, that guesswork is gone. */
+    var alt = document.getElementById('resume-alt');
+    if (alt && requestedProfile() !== null) {
+      alt.setAttribute('hidden', 'hidden');
+    }
+
+    /* Deep link straight to a project, e.g. /#project-vanshbel. */
+    if (window.location.hash.length > 1) {
+      revealProject(window.location.hash.slice(1));
+    }
+
+    window.addEventListener('hashchange', function () {
+      if (window.location.hash.length > 1) {
+        revealProject(window.location.hash.slice(1));
+      }
+    });
+
+    /* The assistant's one hook into the page. */
+    window.portfolio = window.portfolio || {};
+    window.portfolio.profile = profile;
+    window.portfolio.revealProject = revealProject;
+  }
+
   /* ---------- reveal on scroll ---------- */
   function initReveal() {
     var targets = document.querySelectorAll('[data-reveal]');
@@ -212,6 +341,8 @@
   }
 
   initTheme();
+  /* Before initReveal, so any unhidden cards get observed with the rest. */
+  initProfile();
   initReveal();
   initCounters();
   initNav();

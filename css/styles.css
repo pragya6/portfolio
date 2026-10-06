@@ -351,6 +351,16 @@ ul {
   }
 }
 
+.hero__resume-alt {
+  margin: var(--space-4) 0 0;
+  color: var(--color-ink-faint);
+  font-size: 13.5px;
+}
+
+.hero__resume-alt[hidden] {
+  display: none;
+}
+
 .hero__availability {
   display: flex;
   align-items: center;
@@ -446,6 +456,91 @@ ul {
 .prtflo-projects {
   display: grid;
   gap: var(--space-5);
+}
+
+/* Gated items are collapsed, never removed — they stay in the page, keep their
+   ids, and open on click, on `?r=swe`, on a #hash link or on find-in-page. */
+
+/* Document order is the GenAI profile, so the default view needs no reordering
+   and its tab order matches what is on screen. The SWE profile leads with the
+   production client work instead; `order` moves the cards visually without
+   touching the DOM, so every id stays where links and the assistant expect. */
+:root[data-profile="swe"] #project-storylines    { order: 1; }
+:root[data-profile="swe"] #project-trestle-reso  { order: 2; }
+:root[data-profile="swe"] #project-ims-techable  { order: 3; }
+:root[data-profile="swe"] #project-vanshbel      { order: 4; }
+:root[data-profile="swe"] #project-myhive-assistant { order: 5; }
+:root[data-profile="swe"] #project-crm-agent     { order: 6; }
+:root[data-profile="swe"] #project-homoeo-quiz   { order: 7; }
+
+.project--gated {
+  border-style: dashed;
+}
+
+.project__disclosure {
+  /* The card already carries the padding; the disclosure just fills it. */
+  margin: 0;
+}
+
+.project__summary {
+  cursor: pointer;
+  list-style: none; /* drop the UA triangle; the chevron below replaces it */
+}
+
+.project__summary::-webkit-details-marker {
+  display: none;
+}
+
+.project__summary:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* The stack line sits on its own row under the title and tags. */
+.project__summary .project__stack {
+  flex-basis: 100%;
+  display: block;
+}
+
+/* Chevron, rotated when open. Placed after the title so it tracks the heading
+   rather than the end of a wrapped tag row. */
+.project__title::after {
+  content: '';
+  display: inline-block;
+  width: 0.42em;
+  height: 0.42em;
+  margin-left: 0.6em;
+  vertical-align: 0.18em;
+  border-right: 1.8px solid var(--color-ink-faint);
+  border-bottom: 1.8px solid var(--color-ink-faint);
+  transform: rotate(45deg);
+  transition: transform 160ms ease;
+}
+
+.project:not(.project--gated) .project__title::after {
+  content: none; /* only the collapsible cards get a chevron */
+}
+
+.project__disclosure[open] .project__title::after {
+  transform: rotate(-135deg);
+}
+
+.project__summary:hover .project__title::after {
+  border-color: var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project__title::after {
+    transition: none;
+  }
+}
+
+.project__note {
+  margin: var(--space-4) 0 0;
+  color: var(--color-ink-faint);
+  font-family: var(--font-mono);
+  font-size: 12px;
 }
 
 .project {

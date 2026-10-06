@@ -75,11 +75,19 @@
 
       <div class="hero__actions">
         <a class="prtflo-button prtflo-button--primary" href="#work">View work</a>
-        <a class="prtflo-button" href="assets/Pragya_Singhal_GenAI_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+        <a class="prtflo-button" id="resume-primary"
+           href="assets/Pragya_Singhal_GenAI_Resume.pdf"
+           data-resume-genai="assets/Pragya_Singhal_GenAI_Resume.pdf"
+           data-resume-swe="assets/Pragya_Singhal_Software_Engineer_Resume.pdf"
+           target="_blank" rel="noopener">Résumé (PDF)</a>
         <a class="prtflo-button" href="mailto:pragyasinghal.652001@gmail.com">Email</a>
         <a class="prtflo-button" href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
         <a class="prtflo-button" href="https://github.com/pragya6" target="_blank" rel="noopener">GitHub</a>
       </div>
+
+      <p class="hero__resume-alt" id="resume-alt">
+        Looking for the backend work? <a href="assets/Pragya_Singhal_Software_Engineer_Resume.pdf" target="_blank" rel="noopener">Software engineering résumé (PDF)</a>
+      </p>
 
       <p class="hero__availability">
         <span class="hero__availability-dot" aria-hidden="true"></span>
@@ -126,10 +134,9 @@
           Systems I designed and built end to end — each one deployed and measured rather than
           demoed. The numbers below come from evaluation harnesses I wrote.
         </p>
-
         <div class="prtflo-projects">
 
-          <article class="project" data-reveal>
+          <article class="project" id="project-crm-agent" data-track="genai" data-reveal>
             <div class="project__head">
               <h3 class="project__title">
                 <a class="project__title-link" href="https://pragya6-ai-agent.hf.space/" target="_blank" rel="noopener">CRM Agent</a>
@@ -216,10 +223,42 @@
             </ul>
           </article>
 
-          <article class="project" data-reveal>
+          <article class="project" id="project-myhive-assistant" data-track="genai" data-reveal>
             <div class="project__head">
               <h3 class="project__title">
-                <a class="project__title-link" href="https://pragya6-homoeo-quiz.hf.space/" target="_blank" rel="noopener">HomeoQuiz</a>
+                <a class="project__title-link" href="https://myhiveworld.web.app/horizon/discover" target="_blank" rel="noopener">MyHive Assistant</a>
+              </h3>
+              <span class="project__tag">LLM in production</span>
+              <span class="project__tag project__tag--production">Production</span>
+            </div>
+            <p class="project__stack">OpenAI GPT · TypeScript · Firebase · Ionic · Angular · Node.js</p>
+            <p class="project__description">
+              A production conversational assistant on a cohort-based wellness marketplace, answering
+              users' health queries and recommending available practitioners from the platform's
+              catalogue. This was the team's first user-facing LLM capability.
+            </p>
+
+            <dl class="project__detail">
+              <div class="project__detail-group">
+                <dt class="project__detail-term">Built</dt>
+                <dd>
+                  <ul class="project__detail-list">
+                    <li>The assistant itself, shipped to real users on a live marketplace.</li>
+                    <li>Personalised exercise recommendations mapping each user's mood, pain, sleep and daily health cycles to relevant programs in the platform's catalogue.</li>
+                  </ul>
+                </dd>
+              </div>
+            </dl>
+
+            <ul class="project__links">
+              <li><a class="project__link" href="https://myhiveworld.web.app/horizon/discover" target="_blank" rel="noopener">Product ↗</a></li>
+            </ul>
+          </article>
+
+          <article class="project" id="project-homoeo-quiz" data-track="genai" data-reveal>
+            <div class="project__head">
+              <h3 class="project__title">
+                <a class="project__title-link" href="https://pragya6-homoeo-quiz.hf.space/" target="_blank" rel="noopener">Homoeo Quiz</a>
               </h3>
               <span class="project__tag">Grounded RAG</span>
               <span class="project__tag">Deployed</span>
@@ -260,39 +299,7 @@
             </ul>
           </article>
 
-          <article class="project" data-reveal>
-            <div class="project__head">
-              <h3 class="project__title">
-                <a class="project__title-link" href="https://myhiveworld.web.app/horizon/discover" target="_blank" rel="noopener">MyHive Assistant</a>
-              </h3>
-              <span class="project__tag">LLM in production</span>
-              <span class="project__tag project__tag--production">Production</span>
-            </div>
-            <p class="project__stack">OpenAI GPT · TypeScript · Firebase · Ionic · Angular · Node.js</p>
-            <p class="project__description">
-              A production conversational assistant on a cohort-based wellness marketplace, answering
-              users' health queries and recommending available practitioners from the platform's
-              catalogue. This was the team's first user-facing LLM capability.
-            </p>
-
-            <dl class="project__detail">
-              <div class="project__detail-group">
-                <dt class="project__detail-term">Built</dt>
-                <dd>
-                  <ul class="project__detail-list">
-                    <li>The assistant itself, shipped to real users on a live marketplace.</li>
-                    <li>Personalised exercise recommendations mapping each user's mood, pain, sleep and daily health cycles to relevant programs in the platform's catalogue.</li>
-                  </ul>
-                </dd>
-              </div>
-            </dl>
-
-            <ul class="project__links">
-              <li><a class="project__link" href="https://myhiveworld.web.app/horizon/discover" target="_blank" rel="noopener">Product ↗</a></li>
-            </ul>
-          </article>
-
-          <article class="project" data-reveal>
+          <article class="project" id="project-storylines" data-track="swe" data-reveal>
             <div class="project__head">
               <h3 class="project__title">
                 <a class="project__title-link" href="https://www.storylines.com/listings-7" target="_blank" rel="noopener">Storylines</a>
@@ -312,12 +319,121 @@
             </ul>
           </article>
 
+          <!-- Client / PHP work. Collapsed on the GenAI profile, expanded when the
+               URL carries ?r=swe (see initProfile in js/main.js). Collapsed, not
+               removed: the cards stay in the page and keep their ids, so a link,
+               a search or the assistant can always open one and point at it. -->
+
+          <article class="project project--gated" id="project-trestle-reso" data-track="swe" data-reveal data-gated>
+            <details class="project__disclosure">
+              <summary class="project__head project__summary">
+                <h3 class="project__title">Trestle Reso — Real Estate Platform Backend</h3>
+                <span class="project__tag">CodeIgniter</span>
+                <span class="project__tag project__tag--production">Production</span>
+                <span class="project__stack">PHP · CodeIgniter · MySQL · Git · Adminer · FileZilla</span>
+              </summary>
+
+              <div class="project__body">
+                <p class="project__description">
+                  Backend development and maintenance on a live production real-estate platform handling
+                  international property listings — the kind of system where every fix ships against real
+                  traffic and real data.
+                </p>
+
+                <dl class="project__detail">
+                  <div class="project__detail-group">
+                    <dt class="project__detail-term">Built</dt>
+                    <dd>
+                      <ul class="project__detail-list">
+                        <li>Debugged production errors on a live system, working with Adminer for database management and FileZilla for deployment.</li>
+                        <li>New features and search / property filters over the international listings catalogue.</li>
+                      </ul>
+                    </dd>
+                  </div>
+                </dl>
+
+                <p class="project__note">Associated with 29Kreativ · client work, no public link.</p>
+              </div>
+            </details>
+          </article>
+
+          <article class="project project--gated" id="project-ims-techable" data-track="swe" data-reveal data-gated>
+            <details class="project__disclosure">
+              <summary class="project__head project__summary">
+                <h3 class="project__title">IMS Techable — Inventory Management System</h3>
+                <span class="project__tag">Laravel</span>
+                <span class="project__tag project__tag--production">Production</span>
+                <span class="project__stack">PHP · Laravel · MySQL · Tabulator.js · Python · jQuery</span>
+              </summary>
+
+              <div class="project__body">
+                <p class="project__description">
+                  Backend and frontend work on a large-scale Laravel inventory management system, where the
+                  data grid was the product. Replacing that grid without breaking anything mattered more
+                  than replacing it quickly.
+                </p>
+
+                <dl class="project__detail">
+                  <div class="project__detail-group">
+                    <dt class="project__detail-term">Built</dt>
+                    <dd>
+                      <ul class="project__detail-list">
+                        <li>Migrated the data-grid layer from DataTables.js to Tabulator.js with zero regression across existing functionality.</li>
+                        <li>Backend logic for bulk operations — bulk edit and bulk download — over large record sets.</li>
+                        <li>Complex multi-column sorting across the grid, resolved server-side so pagination stayed correct.</li>
+                      </ul>
+                    </dd>
+                  </div>
+                </dl>
+
+                <p class="project__note">Associated with 29Kreativ · client work, no public link.</p>
+              </div>
+            </details>
+          </article>
+
+          <article class="project project--gated" id="project-vanshbel" data-track="swe" data-reveal data-gated>
+            <details class="project__disclosure">
+              <summary class="project__head project__summary">
+                <h3 class="project__title">Vanshbel — Family Tree Platform</h3>
+                <span class="project__tag">CodeIgniter 4</span>
+                <span class="project__tag project__tag--production">Production</span>
+                <span class="project__stack">PHP · CodeIgniter 3 → 4 · MySQL · phpMyAdmin · JavaScript · Figma</span>
+              </summary>
+
+              <div class="project__body">
+                <p class="project__description">
+                  A complete framework migration and a full UI/UX overhaul on the same platform. The
+                  interesting part was the family tree itself: a graph that has to stay usable under drag,
+                  zoom and reordering, on a phone as well as a desktop.
+                </p>
+
+                <dl class="project__detail">
+                  <div class="project__detail-group">
+                    <dt class="project__detail-term">Built</dt>
+                    <dd>
+                      <ul class="project__detail-list">
+                        <li>Led the CodeIgniter 3 → 4 migration end to end.</li>
+                        <li>A full UI/UX overhaul implemented from Figma designs.</li>
+                        <li>Interactive family-tree features — tree drag, pinch-to-zoom and sortable elements — working across devices.</li>
+                      </ul>
+                    </dd>
+                  </div>
+                </dl>
+
+                <ul class="project__links">
+                  <li><a class="project__link" href="https://www.vanshbel.com/" target="_blank" rel="noopener">Product ↗</a></li>
+                </ul>
+                <p class="project__note">Associated with 29Kreativ.</p>
+              </div>
+            </details>
+          </article>
+
         </div>
       </section>
 
       <section class="prtflo-section" id="experience" aria-labelledby="experience-title">
         <h2 class="prtflo-section__title" id="experience-title">Experience</h2>
-        <div class="prtflo-role" data-reveal>
+        <div class="prtflo-role" id="role-29-kreativ" data-reveal>
           <p class="prtflo-role__company">29 Kreativ</p>
           <p class="prtflo-role__title">Software Engineer</p>
           <p class="prtflo-role__period">Aug 2022 — Present</p>
@@ -334,7 +450,7 @@
       <section class="prtflo-section" id="skills" aria-labelledby="skills-title">
         <h2 class="prtflo-section__title" id="skills-title">Skills</h2>
         <dl class="prtflo-skills" data-reveal>
-          <div class="prtflo-skills__group">
+          <div class="prtflo-skills__group" id="skills-agent-llm">
             <dt class="prtflo-skills__category">Agent / LLM systems</dt>
             <dd>
               <ul class="prtflo-skills__list">
@@ -353,7 +469,7 @@
               </ul>
             </dd>
           </div>
-          <div class="prtflo-skills__group">
+          <div class="prtflo-skills__group" id="skills-backend">
             <dt class="prtflo-skills__category">Backend &amp; languages</dt>
             <dd>
               <ul class="prtflo-skills__list">
@@ -368,7 +484,7 @@
               </ul>
             </dd>
           </div>
-          <div class="prtflo-skills__group">
+          <div class="prtflo-skills__group" id="skills-apis">
             <dt class="prtflo-skills__category">APIs &amp; systems</dt>
             <dd>
               <ul class="prtflo-skills__list">
@@ -382,7 +498,7 @@
               </ul>
             </dd>
           </div>
-          <div class="prtflo-skills__group">
+          <div class="prtflo-skills__group" id="skills-data-infra">
             <dt class="prtflo-skills__category">Data &amp; infrastructure</dt>
             <dd>
               <ul class="prtflo-skills__list">
@@ -399,7 +515,7 @@
               </ul>
             </dd>
           </div>
-          <div class="prtflo-skills__group">
+          <div class="prtflo-skills__group" id="skills-frontend">
             <dt class="prtflo-skills__category">Frontend</dt>
             <dd>
               <ul class="prtflo-skills__list">
