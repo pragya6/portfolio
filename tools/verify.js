@@ -38,27 +38,25 @@ const JS_FILE = path.join(ROOT, 'js', 'main.js');
    UI edges.
    ------------------------------------------------------------ */
 const PAIRS = [
-  // Band design (warm paper / ink)
-  { label: 'light band — body text', scope: '.band--light', fg: '--fg', bg: '--paper', min: 4.5 },
-  { label: 'light band — muted text', scope: '.band--light', fg: '--muted', bg: '--paper', min: 4.5 },
-  { label: 'light band — accent', scope: '.band--light', fg: '--accent', bg: '--paper', min: 4.5 },
-  { label: 'light band — on accent', scope: '.band--light', fg: '--on-accent', bg: '--accent', min: 4.5 },
-  { label: 'dark band — body text', scope: '.band--dark', fg: '--fg', bg: '--ink', min: 4.5 },
-  { label: 'dark band — muted text', scope: '.band--dark', fg: '--muted', bg: '--ink', min: 4.5 },
-  { label: 'dark band — accent', scope: '.band--dark', fg: '--accent', bg: '--ink', min: 4.5 },
-  { label: 'dark band — on accent', scope: '.band--dark', fg: '--on-accent', bg: '--accent', min: 4.5 },
+  // Light band — :root holds the light values, so that is the scope.
+  { label: 'light band — body text', scope: ':root', fg: '--color-ink', bg: '--color-paper', min: 4.5 },
+  { label: 'light band — soft text', scope: ':root', fg: '--color-ink-soft', bg: '--color-paper', min: 4.5 },
+  { label: 'light band — faint text', scope: ':root', fg: '--color-ink-faint', bg: '--color-paper', min: 4.5 },
+  { label: 'light band — faint on card', scope: ':root', fg: '--color-ink-faint', bg: '--color-card', min: 4.5 },
+  { label: 'light band — accent', scope: ':root', fg: '--color-accent', bg: '--color-paper', min: 4.5 },
+  { label: 'light band — accent on card', scope: ':root', fg: '--color-accent', bg: '--color-card', min: 4.5 },
+  { label: 'light band — on accent', scope: ':root', fg: '--color-on-accent', bg: '--color-accent', min: 4.5 },
+  { label: 'light band — accent-ink on tint', scope: ':root', fg: '--color-accent-ink', bg: '--color-accent-bg', min: 4.5 },
 
-  // Previous design (light/dark theme). Drops to "skipped" once removed.
-  { label: 'theme light — body text', scope: ':root', fg: '--color-ink', bg: '--color-paper', min: 4.5 },
-  { label: 'theme light — soft text', scope: ':root', fg: '--color-ink-soft', bg: '--color-paper', min: 4.5 },
-  { label: 'theme light — faint text', scope: ':root', fg: '--color-ink-faint', bg: '--color-paper', min: 4.5 },
-  { label: 'theme light — faint on card', scope: ':root', fg: '--color-ink-faint', bg: '--color-card', min: 4.5 },
-  { label: 'theme light — accent', scope: ':root', fg: '--color-accent', bg: '--color-paper', min: 4.5 },
-  { label: 'theme light — white on accent', scope: ':root', fg: '#FFFFFF', bg: '--color-accent', min: 4.5 },
-  { label: 'theme dark — body text', scope: ':root[data-theme="dark"]', fg: '--color-ink', bg: '--color-paper', min: 4.5 },
-  { label: 'theme dark — soft text', scope: ':root[data-theme="dark"]', fg: '--color-ink-soft', bg: '--color-paper', min: 4.5 },
-  { label: 'theme dark — faint text', scope: ':root[data-theme="dark"]', fg: '--color-ink-faint', bg: '--color-paper', min: 4.5 },
-  { label: 'theme dark — accent', scope: ':root[data-theme="dark"]', fg: '--color-accent', bg: '--color-paper', min: 4.5 },
+  // Dark band
+  { label: 'dark band — body text', scope: '.prtflo-band--dark', fg: '--color-ink', bg: '--color-paper', min: 4.5 },
+  { label: 'dark band — soft text', scope: '.prtflo-band--dark', fg: '--color-ink-soft', bg: '--color-paper', min: 4.5 },
+  { label: 'dark band — faint text', scope: '.prtflo-band--dark', fg: '--color-ink-faint', bg: '--color-paper', min: 4.5 },
+  { label: 'dark band — faint on card', scope: '.prtflo-band--dark', fg: '--color-ink-faint', bg: '--color-card', min: 4.5 },
+  { label: 'dark band — accent', scope: '.prtflo-band--dark', fg: '--color-accent', bg: '--color-paper', min: 4.5 },
+  { label: 'dark band — accent on card', scope: '.prtflo-band--dark', fg: '--color-accent', bg: '--color-card', min: 4.5 },
+  { label: 'dark band — on accent', scope: '.prtflo-band--dark', fg: '--color-on-accent', bg: '--color-accent', min: 4.5 },
+  { label: 'dark band — accent-ink on tint', scope: '.prtflo-band--dark', fg: '--color-accent-ink', bg: '--color-accent-bg', min: 4.5 },
 ];
 
 /* ---------- reporting ---------- */

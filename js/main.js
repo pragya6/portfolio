@@ -13,48 +13,6 @@
     : { matches: false };
   var supportsObserver = 'IntersectionObserver' in window;
 
-  /* ---------- theme toggle ---------- */
-  function initTheme() {
-    var toggle = document.getElementById('theme-toggle');
-    if (!toggle) {
-      return;
-    }
-
-    var systemDark = window.matchMedia
-      ? window.matchMedia('(prefers-color-scheme: dark)')
-      : { matches: false };
-
-    function currentTheme() {
-      return root.getAttribute('data-theme') || (systemDark.matches ? 'dark' : 'light');
-    }
-
-    function sync() {
-      toggle.setAttribute('aria-pressed', String(currentTheme() === 'dark'));
-    }
-
-    toggle.addEventListener('click', function () {
-      var next = currentTheme() === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try {
-        localStorage.setItem('theme', next);
-      } catch (e) {
-        /* storage blocked — the choice simply will not persist */
-      }
-      sync();
-    });
-
-    /* Follow the OS while the visitor has not made an explicit choice. */
-    if (typeof systemDark.addEventListener === 'function') {
-      systemDark.addEventListener('change', function () {
-        if (!root.hasAttribute('data-theme')) {
-          sync();
-        }
-      });
-    }
-
-    sync();
-  }
-
   /* ---------- profile: genai (default) or swe ---------- */
   /* One page, two readings. The client/PHP cards are always in the document —
      they are collapsed for genai and expanded for swe, never removed. That
@@ -271,76 +229,61 @@
   /* ---------- nav: stuck state and current section ---------- */
   function initNav() {
     var nav = document.getElementById('site-nav');
-    var links = document.querySelectorAll('.site-nav__link');
+    var bands = [].slice.call(document.querySelectorAll('.prtflo-band'));
+    var links = [].slice.call(document.querySelectorAll('.site-nav__link'));
 
-    if (!supportsObserver) {
-      return;
-    }
-
-    /* A zero-height sentinel at the top of the page tells us when the
-       nav has left the document flow — cheaper than a scroll handler. */
-    if (nav) {
-      var sentinel = document.createElement('div');
-      sentinel.setAttribute('aria-hidden', 'true');
-      sentinel.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:1px;';
-      document.body.prepend(sentinel);
-
-      new IntersectionObserver(function (entries) {
-        nav.setAttribute('data-stuck', String(!entries[0].isIntersecting));
-      }).observe(sentinel);
-    }
-
-    if (!links.length) {
+    if (!supportsObserver || !nav || !bands.length) {
       return;
     }
 
     var byId = {};
-    var sections = [];
-
     links.forEach(function (link) {
-      var id = link.getAttribute('href').slice(1);
-      var section = document.getElementById(id);
-      if (section) {
-        byId[id] = link;
-        sections.push(section);
-      }
+      byId[link.getAttribute('href').slice(1)] = link;
     });
 
-    if (!sections.length) {
-      return;
-    }
+    var active = [];
 
-    var visible = {};
-
-    var sectionObserver = new IntersectionObserver(function (entries) {
+    /* The strip sits just below the bar. A band intersecting it is a band
+       the bar is currently over; the first in document order is the one
+       directly beneath. Cheaper and steadier than a scroll handler. */
+    var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        visible[entry.target.id] = entry.isIntersecting;
+        var i = active.indexOf(entry.target);
+        if (entry.isIntersecting && i === -1) {
+          active.push(entry.target);
+        } else if (!entry.isIntersecting && i > -1) {
+          active.splice(i, 1);
+        }
       });
 
-      /* Highlight the first section currently in the viewport band. */
-      var active = null;
-      for (var i = 0; i < sections.length; i++) {
-        if (visible[sections[i].id]) {
-          active = sections[i].id;
+      var current = null;
+      for (var i = 0; i < bands.length; i++) {
+        if (active.indexOf(bands[i]) > -1) {
+          current = bands[i];
           break;
         }
       }
+      if (!current) {
+        return;
+      }
 
-      Object.keys(byId).forEach(function (id) {
-        if (id === active) {
-          byId[id].setAttribute('aria-current', 'true');
+      nav.setAttribute('data-over', current.classList.contains('prtflo-band--dark') ? 'dark' : 'light');
+
+      var id = current.id;
+      Object.keys(byId).forEach(function (key) {
+        if (key === id) {
+          byId[key].setAttribute('aria-current', 'true');
         } else {
-          byId[id].removeAttribute('aria-current');
+          byId[key].removeAttribute('aria-current');
         }
       });
-    }, { rootMargin: '-64px 0px -55% 0px' });
+    }, { rootMargin: '-61px 0px -72% 0px', threshold: 0 });
 
-    sections.forEach(function (section) {
-      sectionObserver.observe(section);
+    bands.forEach(function (band) {
+      observer.observe(band);
     });
   }
 
-  initTheme();
   /* Before initReveal, so any unhidden cards get observed with the rest. */
   initProfile();
   initReveal();

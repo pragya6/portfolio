@@ -5,21 +5,26 @@
 
 /* ---------- tokens ---------- */
 :root {
-  --color-paper: #FAFAF9;
-  --color-card: #FFFFFF;
-  --color-ink: #14171A;
-  --color-ink-soft: #4B525A;
-  --color-ink-faint: #6B7280;
-  --color-line: #E5E5E2;
-  --color-line-soft: #EFEFEC;
-  --color-accent: #1D4ED8;
-  --color-accent-ink: #1E40AF;
-  --color-accent-bg: #EEF2FF;
-  --color-accent-line: #C7D2FE;
-  --color-overlay: rgba(250, 250, 249, 0.85);
+  /* Light band values are the defaults; .prtflo-band--dark overrides them.
+     Names are unchanged from the previous palette so every component rule
+     picks up its band's colours automatically. */
+  --color-paper: #F7F5F2;
+  --color-card: #FCFBF9;
+  --color-ink: #141312;
+  --color-ink-soft: #5E5A54;
+  --color-ink-faint: #6E6A63;
+  --color-line: #E3DED6;
+  --color-line-soft: #EFEBE4;
+  --color-accent: #2A5796;
+  --color-accent-ink: #1F4273;
+  --color-accent-bg: #EAF0F8;
+  --color-accent-line: #C8D8EC;
+  --color-on-accent: #FFFFFF;
+  --color-overlay: rgba(247, 245, 242, 0.85);
 
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-body: 'Schibsted Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -35,40 +40,8 @@
   --radius-lg: 14px;
   --radius-pill: 999px;
 
-  --measure: none;
+  --measure: 68ch;
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --color-paper: #0E1013;
-    --color-card: #15181C;
-    --color-ink: #ECEEF1;
-    --color-ink-soft: #A8AFB8;
-    --color-ink-faint: #858C95;
-    --color-line: #23262B;
-    --color-line-soft: #1B1E23;
-    --color-accent: #8AB4FF;
-    --color-accent-ink: #A9C7FF;
-    --color-accent-bg: #16203A;
-    --color-accent-line: #2C3F66;
-    --color-overlay: rgba(14, 16, 19, 0.85);
-  }
-}
-
-:root[data-theme="dark"] {
-  --color-paper: #0E1013;
-  --color-card: #15181C;
-  --color-ink: #ECEEF1;
-  --color-ink-soft: #A8AFB8;
-  --color-ink-faint: #858C95;
-  --color-line: #23262B;
-  --color-line-soft: #1B1E23;
-  --color-accent: #8AB4FF;
-  --color-accent-ink: #A9C7FF;
-  --color-accent-bg: #16203A;
-  --color-accent-line: #2C3F66;
-  --color-overlay: rgba(14, 16, 19, 0.85);
 }
 
 /* ---------- base ---------- */
@@ -116,18 +89,62 @@ ul {
   border-radius: var(--radius-sm);
 }
 
+.site-nav :focus-visible {
+  outline-color: var(--nav-accent);
+}
+
 /* ---------- band ----------
    Full-bleed row. Carries the background in later steps; for now it only
    spans the viewport while .prtflo-page keeps constraining the column. */
 .prtflo-band {
   width: 100%;
+  padding-block: clamp(72px, 7.5vw, 108px);
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+/* Each band restates the palette for itself. Components keep referring to
+   the same token names and follow whichever band they sit in. Light repeats
+   the :root values rather than inheriting them, so the pair stays symmetric
+   and a band is never at the mercy of what sits around it. */
+.prtflo-band--light {
+  --color-paper: #F7F5F2;
+  --color-card: #FCFBF9;
+  --color-ink: #141312;
+  --color-ink-soft: #5E5A54;
+  --color-ink-faint: #6E6A63;
+  --color-line: #E3DED6;
+  --color-line-soft: #EFEBE4;
+  --color-accent: #2A5796;
+  --color-accent-ink: #1F4273;
+  --color-accent-bg: #EAF0F8;
+  --color-accent-line: #C8D8EC;
+  --color-on-accent: #FFFFFF;
+  --color-overlay: rgba(247, 245, 242, 0.85);
+}
+
+.prtflo-band--dark {
+  --color-paper: #121110;
+  --color-card: #191715;
+  --color-ink: #FAF9F7;
+  --color-ink-soft: #C2BEB7;
+  --color-ink-faint: #A8A39B;
+  --color-line: #2C2926;
+  --color-line-soft: #1B1917;
+  --color-accent: #93BAF2;
+  --color-accent-ink: #B3CEF7;
+  --color-accent-bg: #16233A;
+  --color-accent-line: #33435E;
+  --color-on-accent: #121110;
+  --color-overlay: rgba(18, 17, 16, 0.85);
 }
 
 .prtflo-page {
   width: 100%;
-  max-width: 820px;
+  max-width: 1120px;
   margin: 0 auto;
   padding: 0 var(--space-5);
+  text-align: center;
 }
 
 .skip-link {
@@ -138,7 +155,7 @@ ul {
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-sm);
   background: var(--color-accent);
-  color: #fff;
+  color: var(--color-on-accent);
   font-size: 14px;
   text-decoration: none;
 }
@@ -147,19 +164,34 @@ ul {
   left: var(--space-5);
 }
 
-/* ---------- site nav ---------- */
+/* ---------- site nav ----------
+   The bar is the inverse of the band beneath it: dark over a light band,
+   light over a dark one. Script sets data-over from the band currently
+   crossing the strip under the bar; these two blocks do the rest. */
 .site-nav {
   position: sticky;
-  top: 0;
+  top: env(safe-area-inset-top, 0px);
   z-index: 50;
-  background: var(--color-overlay);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
-  backdrop-filter: saturate(180%) blur(12px);
-  border-bottom: 1px solid transparent;
+  width: 100%;
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  backdrop-filter: saturate(180%) blur(14px);
+
+  /* Default, and the state over a light band. */
+  background: rgba(18, 17, 16, 0.82);
+  border-bottom: 1px solid #302C28;
+  box-shadow: 0 2px 20px rgba(18, 17, 16, 0.14);
+  --nav-ink: #FAF9F7;
+  --nav-ink-soft: #C2BEB7;
+  --nav-accent: #93BAF2;
 }
 
-.site-nav[data-stuck="true"] {
-  border-bottom-color: var(--color-line);
+.site-nav[data-over="dark"] {
+  background: rgba(247, 245, 242, 0.88);
+  border-bottom-color: #E3DED6;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
+  --nav-ink: #141312;
+  --nav-ink-soft: #5E5A54;
+  --nav-accent: #2A5796;
 }
 
 .site-nav__inner {
@@ -171,6 +203,7 @@ ul {
 }
 
 .site-nav__mark {
+  color: var(--nav-ink);
   font-weight: 650;
   font-size: 15px;
   letter-spacing: -0.01em;
@@ -188,7 +221,7 @@ ul {
 .site-nav__link {
   position: relative;
   padding: var(--space-1) 0;
-  color: var(--color-ink-soft);
+  color: var(--nav-ink-soft);
   text-decoration: none;
 }
 
@@ -199,14 +232,14 @@ ul {
   bottom: -2px;
   width: 100%;
   height: 1.5px;
-  background: var(--color-accent);
+  background: var(--nav-accent);
   transform: scaleX(0);
   transform-origin: left;
 }
 
 .site-nav__link:hover,
 .site-nav__link[aria-current="true"] {
-  color: var(--color-ink);
+  color: var(--nav-ink);
 }
 
 .site-nav__link[aria-current="true"]::after,
@@ -214,57 +247,9 @@ ul {
   transform: scaleX(1);
 }
 
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  padding: 0;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-pill);
-  background: var(--color-card);
-  color: var(--color-ink-soft);
-  cursor: pointer;
-}
-
-.theme-toggle:hover {
-  border-color: var(--color-accent-line);
-  color: var(--color-accent);
-}
-
-.theme-toggle svg {
-  width: 16px;
-  height: 16px;
-}
-
-.theme-toggle__moon {
-  display: none;
-}
-
-:root[data-theme="dark"] .theme-toggle__sun,
-:root[data-theme="light"] .theme-toggle__moon {
-  display: none;
-}
-
-:root[data-theme="dark"] .theme-toggle__moon,
-:root[data-theme="light"] .theme-toggle__sun {
-  display: block;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle__sun {
-    display: none;
-  }
-
-  :root:not([data-theme="light"]) .theme-toggle__moon {
-    display: block;
-  }
-}
-
 /* ---------- hero ---------- */
 .hero {
-  padding: var(--space-8) 0 var(--space-7);
+  padding: 0;
 }
 
 .hero__eyebrow {
@@ -284,12 +269,14 @@ ul {
 }
 
 .hero__tagline {
-  max-width: 24ch;
-  margin: var(--space-4) 0 0;
-  font-size: clamp(20px, 2.8vw, 27px);
+  /* No width cap: the line fills the column and wraps only when it has to,
+     rather than being forced into a narrow stack. */
+  margin: var(--space-4) auto 0;
+  font-size: clamp(22px, 3.4vw, 40px);
   font-weight: 550;
-  line-height: 1.28;
+  line-height: 1.24;
   letter-spacing: -0.015em;
+  text-wrap: pretty;
 }
 
 .hero__summary {
@@ -337,25 +324,13 @@ ul {
 .prtflo-button--primary {
   border-color: var(--color-accent);
   background: var(--color-accent);
-  color: #fff;
+  color: var(--color-on-accent);
 }
 
 .prtflo-button--primary:hover {
   background: var(--color-accent-ink);
   border-color: var(--color-accent-ink);
-  color: #fff;
-}
-
-:root[data-theme="dark"] .prtflo-button--primary,
-:root[data-theme="dark"] .prtflo-button--primary:hover {
-  color: #0E1013;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .prtflo-button--primary,
-  :root:not([data-theme="light"]) .prtflo-button--primary:hover {
-    color: #0E1013;
-  }
+  color: var(--color-on-accent);
 }
 
 .hero__resume-alt {
@@ -438,8 +413,7 @@ ul {
 
 /* ---------- shared section ---------- */
 .prtflo-section {
-  padding: var(--space-8) 0;
-  border-top: 1px solid var(--color-line);
+  padding: 0;
 }
 
 .prtflo-section__title {
@@ -890,8 +864,7 @@ ul {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-3);
-  padding: var(--space-6) 0 var(--space-8);
-  border-top: 1px solid var(--color-line);
+  padding: 0;
   color: var(--color-ink-faint);
   font-family: var(--font-mono);
   font-size: 12.5px;
@@ -912,7 +885,6 @@ ul {
 @media (prefers-reduced-motion: no-preference) {
   .site-nav__link,
   .site-nav__link::after,
-  .theme-toggle,
   .prtflo-button,
   .project__title-link,
   .project__link,
@@ -1024,23 +996,14 @@ ul {
   }
 }
 
-/* ---------- justified prose ----------
-   Body copy fills the column edge to edge, matching the justified
-   setting of the resume. Automatic hyphenation keeps the word spacing
-   even and stops rivers opening up on narrow screens. */
+/* ---------- prose ----------
+   Centred copy is ragged on both sides, so justification and the hyphen
+   limits that supported it come off. A measure keeps the line length
+   readable now that the column is wider than the text wants to be. */
 .hero__summary,
 .prtflo-section__lede,
 .project__description,
-.project__detail-list li,
-.prtflo-role__list li,
+.prtflo-role__list,
 .contact__lede {
-  text-align: justify;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-  /* Only break words of 10 characters or more, keeping at least 4
-     characters on each side of the hyphen. Short words stay whole, while
-     long ones still break rather than stretching the word spacing. */
-  -webkit-hyphenate-limit-before: 4;
-  -webkit-hyphenate-limit-after: 4;
-  hyphenate-limit-chars: 10 4 4;
+  margin-inline: auto;
 }
