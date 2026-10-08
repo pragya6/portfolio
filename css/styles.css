@@ -10,6 +10,7 @@
      picks up its band's colours automatically. */
   --color-paper: #F7F5F2;
   --color-card: #FCFBF9;
+  --color-card-raised: #FFFFFF;
   --color-ink: #141312;
   --color-ink-soft: #5E5A54;
   --color-ink-faint: #6E6A63;
@@ -99,17 +100,27 @@ ul {
 .prtflo-band {
   width: 100%;
   padding-block: clamp(72px, 7.5vw, 108px);
+
   background: var(--color-paper);
   color: var(--color-ink);
+}
+
+/* The closing section carries more air than the rest, so the page ends on
+   a pause rather than a stop. */
+.prtflo-band--spacious {
+  padding-block: clamp(104px, 10vw, 152px);
 }
 
 /* Each band restates the palette for itself. Components keep referring to
    the same token names and follow whichever band they sit in. Light repeats
    the :root values rather than inheriting them, so the pair stays symmetric
    and a band is never at the mercy of what sits around it. */
-.prtflo-band--light {
+.prtflo-band--light,
+main > .prtflo-band:nth-child(odd) {
+  --band-tone: light;
   --color-paper: #F7F5F2;
   --color-card: #FCFBF9;
+  --color-card-raised: #FFFFFF;
   --color-ink: #141312;
   --color-ink-soft: #5E5A54;
   --color-ink-faint: #6E6A63;
@@ -123,9 +134,12 @@ ul {
   --color-overlay: rgba(247, 245, 242, 0.85);
 }
 
-.prtflo-band--dark {
+.prtflo-band--dark,
+main > .prtflo-band:nth-child(even) {
+  --band-tone: dark;
   --color-paper: #121110;
   --color-card: #191715;
+  --color-card-raised: #241F1B;
   --color-ink: #FAF9F7;
   --color-ink-soft: #C2BEB7;
   --color-ink-faint: #A8A39B;
@@ -448,23 +462,6 @@ ul {
   padding: 0;
 }
 
-.prtflo-section__title {
-  margin: 0 0 var(--space-2);
-  color: var(--color-accent);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.prtflo-section__lede {
-  max-width: var(--measure);
-  margin: 0 0 var(--space-6);
-  color: var(--color-ink-soft);
-  font-size: 15.5px;
-}
-
 /* ---------- projects ---------- */
 .prtflo-projects {
   display: grid;
@@ -563,11 +560,10 @@ ul {
   background: none;
 }
 
+/* A collapsed row needs no card: the band already frames it, and the
+   chevron says it opens. */
 .project--gated {
-  padding: var(--space-5) var(--space-6);
-  border: 1px dashed var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-card);
+  padding: 0;
 }
 
 .project__head {
@@ -655,14 +651,14 @@ ul {
   padding: var(--space-6);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-lg);
-  background: var(--color-card);
+  background: var(--color-card-raised);
 }
 
 .project__detail-term {
   display: block;
   margin: 0 0 var(--space-5);
   padding-bottom: var(--space-3);
-  border-bottom: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-accent-line);
   color: var(--color-accent);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -695,16 +691,16 @@ ul {
 
 /* The pair reads inward: each list hangs off a rule on its inner edge,
    with the bullets sitting on that rule. */
-.project__detail-group:nth-child(odd) {
+.project__detail-group:nth-child(odd):not(:only-child) {
   text-align: right;
 }
 
-.project__detail-group:nth-child(odd) .project__detail-list {
-  border-right: 1px solid var(--color-line);
+.project__detail-group:nth-child(odd):not(:only-child) .project__detail-list {
+  border-right: 1px solid var(--color-accent-line);
   padding-right: var(--space-5);
 }
 
-.project__detail-group:nth-child(odd) .project__detail-list li::before {
+.project__detail-group:nth-child(odd):not(:only-child) .project__detail-list li::before {
   right: -28px;
 }
 
@@ -713,12 +709,23 @@ ul {
 }
 
 .project__detail-group:nth-child(even) .project__detail-list {
-  border-left: 1px solid var(--color-line);
+  border-left: 1px solid var(--color-accent-line);
   padding-left: var(--space-5);
 }
 
 .project__detail-group:nth-child(even) .project__detail-list li::before {
   left: -28px;
+}
+
+/* A closed project is a row, not a stage, so its band tightens until the
+   disclosure is opened. Three collapsed bands in a row then read as a
+   striped list rather than three near-empty screens. */
+.prtflo-band:has(.project__disclosure:not([open])) {
+  padding-block: clamp(34px, 3.5vw, 52px);
+}
+
+.prtflo-band:has(.project__disclosure:not([open])) .prtflo-projects {
+  margin-top: var(--space-5);
 }
 
 /* A lone card has no partner to lean toward, so it narrows, centres its
@@ -729,24 +736,36 @@ ul {
   max-width: 620px;
 }
 
-.project__detail-group:only-child {
-  text-align: left;
-}
-
 .project__detail-group:only-child .project__detail-term {
   text-align: center;
 }
 
+/* The list rule comes off: each entry carries its own. */
 .project__detail-group:only-child .project__detail-list {
-  border-right: none;
-  border-left: 1px solid var(--color-line);
+  gap: var(--space-5);
+  border: none;
   padding-right: 0;
+  padding-left: 0;
+}
+
+/* Every entry keeps its rule and bullet on the left and sets justified, so
+   the block reads as one column with a straight edge down both sides.
+   Hyphenation keeps the word spacing even at this width; the limits stop
+   short words breaking. */
+.project__detail-group:only-child .project__detail-list li {
   padding-left: var(--space-5);
+  border-left: 1px solid var(--color-accent);
+  text-align: justify;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  -webkit-hyphenate-limit-before: 4;
+  -webkit-hyphenate-limit-after: 4;
+  hyphenate-limit-chars: 10 4 4;
 }
 
 .project__detail-group:only-child .project__detail-list li::before {
   right: auto;
-  left: -28px;
+  left: -4px;
 }
 
 .project__figure {
@@ -856,152 +875,225 @@ ul {
   fill: var(--color-ink-faint);
 }
 
-/* ---------- experience ---------- */
-.prtflo-role {
-  display: grid;
-  grid-template-columns: 190px 1fr;
-  grid-template-rows: auto auto 1fr;
-  column-gap: var(--space-6);
-}
-
-.prtflo-role__company,
-.prtflo-role__title,
+/* ---------- experience ----------
+   One rail down the middle, entries alternating either side of it. Each
+   entry's dot sits on the rail, so the eye follows a single line. */
 .prtflo-role__period {
-  grid-column: 1;
-}
-
-.prtflo-role__company {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 650;
-}
-
-.prtflo-role__title {
-  margin: var(--space-1) 0 0;
-  color: var(--color-ink-soft);
-  font-size: 14.5px;
-}
-
-.prtflo-role__period {
-  margin: var(--space-2) 0 0;
+  margin: var(--space-4) 0 0;
   color: var(--color-ink-faint);
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.prtflo-role__list {
-  grid-column: 2;
-  grid-row: 1 / span 3;
-  display: grid;
-  gap: var(--space-3);
-  max-width: var(--measure);
-  color: var(--color-ink-soft);
-  font-size: 15.5px;
-}
-
-.prtflo-role__list li {
+.prtflo-timeline {
   position: relative;
-  padding-left: var(--space-5);
+  max-width: 1000px;
+  margin: var(--space-7) auto 0;
+  padding: 0;
+  list-style: none;
 }
 
-.prtflo-role__list li::before {
+.prtflo-timeline::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 0.62em;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+  top: 6px;
+  bottom: 6px;
+  left: 50%;
+  width: 1px;
   background: var(--color-accent-line);
+  transform: translateX(-50%);
 }
 
-/* ---------- skills ---------- */
+.prtflo-timeline__item {
+  position: relative;
+  width: calc(50% - 44px);
+  padding-block: var(--space-3);
+  color: var(--color-ink-soft);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.prtflo-timeline__item b {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.prtflo-timeline__item::after {
+  content: "";
+  position: absolute;
+  top: 24px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--color-accent);
+  border-radius: 50%;
+  background: var(--color-card);
+}
+
+.prtflo-timeline__item:nth-child(odd) {
+  margin-right: auto;
+  text-align: right;
+}
+
+.prtflo-timeline__item:nth-child(odd)::after {
+  right: -49px;
+}
+
+.prtflo-timeline__item:nth-child(even) {
+  margin-left: auto;
+  text-align: left;
+}
+
+.prtflo-timeline__item:nth-child(even)::after {
+  left: -49px;
+}
+
+/* ---------- skills ----------
+   The same rail as the timeline, with each group of chips hanging off its
+   own side of the line. */
 .prtflo-skills {
+  position: relative;
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-6);
+  max-width: 1060px;
+  margin: var(--space-7) auto 0;
+}
+
+.prtflo-skills::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 50%;
+  width: 1px;
+  background: var(--color-accent-line);
+  transform: translateX(-50%);
 }
 
 .prtflo-skills__group {
-  display: grid;
-  grid-template-columns: 190px 1fr;
-  gap: var(--space-6);
-  align-items: start;
+  position: relative;
+  width: calc(50% - 40px);
+}
+
+.prtflo-skills__group::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.prtflo-skills__group:nth-child(odd) {
+  margin-right: auto;
+  text-align: right;
+}
+
+.prtflo-skills__group:nth-child(odd)::after {
+  right: -44px;
+}
+
+.prtflo-skills__group:nth-child(even) {
+  margin-left: auto;
+  text-align: left;
+}
+
+.prtflo-skills__group:nth-child(even)::after {
+  left: -44px;
 }
 
 .prtflo-skills__category {
-  padding-top: 3px;
-  color: var(--color-ink);
-  font-size: 14px;
-  font-weight: 600;
+  margin: 0 0 var(--space-4);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .prtflo-skills__list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  gap: 9px;
+}
+
+.prtflo-skills__group:nth-child(odd) .prtflo-skills__list {
+  justify-content: flex-end;
+}
+
+.prtflo-skills__group:nth-child(even) .prtflo-skills__list {
+  justify-content: flex-start;
 }
 
 .prtflo-skills__item {
-  padding: 5px 12px;
+  padding: 7px 15px;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-pill);
-  background: var(--color-card);
-  color: var(--color-ink-soft);
+  background: var(--color-line-soft);
+  color: var(--color-ink);
   font-size: 13.5px;
 }
 
-/* ---------- education ---------- */
-.prtflo-education {
-  display: grid;
-  grid-template-columns: 190px 1fr;
-  column-gap: var(--space-6);
-}
-
-.prtflo-education__degree {
-  margin: 0;
-  font-size: 15.5px;
-  font-weight: 600;
-}
-
-.prtflo-education__school {
-  grid-column: 2;
-  margin: var(--space-1) 0 0;
+/* ---------- contact ---------- */
+.contact__lede {
+  max-width: var(--measure);
+  margin: var(--space-5) auto 0;
   color: var(--color-ink-soft);
-  font-size: 15px;
+  font-size: clamp(15.5px, 1.3vw, 17.5px);
+  line-height: 1.6;
+  text-wrap: pretty;
 }
 
-.prtflo-education__period {
-  margin: 0;
+.prtflo-button--email {
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  padding: 13px 30px;
+}
+
+.contact__phone {
+  margin: var(--space-5) 0 0;
   color: var(--color-ink-faint);
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
 }
 
-/* ---------- contact + footer ---------- */
-.contact__lede {
-  max-width: none;
-  margin: 0 0 var(--space-6);
-  color: var(--color-ink-soft);
-  font-size: 17px;
+.contact__phone a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.site-footer {
+.contact__phone a:hover {
+  color: var(--color-accent);
+}
+
+/* ---------- closing strip ----------
+   Not a band: it carries education and location as one quiet line, and
+   reads as a footer rule rather than another full section. */
+.prtflo-strip {
+  padding-block: var(--space-6);
+  background: var(--color-paper);
+  border-top: 1px solid var(--color-line);
+  color: var(--color-ink);
+}
+
+.prtflo-strip__inner {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
-  padding: 0;
-  color: var(--color-ink-faint);
+  gap: var(--space-3) var(--space-6);
   font-family: var(--font-mono);
-  font-size: 12.5px;
-}
-
-.site-footer a {
-  color: var(--color-ink-soft);
-}
-
-.site-footer a:hover {
-  color: var(--color-accent);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 /* ---------- motion ----------
@@ -1046,33 +1138,50 @@ ul {
 
 /* ---------- responsive ---------- */
 @media (max-width: 860px) {
-  .prtflo-skills__group {
-    grid-template-columns: 1fr;
-    gap: var(--space-3);
-  }
-
-  .prtflo-role,
-  .prtflo-education {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
-  }
-
-  .prtflo-role__list {
-    grid-column: 1;
-    grid-row: auto;
-    margin-top: var(--space-3);
-  }
-
-  .prtflo-education__school {
-    grid-column: 1;
-  }
-
-  .prtflo-education__degree {
-    margin-top: var(--space-3);
-  }
-
   .prtflo-results {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  /* Both rails swing to the left edge; entries stop alternating and read
+     as one column. */
+  .prtflo-timeline::before,
+  .prtflo-skills::before {
+    left: 5px;
+  }
+
+  .prtflo-timeline__item,
+  .prtflo-skills__group {
+    width: 100%;
+    margin: 0;
+    padding-left: 30px;
+    text-align: left;
+  }
+
+  .prtflo-timeline__item:nth-child(odd),
+  .prtflo-timeline__item:nth-child(even),
+  .prtflo-skills__group:nth-child(odd),
+  .prtflo-skills__group:nth-child(even) {
+    margin: 0;
+    text-align: left;
+  }
+
+  .prtflo-timeline__item:nth-child(odd)::after,
+  .prtflo-timeline__item:nth-child(even)::after {
+    left: 0;
+    right: auto;
+  }
+
+  .prtflo-skills__group:nth-child(odd)::after,
+  .prtflo-skills__group:nth-child(even)::after {
+    left: 1px;
+    right: auto;
+  }
+
+  .prtflo-skills__group:nth-child(odd) .prtflo-skills__list,
+  .prtflo-skills__group:nth-child(even) .prtflo-skills__list {
+    justify-content: flex-start;
   }
 }
 
@@ -1098,24 +1207,25 @@ ul {
     grid-template-columns: 1fr;
   }
 
-  .project__detail-group:nth-child(odd) {
+  .project__detail-group:nth-child(odd):not(:only-child) {
     text-align: left;
   }
 
-  .project__detail-group:nth-child(odd) .project__detail-list {
+  .project__detail-group:nth-child(odd):not(:only-child) .project__detail-list {
     border-right: none;
-    border-left: 1px solid var(--color-line);
+    border-left: 1px solid var(--color-accent-line);
     padding-right: 0;
     padding-left: var(--space-5);
   }
 
-  .project__detail-group:nth-child(odd) .project__detail-list li::before {
+  .project__detail-group:nth-child(odd):not(:only-child) .project__detail-list li::before {
     right: auto;
     left: -28px;
   }
 
-  .site-footer {
-    justify-content: flex-start;
+  .prtflo-strip__inner {
+    justify-content: center;
+    text-align: center;
   }
 }
 
@@ -1130,9 +1240,7 @@ ul {
    limits that supported it come off. A measure keeps the line length
    readable now that the column is wider than the text wants to be. */
 .hero__summary,
-.prtflo-section__lede,
 .project__description,
-.prtflo-role__list,
 .contact__lede {
   margin-inline: auto;
 }

@@ -43,6 +43,7 @@ const PAIRS = [
   { label: 'light band — soft text', scope: ':root', fg: '--color-ink-soft', bg: '--color-paper', min: 4.5 },
   { label: 'light band — faint text', scope: ':root', fg: '--color-ink-faint', bg: '--color-paper', min: 4.5 },
   { label: 'light band — faint on card', scope: ':root', fg: '--color-ink-faint', bg: '--color-card', min: 4.5 },
+  { label: 'light band — soft on raised card', scope: ':root', fg: '--color-ink-soft', bg: '--color-card-raised', min: 4.5 },
   { label: 'light band — accent', scope: ':root', fg: '--color-accent', bg: '--color-paper', min: 4.5 },
   { label: 'light band — accent on card', scope: ':root', fg: '--color-accent', bg: '--color-card', min: 4.5 },
   { label: 'light band — on accent', scope: ':root', fg: '--color-on-accent', bg: '--color-accent', min: 4.5 },
@@ -53,6 +54,7 @@ const PAIRS = [
   { label: 'dark band — soft text', scope: '.prtflo-band--dark', fg: '--color-ink-soft', bg: '--color-paper', min: 4.5 },
   { label: 'dark band — faint text', scope: '.prtflo-band--dark', fg: '--color-ink-faint', bg: '--color-paper', min: 4.5 },
   { label: 'dark band — faint on card', scope: '.prtflo-band--dark', fg: '--color-ink-faint', bg: '--color-card', min: 4.5 },
+  { label: 'dark band — soft on raised card', scope: '.prtflo-band--dark', fg: '--color-ink-soft', bg: '--color-card-raised', min: 4.5 },
   { label: 'dark band — accent', scope: '.prtflo-band--dark', fg: '--color-accent', bg: '--color-paper', min: 4.5 },
   { label: 'dark band — accent on card', scope: '.prtflo-band--dark', fg: '--color-accent', bg: '--color-card', min: 4.5 },
   { label: 'dark band — on accent', scope: '.prtflo-band--dark', fg: '--color-on-accent', bg: '--color-accent', min: 4.5 },
@@ -195,15 +197,23 @@ if (!localRefs.length) {
 /* ---------- 8. colour contrast ---------- */
 heading('8. Colour contrast');
 
-/* Pull `--token: value;` declarations out of the first block for a selector. */
+/* Pull `--token: value;` declarations out of the first block whose selector
+   list contains this selector. Matching the whole list matters: a selector
+   sharing a block with others (`.a, main > .b:nth-child(even) { … }`) would
+   otherwise go unfound, and the pair would silently fall back to :root and
+   report the wrong palette as passing. */
 function tokensFor(selector) {
-  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const match = cssCode.match(new RegExp(escaped + '\\s*\\{([^}]*)\\}'));
   const out = {};
-  if (!match) return out;
-  [...match[1].matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)].forEach((m) => {
-    out[m[1]] = m[2].trim();
-  });
+  for (const rule of cssCode.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    const selectors = rule[1].split(',').map((s) => s.trim());
+    if (!selectors.includes(selector)) continue;
+    const declarations = [...rule[2].matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)];
+    if (!declarations.length) continue;
+    declarations.forEach((m) => {
+      out[m[1]] = m[2].trim();
+    });
+    return out;
+  }
   return out;
 }
 
