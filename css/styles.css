@@ -204,9 +204,9 @@ ul {
 
 .site-nav__mark {
   color: var(--nav-ink);
-  font-weight: 650;
+  font-weight: 600;
   font-size: 15px;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.07em;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -215,7 +215,10 @@ ul {
   display: flex;
   align-items: center;
   gap: var(--space-5);
-  font-size: 14px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .site-nav__link {
@@ -253,37 +256,44 @@ ul {
 }
 
 .hero__eyebrow {
-  margin: 0 0 var(--space-4);
-  color: var(--color-accent);
+  margin: 0 0 var(--space-5);
+  color: var(--color-ink-soft);
   font-family: var(--font-mono);
-  font-size: 13px;
-  letter-spacing: 0.02em;
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .hero__name {
   margin: 0;
-  font-size: clamp(38px, 6.4vw, 62px);
-  font-weight: 700;
-  line-height: 1.04;
-  letter-spacing: -0.028em;
+  font-family: var(--font-display);
+  font-size: clamp(46px, 8vw, 104px);
+  font-weight: 400;
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 .hero__tagline {
   /* No width cap: the line fills the column and wraps only when it has to,
      rather than being forced into a narrow stack. */
-  margin: var(--space-4) auto 0;
-  font-size: clamp(22px, 3.4vw, 40px);
-  font-weight: 550;
-  line-height: 1.24;
-  letter-spacing: -0.015em;
+  margin: var(--space-6) auto 0;
+  font-family: var(--font-display);
+  font-size: clamp(23px, 3.6vw, 44px);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
   text-wrap: pretty;
 }
 
 .hero__summary {
   max-width: var(--measure);
-  margin: var(--space-4) 0 0;
+  margin: var(--space-5) 0 0;
   color: var(--color-ink-soft);
-  font-size: 16px;
+  font-size: clamp(15.5px, 1.3vw, 17.5px);
+  line-height: 1.6;
+  text-wrap: pretty;
 }
 
 .hero__actions {
@@ -291,14 +301,10 @@ ul {
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-3);
-  margin-top: var(--space-6);
+  margin-top: var(--space-8);
 }
 
-/* Buttons share the full width of the row. They grow from their natural
-   size rather than to a single fixed width, so a long label such as the
-   email address keeps the room it needs instead of wrapping. */
 .hero__actions .prtflo-button {
-  flex: 1 1 auto;
   justify-content: center;
 }
 
@@ -321,6 +327,19 @@ ul {
   color: var(--color-accent);
 }
 
+/* Ink-filled: the quiet companion to the accent-filled primary. */
+.prtflo-button--solid {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.prtflo-button--solid:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
 .prtflo-button--primary {
   border-color: var(--color-accent);
   background: var(--color-accent);
@@ -333,23 +352,13 @@ ul {
   color: var(--color-on-accent);
 }
 
-.hero__resume-alt {
-  margin: var(--space-4) 0 0;
-  color: var(--color-ink-faint);
-  font-size: 13.5px;
-}
-
-.hero__resume-alt[hidden] {
-  display: none;
-}
-
 .hero__availability {
   display: flex;
   align-items: center;
   width: fit-content;
   gap: var(--space-2);
-  margin: var(--space-6) auto 0;
-  padding: 6px 14px;
+  margin: var(--space-8) auto 0;
+  padding: 7px 18px;
   border: 1px solid var(--color-accent-line);
   border-radius: var(--radius-pill);
   background: var(--color-accent-bg);
@@ -357,7 +366,11 @@ ul {
   font-size: 13.5px;
 }
 
-.hero__availability-dot {
+/* Decorative status dot. A pseudo-element rather than a <span> so the
+   paragraph holds nothing but text and the profile swap can simply write
+   textContent. */
+.hero__availability::before {
+  content: '';
   width: 7px;
   height: 7px;
   border-radius: 50%;
@@ -366,52 +379,71 @@ ul {
 }
 
 /* ---------- headline results ---------- */
+/* Figures stand on their own: no card chrome, the type carries them. */
 .prtflo-results {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  margin-top: var(--space-7);
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-line);
-  overflow: hidden;
+  gap: var(--space-7) var(--space-6);
+  margin-top: var(--space-8);
 }
 
 .prtflo-results__item {
-  padding: var(--space-5) var(--space-4);
-  background: var(--color-card);
+  margin: 0;
   text-align: center;
 }
 
 .prtflo-results__value {
   margin: 0;
   color: var(--color-accent);
-  font-family: var(--font-mono);
-  font-size: clamp(25px, 4vw, 34px);
-  font-weight: 600;
-  line-height: 1;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5.6vw, 74px);
+  font-weight: 400;
+  line-height: 0.96;
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
 }
 
 .prtflo-results__label {
   display: block;
-  margin-top: var(--space-3);
+  margin-top: var(--space-4);
   color: var(--color-ink);
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   line-height: 1.35;
 }
 
 .prtflo-results__note {
   display: block;
-  margin-top: var(--space-1);
+  margin-top: 6px;
   color: var(--color-ink-faint);
-  font-size: 12px;
-  line-height: 1.35;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.45;
 }
 
 /* ---------- shared section ---------- */
+/* An eyebrow names the section; the heading states it. Later sections adopt
+   the same pair. */
+.prtflo-section__eyebrow {
+  margin: 0 0 var(--space-4);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.prtflo-section__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.6vw, 42px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
 .prtflo-section {
   padding: 0;
 }
@@ -437,6 +469,7 @@ ul {
 .prtflo-projects {
   display: grid;
   gap: var(--space-5);
+  margin-top: var(--space-7);
 }
 
 /* Gated items are collapsed, never removed — they stay in the page, keep their
@@ -454,9 +487,7 @@ ul {
 :root[data-profile="swe"] #project-crm-agent     { order: 6; }
 :root[data-profile="swe"] #project-homoeo-quiz   { order: 7; }
 
-.project--gated {
-  border-style: dashed;
-}
+
 
 .project__disclosure {
   /* The card already carries the padding; the disclosure just fills it. */
@@ -524,9 +555,17 @@ ul {
   font-size: 12px;
 }
 
+/* A project sits straight on its band. Only the gated items keep card
+   chrome, because collapsed rows need an edge to read as rows. */
 .project {
-  padding: var(--space-6);
-  border: 1px solid var(--color-line);
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.project--gated {
+  padding: var(--space-5) var(--space-6);
+  border: 1px dashed var(--color-line);
   border-radius: var(--radius-lg);
   background: var(--color-card);
 }
@@ -535,14 +574,26 @@ ul {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
+  justify-content: center;
   gap: var(--space-2) var(--space-3);
 }
 
 .project__title {
+  flex: 0 0 100%;
   margin: 0;
   font-size: 21px;
   font-weight: 650;
   letter-spacing: -0.015em;
+}
+
+/* An open project leads with its name in the display face; a collapsed one
+   stays a compact row. */
+.project:not(.project--gated) .project__title {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4.4vw, 54px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
 }
 
 .project__title-link {
@@ -576,64 +627,126 @@ ul {
 }
 
 .project__stack {
-  margin: var(--space-3) 0 0;
+  margin: var(--space-4) 0 0;
   color: var(--color-ink-faint);
   font-family: var(--font-mono);
-  font-size: 12.5px;
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .project__description {
   max-width: var(--measure);
-  margin: var(--space-4) 0 0;
+  margin: var(--space-5) 0 0;
   color: var(--color-ink-soft);
-  font-size: 15.5px;
+  font-size: clamp(15.5px, 1.3vw, 17.5px);
+  line-height: 1.6;
+  text-wrap: pretty;
 }
 
 .project__detail {
   display: grid;
-  gap: var(--space-4);
-  margin-top: var(--space-5);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+  max-width: 1000px;
+  margin: var(--space-7) auto 0;
 }
 
 .project__detail-group {
-  display: grid;
-  grid-template-columns: 136px 1fr;
-  gap: var(--space-4);
-  align-items: start;
+  padding: var(--space-6);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-card);
 }
 
 .project__detail-term {
-  padding-top: 3px;
-  color: var(--color-ink-faint);
+  display: block;
+  margin: 0 0 var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-line);
+  color: var(--color-accent);
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.03em;
+  font-size: 11px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .project__detail-list {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-4);
   max-width: none;
   color: var(--color-ink-soft);
-  font-size: 15px;
+  font-size: 14.5px;
+  line-height: 1.55;
 }
 
 .project__detail-list li {
   position: relative;
-  padding-left: var(--space-4);
 }
 
 .project__detail-list li::before {
   content: "";
   position: absolute;
-  left: 0;
   top: 0.62em;
-  width: 5px;
-  height: 5px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: var(--color-accent-line);
+  background: var(--color-accent);
+}
+
+/* The pair reads inward: each list hangs off a rule on its inner edge,
+   with the bullets sitting on that rule. */
+.project__detail-group:nth-child(odd) {
+  text-align: right;
+}
+
+.project__detail-group:nth-child(odd) .project__detail-list {
+  border-right: 1px solid var(--color-line);
+  padding-right: var(--space-5);
+}
+
+.project__detail-group:nth-child(odd) .project__detail-list li::before {
+  right: -28px;
+}
+
+.project__detail-group:nth-child(even) {
+  text-align: left;
+}
+
+.project__detail-group:nth-child(even) .project__detail-list {
+  border-left: 1px solid var(--color-line);
+  padding-left: var(--space-5);
+}
+
+.project__detail-group:nth-child(even) .project__detail-list li::before {
+  left: -28px;
+}
+
+/* A lone card has no partner to lean toward, so it narrows, centres its
+   label, and takes the left-hand rule — the text still reads from a fixed
+   edge instead of floating in the middle of the band. */
+.project__detail:has(.project__detail-group:only-child) {
+  grid-template-columns: 1fr;
+  max-width: 620px;
+}
+
+.project__detail-group:only-child {
+  text-align: left;
+}
+
+.project__detail-group:only-child .project__detail-term {
+  text-align: center;
+}
+
+.project__detail-group:only-child .project__detail-list {
+  border-right: none;
+  border-left: 1px solid var(--color-line);
+  padding-right: 0;
+  padding-left: var(--space-5);
+}
+
+.project__detail-group:only-child .project__detail-list li::before {
+  right: auto;
+  left: -28px;
 }
 
 .project__figure {
@@ -648,25 +761,38 @@ ul {
 .project__links {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-4);
-  margin-top: var(--space-5);
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-7);
   font-size: 14px;
 }
 
 .project__link {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding-bottom: 1px;
-  border-bottom: 1px solid var(--color-line);
-  color: var(--color-ink-soft);
-  font-weight: 500;
+  gap: 6px;
+  padding: 10px 24px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
   text-decoration: none;
 }
 
-.project__link:hover {
+/* The live thing first, in the accent; everything after it in ink. */
+.project__links li:first-child .project__link {
   border-color: var(--color-accent);
-  color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.project__links li + li .project__link {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.project__link:hover {
+  filter: brightness(1.12);
 }
 
 /* ---------- architecture diagram ---------- */
@@ -959,18 +1085,6 @@ ul {
     padding: 0 var(--space-4);
   }
 
-  .hero {
-    padding: var(--space-7) 0 var(--space-6);
-  }
-
-  .hero__tagline {
-    max-width: none;
-  }
-
-  .prtflo-section {
-    padding: var(--space-7) 0;
-  }
-
   .site-nav__links {
     gap: var(--space-4);
     font-size: 13.5px;
@@ -980,9 +1094,24 @@ ul {
     padding: var(--space-5) var(--space-4);
   }
 
-  .project__detail-group {
+  .project__detail {
     grid-template-columns: 1fr;
-    gap: var(--space-2);
+  }
+
+  .project__detail-group:nth-child(odd) {
+    text-align: left;
+  }
+
+  .project__detail-group:nth-child(odd) .project__detail-list {
+    border-right: none;
+    border-left: 1px solid var(--color-line);
+    padding-right: 0;
+    padding-left: var(--space-5);
+  }
+
+  .project__detail-group:nth-child(odd) .project__detail-list li::before {
+    right: auto;
+    left: -28px;
   }
 
   .site-footer {

@@ -46,8 +46,8 @@
     <div class="prtflo-page hero">
       <p class="hero__eyebrow">Software Engineer · New Delhi, India</p>
       <h1 class="hero__name">Pragya Singhal</h1>
-      <p class="hero__tagline">I build AI features that are measured, guarded, and shipped.</p>
-      <p class="hero__summary">
+      <p class="hero__tagline" id="hero-tagline">I build AI features that are measured, guarded, and shipped.</p>
+      <p class="hero__summary" id="hero-summary">
         Around four years building and maintaining production systems across backend, REST APIs and
         enterprise integrations — now building applied GenAI on top of that foundation: stateful
         LangGraph agents with tool calling and human-in-the-loop controls, grounded RAG, and the
@@ -56,67 +56,70 @@
 
       <div class="hero__actions">
         <a class="prtflo-button prtflo-button--primary" href="#work">View work</a>
-        <a class="prtflo-button" id="resume-primary"
+        <a class="prtflo-button prtflo-button--solid" id="resume-primary"
            href="assets/Pragya_Singhal_GenAI_Resume.pdf"
            data-resume-genai="assets/Pragya_Singhal_GenAI_Resume.pdf"
            data-resume-swe="assets/Pragya_Singhal_Software_Engineer_Resume.pdf"
            target="_blank" rel="noopener">Résumé (PDF)</a>
-        <a class="prtflo-button" href="mailto:pragyasinghal.652001@gmail.com">Email</a>
-        <a class="prtflo-button" href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="prtflo-button" href="https://github.com/pragya6" target="_blank" rel="noopener">GitHub</a>
+        <a class="prtflo-button prtflo-button--solid" href="mailto:pragyasinghal.652001@gmail.com">Email</a>
+        <a class="prtflo-button prtflo-button--solid" href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="prtflo-button prtflo-button--solid" href="https://github.com/pragya6" target="_blank" rel="noopener">GitHub</a>
       </div>
 
-      <p class="hero__resume-alt" id="resume-alt">
-        Looking for the backend work? <a href="assets/Pragya_Singhal_Software_Engineer_Resume.pdf" target="_blank" rel="noopener">Software engineering résumé (PDF)</a>
-      </p>
 
-      <p class="hero__availability">
-        <span class="hero__availability-dot" aria-hidden="true"></span>
+      <p class="hero__availability" id="hero-availability">
         Open to Applied Engineer and Software Engineer roles with hands-on GenAI work
       </p>
+
+    </div>
+  </section>
+
+  <section class="prtflo-band prtflo-band--dark" id="results" aria-labelledby="results-title">
+    <div class="prtflo-page prtflo-section">
+      <p class="prtflo-section__eyebrow" id="results-eyebrow" data-reveal>Measured, not claimed</p>
+      <h2 class="prtflo-section__heading" id="results-title" data-reveal>
+        Every number here came off an eval harness I wrote.
+      </h2>
 
       <div class="prtflo-results" role="group" aria-label="Headline results" data-reveal>
         <figure class="prtflo-results__item">
           <p class="prtflo-results__value" data-count="0" data-decimals="1">0.0</p>
           <figcaption>
             <span class="prtflo-results__label">Hallucination rate</span>
-            <span class="prtflo-results__note">RAG, across 102 served queries</span>
+            <span class="prtflo-results__note">RAG · 102 served queries</span>
           </figcaption>
         </figure>
         <figure class="prtflo-results__item">
-          <p class="prtflo-results__value" data-count="100" data-suffix="%">100%</p>
+          <p class="prtflo-results__value">13/13</p>
           <figcaption>
-            <span class="prtflo-results__label">Tool selection &amp; params</span>
-            <span class="prtflo-results__note">50-query eval, guardrails on</span>
+            <span class="prtflo-results__label">Sensitive actions gated</span>
+            <span class="prtflo-results__note">every action that reached the gate</span>
           </figcaption>
         </figure>
         <figure class="prtflo-results__item">
           <p class="prtflo-results__value" data-count="0.87" data-decimals="2">0.87</p>
           <figcaption>
             <span class="prtflo-results__label">Retrieval hit@k</span>
-            <span class="prtflo-results__note">n=30, p50 ~2.0s latency</span>
+            <span class="prtflo-results__note">n=30 · Wilson 95% CI</span>
           </figcaption>
         </figure>
         <figure class="prtflo-results__item">
-          <p class="prtflo-results__value" data-count="40" data-prefix="~" data-suffix="K">~40K</p>
+          <p class="prtflo-results__value" data-count="2.9" data-decimals="1" data-suffix="%">2.9%</p>
           <figcaption>
-            <span class="prtflo-results__label">Users on the platform</span>
-            <span class="prtflo-results__note">served by workflows I built</span>
+            <span class="prtflo-results__label">Over-refusal rate</span>
+            <span class="prtflo-results__note">with 27/27 correct refusals</span>
           </figcaption>
         </figure>
       </div>
     </div>
   </section>
 
+
   <main id="main">
 
-    <section class="prtflo-band prtflo-band--dark" id="work" aria-labelledby="work-title">
+    <section class="prtflo-band prtflo-band--light" id="work" data-nav="work" aria-labelledby="work-title">
       <div class="prtflo-page prtflo-section">
-        <h2 class="prtflo-section__title" id="work-title">Selected work</h2>
-        <p class="prtflo-section__lede">
-          Systems I designed and built end to end — each one deployed and measured rather than
-          demoed. The numbers below come from evaluation harnesses I wrote.
-        </p>
+        <p class="prtflo-section__eyebrow" id="work-title" data-reveal>Selected work · Agentic AI</p>
         <div class="prtflo-projects">
 
           <article class="project" id="project-crm-agent" data-track="genai" data-reveal>
@@ -124,8 +127,6 @@
               <h3 class="project__title">
                 <a class="project__title-link" href="https://pragya6-ai-agent.hf.space/" target="_blank" rel="noopener">CRM Agent</a>
               </h3>
-              <span class="project__tag">Agentic AI</span>
-              <span class="project__tag">Deployed</span>
             </div>
             <p class="project__stack">LangGraph · FastAPI · Supabase · Gradio · HF Spaces</p>
             <p class="project__description">
@@ -206,13 +207,20 @@
             </ul>
           </article>
 
+        </div>
+      </div>
+    </section>
+
+    <section class="prtflo-band prtflo-band--dark" data-nav="work" aria-labelledby="myhive-title">
+      <div class="prtflo-page prtflo-section">
+        <p class="prtflo-section__eyebrow" id="myhive-title" data-reveal>Selected work · LLM in production</p>
+        <div class="prtflo-projects">
+
           <article class="project" id="project-myhive-assistant" data-track="genai" data-reveal>
             <div class="project__head">
               <h3 class="project__title">
                 <a class="project__title-link" href="https://myhiveworld.web.app/horizon/discover" target="_blank" rel="noopener">MyHive Assistant</a>
               </h3>
-              <span class="project__tag">LLM in production</span>
-              <span class="project__tag project__tag--production">Production</span>
             </div>
             <p class="project__stack">OpenAI GPT · TypeScript · Firebase · Ionic · Angular · Node.js</p>
             <p class="project__description">
@@ -237,6 +245,15 @@
               <li><a class="project__link" href="https://myhiveworld.web.app/horizon/discover" target="_blank" rel="noopener">Product ↗</a></li>
             </ul>
           </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="prtflo-band prtflo-band--light" data-nav="work">
+      <div class="prtflo-page prtflo-section">
+        <div class="prtflo-projects">
+
 
           <article class="project" id="project-homoeo-quiz" data-track="genai" data-reveal>
             <div class="project__head">
@@ -415,7 +432,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band prtflo-band--light" id="experience" aria-labelledby="experience-title">
+    <section class="prtflo-band prtflo-band--dark" id="experience" aria-labelledby="experience-title">
       <div class="prtflo-page prtflo-section">
         <h2 class="prtflo-section__title" id="experience-title">Experience</h2>
         <div class="prtflo-role" id="role-29-kreativ" data-reveal>
@@ -433,7 +450,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band prtflo-band--dark" id="skills" aria-labelledby="skills-title">
+    <section class="prtflo-band prtflo-band--light" id="skills" aria-labelledby="skills-title">
       <div class="prtflo-page prtflo-section">
         <h2 class="prtflo-section__title" id="skills-title">Skills</h2>
         <dl class="prtflo-skills" data-reveal>
@@ -516,7 +533,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band prtflo-band--light" id="education" aria-labelledby="education-title">
+    <section class="prtflo-band prtflo-band--dark" id="education" aria-labelledby="education-title">
       <div class="prtflo-page prtflo-section">
         <h2 class="prtflo-section__title" id="education-title">Education</h2>
         <div class="prtflo-education" data-reveal>
@@ -527,7 +544,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band prtflo-band--dark" id="contact" aria-labelledby="contact-title">
+    <section class="prtflo-band prtflo-band--light" id="contact" aria-labelledby="contact-title">
       <div class="prtflo-page prtflo-section">
         <h2 class="prtflo-section__title" id="contact-title">Contact</h2>
         <p class="contact__lede">
@@ -547,7 +564,7 @@
 
   </main>
 
-  <footer class="prtflo-band prtflo-band--light">
+  <footer class="prtflo-band prtflo-band--dark">
     <div class="prtflo-page site-footer">
       <span>Pragya Singhal · New Delhi, India</span>
       <span>Static page — no framework, no build step.</span>
