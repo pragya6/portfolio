@@ -116,6 +116,13 @@ ul {
   border-radius: var(--radius-sm);
 }
 
+/* ---------- band ----------
+   Full-bleed row. Carries the background in later steps; for now it only
+   spans the viewport while .prtflo-page keeps constraining the column. */
+.prtflo-band {
+  width: 100%;
+}
+
 .prtflo-page {
   width: 100%;
   max-width: 820px;
