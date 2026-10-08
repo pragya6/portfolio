@@ -69,6 +69,13 @@
      collapsed card — a #hash link, the assistant, a keyboard user — lands on
      open content rather than on a closed summary. */
   function expand(el) {
+    /* The id usually sits on the <article>, with its <details> inside, so
+       look down as well as up. */
+    var inner = el.tagName === 'DETAILS' ? el : el.querySelector('details');
+    if (inner) {
+      inner.open = true;
+    }
+
     var node = el;
     while (node && node !== document.body) {
       if (node.tagName === 'DETAILS') {
@@ -416,7 +423,10 @@
         return;
       }
 
-      nav.setAttribute('data-over', current.classList.contains('prtflo-band--dark') ? 'dark' : 'light');
+      /* Read the band's own token rather than its class list: tone is set by
+         position for the bands inside <main>. */
+      var tone = window.getComputedStyle(current).getPropertyValue('--band-tone').trim();
+      nav.setAttribute('data-over', tone === 'dark' ? 'dark' : 'light');
 
       var id = current.getAttribute('data-nav') || current.id;
       Object.keys(byId).forEach(function (key) {

@@ -117,7 +117,7 @@
 
   <main id="main">
 
-    <section class="prtflo-band prtflo-band--light" id="work" data-nav="work" aria-labelledby="work-title">
+    <section class="prtflo-band" id="work" data-nav="work" aria-labelledby="work-title">
       <div class="prtflo-page prtflo-section">
         <p class="prtflo-section__eyebrow" id="work-title" data-reveal>Selected work · Agentic AI</p>
         <div class="prtflo-projects">
@@ -211,7 +211,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band prtflo-band--dark" data-nav="work" aria-labelledby="myhive-title">
+    <section class="prtflo-band" data-nav="work" aria-labelledby="myhive-title">
       <div class="prtflo-page prtflo-section">
         <p class="prtflo-section__eyebrow" id="myhive-title" data-reveal>Selected work · LLM in production</p>
         <div class="prtflo-projects">
@@ -250,18 +250,16 @@
       </div>
     </section>
 
-    <section class="prtflo-band prtflo-band--light" data-nav="work">
+    <section class="prtflo-band" data-nav="work" aria-labelledby="homoeo-quiz-title">
       <div class="prtflo-page prtflo-section">
+        <p class="prtflo-section__eyebrow" id="homoeo-quiz-title" data-reveal>Selected work · Grounded RAG</p>
         <div class="prtflo-projects">
-
 
           <article class="project" id="project-homoeo-quiz" data-track="genai" data-reveal>
             <div class="project__head">
               <h3 class="project__title">
                 <a class="project__title-link" href="https://pragya6-homoeo-quiz.hf.space/" target="_blank" rel="noopener">Homoeo Quiz</a>
               </h3>
-              <span class="project__tag">Grounded RAG</span>
-              <span class="project__tag">Deployed</span>
             </div>
             <p class="project__stack">Python · Gemini 2.5 Flash-Lite · ChromaDB · sentence-transformers · HF Spaces</p>
             <p class="project__description">
@@ -299,13 +297,20 @@
             </ul>
           </article>
 
+        </div>
+      </div>
+    </section>
+
+    <section class="prtflo-band" data-nav="work" aria-labelledby="storylines-title">
+      <div class="prtflo-page prtflo-section">
+        <p class="prtflo-section__eyebrow" id="storylines-title" data-reveal>Selected work · Platform engineering</p>
+        <div class="prtflo-projects">
+
           <article class="project" id="project-storylines" data-track="swe" data-reveal>
             <div class="project__head">
               <h3 class="project__title">
                 <a class="project__title-link" href="https://www.storylines.com/listings-7" target="_blank" rel="noopener">Storylines</a>
               </h3>
-              <span class="project__tag">Platform engineering</span>
-              <span class="project__tag project__tag--production">Production</span>
             </div>
             <p class="project__stack">HubSpot · HubL · PHP · Laravel · REST APIs · MySQL</p>
             <p class="project__description">
@@ -319,21 +324,29 @@
             </ul>
           </article>
 
-          <!-- Client / PHP work. Collapsed on the GenAI profile, expanded when the
-               URL carries ?r=swe (see initProfile in js/main.js). Collapsed, not
-               removed: the cards stay in the page and keep their ids, so a link,
-               a search or the assistant can always open one and point at it. -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Client / PHP work. Collapsed on the GenAI profile, expanded when the
+         URL carries ?r=swe (see initProfile in js/main.js). Collapsed, not
+         removed: the cards stay in the page and keep their ids, so a link,
+         a search or the assistant can always open one and point at it. -->
+
+    <section class="prtflo-band" data-nav="work" aria-labelledby="trestle-title">
+      <div class="prtflo-page prtflo-section">
+        <p class="prtflo-section__eyebrow" id="trestle-title" data-reveal>Selected work · CodeIgniter</p>
+        <div class="prtflo-projects">
 
           <article class="project project--gated" id="project-trestle-reso" data-track="swe" data-reveal data-gated>
             <details class="project__disclosure">
               <summary class="project__head project__summary">
                 <h3 class="project__title">Trestle Reso — Real Estate Platform Backend</h3>
-                <span class="project__tag">CodeIgniter</span>
                 <span class="project__tag project__tag--production">Production</span>
                 <span class="project__stack">PHP · CodeIgniter · MySQL · Git · Adminer · FileZilla</span>
               </summary>
 
-              <div class="project__body">
+              <div>
                 <p class="project__description">
                   Backend development and maintenance on a live production real-estate platform handling
                   international property listings — the kind of system where every fix ships against real
@@ -357,16 +370,24 @@
             </details>
           </article>
 
+        </div>
+      </div>
+    </section>
+
+    <section class="prtflo-band" data-nav="work" aria-labelledby="ims-title">
+      <div class="prtflo-page prtflo-section">
+        <p class="prtflo-section__eyebrow" id="ims-title" data-reveal>Selected work · Laravel</p>
+        <div class="prtflo-projects">
+
           <article class="project project--gated" id="project-ims-techable" data-track="swe" data-reveal data-gated>
             <details class="project__disclosure">
               <summary class="project__head project__summary">
                 <h3 class="project__title">IMS Techable — Inventory Management System</h3>
-                <span class="project__tag">Laravel</span>
                 <span class="project__tag project__tag--production">Production</span>
                 <span class="project__stack">PHP · Laravel · MySQL · Tabulator.js · Python · jQuery</span>
               </summary>
 
-              <div class="project__body">
+              <div>
                 <p class="project__description">
                   Backend and frontend work on a large-scale Laravel inventory management system, where the
                   data grid was the product. Replacing that grid without breaking anything mattered more
@@ -391,16 +412,24 @@
             </details>
           </article>
 
+        </div>
+      </div>
+    </section>
+
+    <section class="prtflo-band" data-nav="work" aria-labelledby="vanshbel-title">
+      <div class="prtflo-page prtflo-section">
+        <p class="prtflo-section__eyebrow" id="vanshbel-title" data-reveal>Selected work · CodeIgniter 4</p>
+        <div class="prtflo-projects">
+
           <article class="project project--gated" id="project-vanshbel" data-track="swe" data-reveal data-gated>
             <details class="project__disclosure">
               <summary class="project__head project__summary">
                 <h3 class="project__title">Vanshbel — Family Tree Platform</h3>
-                <span class="project__tag">CodeIgniter 4</span>
                 <span class="project__tag project__tag--production">Production</span>
                 <span class="project__stack">PHP · CodeIgniter 3 → 4 · MySQL · phpMyAdmin · JavaScript · Figma</span>
               </summary>
 
-              <div class="project__body">
+              <div>
                 <p class="project__description">
                   A complete framework migration and a full UI/UX overhaul on the same platform. The
                   interesting part was the family tree itself: a graph that has to stay usable under drag,
@@ -432,27 +461,25 @@
       </div>
     </section>
 
-    <section class="prtflo-band prtflo-band--dark" id="experience" aria-labelledby="experience-title">
+    <section class="prtflo-band" id="experience" aria-labelledby="experience-title">
       <div class="prtflo-page prtflo-section">
-        <h2 class="prtflo-section__title" id="experience-title">Experience</h2>
-        <div class="prtflo-role" id="role-29-kreativ" data-reveal>
-          <p class="prtflo-role__company">29 Kreativ</p>
-          <p class="prtflo-role__title">Software Engineer</p>
-          <p class="prtflo-role__period">Aug 2022 — Present</p>
-          <ul class="prtflo-role__list">
-            <li>Designed and shipped REST APIs, and integrated external enterprise systems through APIs and webhooks — including Stripe and Secuconnect — handling authentication, data mapping, error handling and production debugging.</li>
-            <li>Integrated OpenAI GPT into production, delivering the team's first user-facing chatbot and AI-assisted capabilities.</li>
-            <li>Built event-driven workflows for CRM operations, payment-status synchronisation and customer notifications across a platform serving ~40K users, reducing manual operational effort by ~75–80%.</li>
-            <li>Led a legacy CodeIgniter 3 → 4 migration and a DataTables.js → Tabulator.js migration with zero regression on a large Laravel application.</li>
-            <li>Mentored 5+ junior developers on engineering practices, debugging and cross-stack troubleshooting.</li>
-          </ul>
-        </div>
+        <p class="prtflo-section__eyebrow" data-reveal>Experience</p>
+        <h2 class="prtflo-section__heading" id="experience-title" data-reveal>Software Engineer, 29 Kreativ</h2>
+        <p class="prtflo-role__period" data-reveal>Aug 2022 — Present</p>
+
+        <ol class="prtflo-timeline" id="role-29-kreativ">
+          <li class="prtflo-timeline__item" data-reveal>Designed and shipped <b>REST APIs</b>, and integrated external enterprise systems through APIs and webhooks — including <b>Stripe</b> and <b>Secuconnect</b> — handling authentication, data mapping, error handling and production debugging.</li>
+          <li class="prtflo-timeline__item" data-reveal>Built event-driven workflows for CRM operations, payment-status synchronisation and customer notifications across a platform serving <b>~40K users</b>, reducing manual operational effort by <b>~75–80%</b>.</li>
+          <li class="prtflo-timeline__item" data-reveal>Integrated <b>OpenAI GPT</b> into production, delivering the team's first user-facing chatbot and AI-assisted capabilities.</li>
+          <li class="prtflo-timeline__item" data-reveal>Led a legacy <b>CodeIgniter 3 → 4</b> migration and a <b>DataTables.js → Tabulator.js</b> migration with zero regression on a large Laravel application.</li>
+          <li class="prtflo-timeline__item" data-reveal>Mentored <b>5+ junior developers</b> on engineering practices, debugging and cross-stack troubleshooting.</li>
+        </ol>
       </div>
     </section>
 
-    <section class="prtflo-band prtflo-band--light" id="skills" aria-labelledby="skills-title">
+    <section class="prtflo-band" id="skills" aria-labelledby="skills-title">
       <div class="prtflo-page prtflo-section">
-        <h2 class="prtflo-section__title" id="skills-title">Skills</h2>
+        <p class="prtflo-section__eyebrow" id="skills-title" data-reveal>Skills</p>
         <dl class="prtflo-skills" data-reveal>
           <div class="prtflo-skills__group" id="skills-agent-llm">
             <dt class="prtflo-skills__category">Agent / LLM systems</dt>
@@ -533,41 +560,35 @@
       </div>
     </section>
 
-    <section class="prtflo-band prtflo-band--dark" id="education" aria-labelledby="education-title">
-      <div class="prtflo-page prtflo-section">
-        <h2 class="prtflo-section__title" id="education-title">Education</h2>
-        <div class="prtflo-education" data-reveal>
-          <p class="prtflo-education__period">2018 — 2022</p>
-          <p class="prtflo-education__degree">B.Tech, Electronics &amp; Communication Engineering</p>
-          <p class="prtflo-education__school">ADGITM, Delhi</p>
-        </div>
-      </div>
-    </section>
 
-    <section class="prtflo-band prtflo-band--light" id="contact" aria-labelledby="contact-title">
+    <section class="prtflo-band prtflo-band--spacious" id="contact" aria-labelledby="contact-title">
       <div class="prtflo-page prtflo-section">
-        <h2 class="prtflo-section__title" id="contact-title">Contact</h2>
-        <p class="contact__lede">
+        <p class="prtflo-section__eyebrow" data-reveal>Contact</p>
+        <h2 class="prtflo-section__heading" id="contact-title" data-reveal>Let's talk.</h2>
+        <p class="contact__lede" data-reveal>
           I want to put four years of production fundamentals — reliable APIs, integrations and
           error handling — to work on GenAI systems that hold up outside a demo, and to keep
-          learning and growing alongside people already building them well. If that sounds like
-          your team, I would be glad to talk.
+          learning and growing alongside people already building them well.
         </p>
-        <div class="hero__actions">
-          <a class="prtflo-button prtflo-button--primary" href="mailto:pragyasinghal.652001@gmail.com">pragyasinghal.652001@gmail.com</a>
-          <a class="prtflo-button" href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
-          <a class="prtflo-button" href="https://github.com/pragya6" target="_blank" rel="noopener">GitHub</a>
-          <a class="prtflo-button" href="tel:+919354500686">+91 93545 00686</a>
+
+        <div class="hero__actions" data-reveal>
+          <a class="prtflo-button prtflo-button--primary prtflo-button--email" href="mailto:pragyasinghal.652001@gmail.com">pragyasinghal.652001@gmail.com</a>
+          <a class="prtflo-button prtflo-button--solid" href="https://www.linkedin.com/in/pragya-singhal-32b1621bb/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="prtflo-button prtflo-button--solid" href="https://github.com/pragya6" target="_blank" rel="noopener">GitHub</a>
+          <a class="prtflo-button prtflo-button--solid" href="assets/Pragya_Singhal_GenAI_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
         </div>
+
+        <p class="contact__phone"><a href="tel:+919354500686">+91 93545 00686</a></p>
       </div>
     </section>
 
   </main>
 
-  <footer class="prtflo-band prtflo-band--dark">
-    <div class="prtflo-page site-footer">
-      <span>Pragya Singhal · New Delhi, India</span>
-      <span>Static page — no framework, no build step.</span>
+  <footer class="prtflo-strip">
+    <div class="prtflo-page prtflo-strip__inner">
+      <span>B.Tech Electronics &amp; Communication · ADGITM, Delhi</span>
+      <span>2018 — 2022</span>
+      <span>New Delhi, India</span>
     </div>
   </footer>
 
