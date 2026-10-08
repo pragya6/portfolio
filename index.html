@@ -16,22 +16,13 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 
   <script>
-    /* Set the theme and the js flag before first paint, so the page never
-       flashes the wrong colours and stays fully visible when JS is unavailable. */
-    (function () {
-      var root = document.documentElement;
-      root.classList.add('js');
-      try {
-        var saved = localStorage.getItem('theme');
-        if (saved === 'light' || saved === 'dark') {
-          root.setAttribute('data-theme', saved);
-        }
-      } catch (e) { /* storage blocked — fall back to the OS preference */ }
-    })();
+    /* Flag scripting before first paint, so anything that reveals on scroll
+       stays visible when JavaScript is unavailable. */
+    document.documentElement.classList.add('js');
   </script>
 </head>
 <body>
@@ -48,19 +39,10 @@
           <li><a class="site-nav__link" href="#contact">Contact</a></li>
         </ul>
       </nav>
-      <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Switch colour theme">
-        <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
-        </svg>
-        <svg class="theme-toggle__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
-        </svg>
-      </button>
     </div>
   </header>
 
-  <section class="prtflo-band" id="top">
+  <section class="prtflo-band prtflo-band--light" id="top">
     <div class="prtflo-page hero">
       <p class="hero__eyebrow">Software Engineer · New Delhi, India</p>
       <h1 class="hero__name">Pragya Singhal</h1>
@@ -128,7 +110,7 @@
 
   <main id="main">
 
-    <section class="prtflo-band" id="work" aria-labelledby="work-title">
+    <section class="prtflo-band prtflo-band--dark" id="work" aria-labelledby="work-title">
       <div class="prtflo-page prtflo-section">
         <h2 class="prtflo-section__title" id="work-title">Selected work</h2>
         <p class="prtflo-section__lede">
@@ -433,7 +415,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band" id="experience" aria-labelledby="experience-title">
+    <section class="prtflo-band prtflo-band--light" id="experience" aria-labelledby="experience-title">
       <div class="prtflo-page prtflo-section">
         <h2 class="prtflo-section__title" id="experience-title">Experience</h2>
         <div class="prtflo-role" id="role-29-kreativ" data-reveal>
@@ -451,7 +433,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band" id="skills" aria-labelledby="skills-title">
+    <section class="prtflo-band prtflo-band--dark" id="skills" aria-labelledby="skills-title">
       <div class="prtflo-page prtflo-section">
         <h2 class="prtflo-section__title" id="skills-title">Skills</h2>
         <dl class="prtflo-skills" data-reveal>
@@ -534,7 +516,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band" id="education" aria-labelledby="education-title">
+    <section class="prtflo-band prtflo-band--light" id="education" aria-labelledby="education-title">
       <div class="prtflo-page prtflo-section">
         <h2 class="prtflo-section__title" id="education-title">Education</h2>
         <div class="prtflo-education" data-reveal>
@@ -545,7 +527,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band" id="contact" aria-labelledby="contact-title">
+    <section class="prtflo-band prtflo-band--dark" id="contact" aria-labelledby="contact-title">
       <div class="prtflo-page prtflo-section">
         <h2 class="prtflo-section__title" id="contact-title">Contact</h2>
         <p class="contact__lede">
@@ -565,7 +547,7 @@
 
   </main>
 
-  <footer class="prtflo-band">
+  <footer class="prtflo-band prtflo-band--light">
     <div class="prtflo-page site-footer">
       <span>Pragya Singhal · New Delhi, India</span>
       <span>Static page — no framework, no build step.</span>
