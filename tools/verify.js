@@ -248,8 +248,54 @@ PAIRS.forEach((pair) => {
 });
 if (!checked) skip('no token pairs resolved — check the PAIRS list matches the CSS');
 
-/* ---------- 9. script parses ---------- */
-heading('9. Script syntax');
+/* ---------- 9. tag balance and nesting ----------
+   Restructuring work is where a stray or missing wrapper slips in. Counts
+   alone miss wrong nesting order, so the whole document is walked too. */
+heading('9. Tag balance and nesting');
+
+const VOID_TAGS = new Set([
+  'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
+  'link', 'meta', 'param', 'source', 'track', 'wbr',
+]);
+
+const COUNTED = ['div', 'section', 'main', 'footer', 'header', 'nav',
+  'article', 'details', 'ul', 'ol', 'dl', 'figure'];
+
+let unbalanced = 0;
+COUNTED.forEach((tag) => {
+  const open = (html.match(new RegExp('<' + tag + '(?=[\\s>])', 'g')) || []).length;
+  const close = (html.match(new RegExp('</' + tag + '>', 'g')) || []).length;
+  if (open !== close) {
+    fail(`<${tag}>: ${open} opened, ${close} closed`);
+    unbalanced++;
+  }
+});
+if (!unbalanced) pass(COUNTED.length + ' element types balanced');
+
+/* Attribute values are blanked first: the favicon is a data: URI carrying
+   literal <svg> markup that would otherwise read as real tags. */
+const walkable = html.replace(/="[^"]*"/g, '=""');
+const stack = [];
+let nesting = null;
+
+for (const m of walkable.matchAll(/<(\/?)([a-zA-Z][\w-]*)([^>]*?)(\/?)>/g)) {
+  const [, slash, name, , selfClose] = m;
+  const tag = name.toLowerCase();
+  if (VOID_TAGS.has(tag) || selfClose === '/' || tag === '!doctype') continue;
+  if (!slash) {
+    stack.push(tag);
+  } else {
+    const last = stack.pop();
+    if (last !== tag && !nesting) nesting = `expected </${last}> but found </${tag}>`;
+  }
+}
+
+if (nesting) fail('nesting: ' + nesting);
+else if (stack.length) fail('nesting: never closed -> ' + stack.join(' > '));
+else pass('every tag closes in order');
+
+/* ---------- 10. script parses ---------- */
+heading('10. Script syntax');
 try {
   execFileSync(process.execPath, ['--check', JS_FILE], { stdio: 'pipe' });
   pass('js/main.js parses');
