@@ -1,0 +1,13 @@
+# Vercel hosts the API only. The page itself stays on GitHub Pages, so the
+# markup, styles, script and images are left out of this deploy — that keeps
+# the portfolio from being published a second time at a vercel.app address.
+#
+# data/ is NOT listed: the assistant reads data/corpus.json at runtime.
+
+index.html
+css/
+js/
+assets/
+tools/
+Portfolioagentplan.md
+README.md

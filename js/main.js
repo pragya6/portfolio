@@ -26,6 +26,45 @@
   var PROFILES = ['genai', 'swe'];
   var DEFAULT_PROFILE = 'genai';
 
+  /* ---------- project order ----------
+     Each project sits alone in its own band, so ordering them means moving the
+     band elements. The values are `data-project` slugs, in the order the bands
+     should read top to bottom.
+
+     `genai` is document order, so the default page needs no work. `swe` leads
+     with the production client work instead.
+
+     Moving the elements rather than setting CSS `order` is deliberate: `order`
+     changes visual order only, leaving tab order and the reading order given to
+     a screen reader following the markup. Moving the nodes keeps all three
+     together. It is also what makes band tone safe to reorder, now that tone is
+     declared on the band rather than derived from its position. */
+  var ORDER = {
+    genai: [
+      'crm-agent',
+      'myhive-assistant',
+      'homoeo-quiz',
+      'storylines',
+      'trestle-reso',
+      'ims-techable',
+      'vanshbel'
+    ],
+    swe: [
+      'storylines',
+      'trestle-reso',
+      'ims-techable',
+      'vanshbel',
+      'myhive-assistant',
+      'crm-agent',
+      'homoeo-quiz'
+    ]
+  };
+
+  /* The nav's "Work" link points at #work, so the id has to travel with
+     whichever band ends up first rather than staying on the one the markup
+     happens to list first. */
+  var WORK_ANCHOR = 'work';
+
   function readParam(name) {
     var query = window.location.search;
     if (!query) {
@@ -257,6 +296,65 @@
     applyMetrics(copy.metrics);
   }
 
+  /* Re-stack the project bands into the order this profile asks for.
+
+     Appending an element that is already in the document moves it instead of
+     copying it, so listeners, focus and any open <details> survive. The bands
+     are collected into a fragment first and reinserted in one go, which keeps
+     it to a single reflow and leaves whatever follows them in <main> — the
+     experience, skills and contact bands — untouched. */
+  function applyOrder(profile) {
+    var order = ORDER[profile];
+    if (!order) {
+      return;
+    }
+
+    var bands = {};
+    var first = null;
+    [].forEach.call(document.querySelectorAll('[data-project]'), function (band) {
+      bands[band.getAttribute('data-project')] = band;
+      if (!first) {
+        first = band;
+      }
+    });
+
+    if (!first || !first.parentNode) {
+      return;
+    }
+
+    /* Anything the markup has that ORDER does not name keeps its place at the
+       end, so adding a band to the page can never make it disappear. */
+    var slugs = order.filter(function (slug) {
+      return bands[slug];
+    });
+    Object.keys(bands).forEach(function (slug) {
+      if (slugs.indexOf(slug) === -1) {
+        slugs.push(slug);
+      }
+    });
+
+    var parent = first.parentNode;
+    var marker = document.createComment('project bands');
+    parent.insertBefore(marker, first);
+
+    var fragment = document.createDocumentFragment();
+    slugs.forEach(function (slug) {
+      fragment.appendChild(bands[slug]);
+    });
+    parent.insertBefore(fragment, marker);
+    parent.removeChild(marker);
+
+    /* Hand #work to the band that is now on top. */
+    var lead = bands[slugs[0]];
+    if (lead && lead.id !== WORK_ANCHOR) {
+      var previous = document.getElementById(WORK_ANCHOR);
+      if (previous) {
+        previous.removeAttribute('id');
+      }
+      lead.id = WORK_ANCHOR;
+    }
+  }
+
   function initProfile() {
     var profile = currentProfile();
 
@@ -264,6 +362,10 @@
     root.setAttribute('data-profile', profile);
 
     applyContent(profile);
+
+    /* Before the deep-link handling below, so a #hash lands on a band that is
+       already in its final position. */
+    applyOrder(profile);
 
     var swe = profile === 'swe';
     var disclosures = document.querySelectorAll('[data-gated] .project__disclosure');
@@ -382,7 +484,7 @@
     });
   }
 
-  /* ---------- nav: stuck state and current section ---------- */
+  /* ---------- nav: current section ---------- */
   function initNav() {
     var nav = document.getElementById('site-nav');
     var bands = [].slice.call(document.querySelectorAll('.prtflo-band'));
@@ -423,11 +525,9 @@
         return;
       }
 
-      /* Read the band's own token rather than its class list: tone is set by
-         position for the bands inside <main>. */
-      var tone = window.getComputedStyle(current).getPropertyValue('--band-tone').trim();
-      nav.setAttribute('data-over', tone === 'dark' ? 'dark' : 'light');
-
+      /* The bar no longer inverts against the band beneath it — it is dark on
+         every band, separated by a hairline and a shadow — so nothing here
+         needs to know the band's tone. All that is left is the current link. */
       var id = current.getAttribute('data-nav') || current.id;
       Object.keys(byId).forEach(function (key) {
         if (key === id) {

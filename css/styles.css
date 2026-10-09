@@ -13,7 +13,9 @@
   --color-card-raised: #FFFFFF;
   --color-ink: #141312;
   --color-ink-soft: #5E5A54;
-  --color-ink-faint: #6E6A63;
+  /* Darkened from #6E6A63, which cleared AA on plain paper by 0.44 and so had
+     nothing left to give once a scrim sat under it. */
+  --color-ink-faint: #67635C;
   --color-line: #E3DED6;
   --color-line-soft: #EFEBE4;
   --color-accent: #2A5796;
@@ -99,7 +101,19 @@ ul {
    spans the viewport while .prtflo-page keeps constraining the column. */
 .prtflo-band {
   width: 100%;
-  padding-block: clamp(72px, 7.5vw, 108px);
+
+  /* Padding goes through tokens so the seam rule below can add air to a band's
+     top without restating the padding itself. Setting `padding-block-start`
+     there instead would lose to the `:has()` rule that tightens a collapsed
+     project — that selector is more specific, and `padding-block` is a
+     shorthand, so it would win the start edge back. Overriding a custom
+     property sidesteps the whole contest.
+
+     --band-seam-air is 0px rather than 0 because calc() cannot add a unitless
+     number to a length. */
+  --band-pad: clamp(72px, 7.5vw, 108px);
+  --band-seam-air: 0px;
+  padding-block: calc(var(--band-pad) + var(--band-seam-air)) var(--band-pad);
 
   background: var(--color-paper);
   color: var(--color-ink);
@@ -108,22 +122,45 @@ ul {
 /* The closing section carries more air than the rest, so the page ends on
    a pause rather than a stop. */
 .prtflo-band--spacious {
-  padding-block: clamp(104px, 10vw, 152px);
+  --band-pad: clamp(104px, 10vw, 152px);
 }
 
 /* Each band restates the palette for itself. Components keep referring to
    the same token names and follow whichever band they sit in. Light repeats
    the :root values rather than inheriting them, so the pair stays symmetric
-   and a band is never at the mercy of what sits around it. */
-.prtflo-band--light,
-main > .prtflo-band:nth-child(odd) {
-  --band-tone: light;
+   and a band is never at the mercy of what sits around it.
+
+   Tone is declared on the band, never derived from its position. A project
+   band's tone follows its background image: bright image, light tone. That
+   is what lets the SWE profile reorder the bands without the page ending up
+   with two of the same tone side by side. */
+.prtflo-band--light {
+  /* Scrim laid over the band's background image, and the colour that scrim
+     composites to over the darkest pixel an image could hold (black). All the
+     text on an imaged band has to clear AA against that floor, not against
+     --color-paper, so it is written down as a token and checked in
+     tools/verify.js rather than left to the eye.
+
+     Light needs the heavier scrim of the two: dark text has less room to give
+     than light text does. */
+  --band-scrim: rgba(247, 245, 242, 0.93);
+  --band-scrim-edge: rgba(247, 245, 242, 0.45);
+  --band-floor: #E6E4E1;
+
+  /* The line drawn at a seam between two bands of this tone. Translucent ink,
+     so it reads the same over flat paper and over a scrimmed image. The dark
+     tone's is the stronger of the two, because it has the longer run to break
+     up — five consecutive dark bands in the default order. */
+  --band-seam: rgba(20, 19, 18, 0.22);
+
   --color-paper: #F7F5F2;
   --color-card: #FCFBF9;
   --color-card-raised: #FFFFFF;
   --color-ink: #141312;
   --color-ink-soft: #5E5A54;
-  --color-ink-faint: #6E6A63;
+  /* Darkened from #6E6A63, which cleared AA on plain paper by 0.44 and so had
+     nothing left to give once a scrim sat under it. */
+  --color-ink-faint: #67635C;
   --color-line: #E3DED6;
   --color-line-soft: #EFEBE4;
   --color-accent: #2A5796;
@@ -134,9 +171,16 @@ main > .prtflo-band:nth-child(odd) {
   --color-overlay: rgba(247, 245, 242, 0.85);
 }
 
-.prtflo-band--dark,
-main > .prtflo-band:nth-child(even) {
-  --band-tone: dark;
+.prtflo-band--dark {
+  /* Lighter scrim than the light band's: light text on a dark scrim keeps more
+     contrast, so more of the image survives. The floor is this scrim over the
+     brightest pixel an image could hold (white). */
+  --band-scrim: rgba(18, 17, 16, 0.85);
+  --band-scrim-edge: rgba(18, 17, 16, 0.4);
+  --band-floor: #363534;
+
+  --band-seam: rgba(250, 249, 247, 0.28);
+
   --color-paper: #121110;
   --color-card: #191715;
   --color-card-raised: #241F1B;
@@ -153,9 +197,151 @@ main > .prtflo-band:nth-child(even) {
   --color-overlay: rgba(18, 17, 16, 0.85);
 }
 
+/* ---------- band seam ----------
+   Tone used to do all the separating, because the bands alternated. They do not
+   any more: a project band's tone follows its background image, so the page
+   runs four dark then three light. Where two bands of the same tone meet there
+   is nothing to mark the join, and two sections read as one.
+
+   The `+` combinator says exactly that condition — *this band and the one
+   before it are the same tone* — so a seam appears only where the tone change
+   is missing, and never doubles up with one. It is also live against the DOM,
+   which matters because `?r=swe` reorders the bands: the seams move with them
+   with no bookkeeping. The SWE order puts homoeo-quiz next to experience, a
+   dark/dark join that does not exist in the default order, and it gets a seam
+   for free.
+
+   The colour comes from the band below the line, whose tone it has to contrast
+   with. Translucent rather than solid, so one value works over flat paper and
+   over a scrimmed image alike.
+
+   The last two selectors cover the one seam the sibling combinator cannot see:
+   #results sits outside <main>, so the first band inside <main> has no previous
+   sibling to compare against. */
+.prtflo-band--light + .prtflo-band--light,
+.prtflo-band--dark + .prtflo-band--dark,
+.prtflo-band--light + main > .prtflo-band--light:first-child,
+.prtflo-band--dark + main > .prtflo-band--dark:first-child {
+  /* Two cues, because one was not enough across a run of five. The line marks
+     the join; the air gives the lower band a visible start. Space separates
+     more convincingly than a line does, and it matters most exactly where the
+     line struggles — the three collapsed project bands are tight enough that
+     consecutive ones read as rows of one list rather than as sections. */
+  border-top: 2px solid var(--band-seam);
+  --band-seam-air: clamp(20px, 2vw, 32px);
+}
+
+/* ---------- band background image ----------
+   A band with an image gets it through a ::before, never as its own
+   background, because the image has to be blurred and `filter` applied to the
+   band itself would blur the text with it. The pseudo-element holds the image
+   and the scrim and nothing else, so the filter has nothing readable to ruin.
+
+   Two layers, in paint order: the scrim is listed first in `background`, so it
+   sits on top of the image. The scrim does the work that makes text legible —
+   blur only removes detail, it does not guarantee any contrast — and the band's
+   own --color-paper stays underneath as the colour the page falls back to.
+
+   The scrim is a horizontal gradient, not a flat wash, and that is the only
+   reason any of the image is visible. Contrast has to hold where text is, and
+   text is confined to a --page-max column in the middle; the gutters either
+   side of it carry no text and so carry no requirement. So the column keeps
+   the full --band-scrim that --band-floor is computed from, and the gutters
+   fall away to --band-scrim-edge, which is roughly half as opaque.
+
+   The stops are tied to --page-max rather than to percentages, which makes the
+   behaviour at narrow viewports correct for free: once the viewport is no wider
+   than the column, `calc(50% - var(--page-max) / 2)` goes negative, the first
+   two stops fall outside the box, and the full scrim covers everything — which
+   is exactly when the column fills the band and there are no gutters left.
+
+   `inset` is negative by three times the blur radius. `blur(14px)` sets a
+   Gaussian standard deviation of 14px, and such a blur is visibly spread to
+   about 3 sigma, so the fade reaches ~42px in from each edge. Pulling the
+   edges that far outside the band puts the soft rim where `overflow: hidden`
+   clips it away.
+
+   Setting --band-blur to 0 turns this into a plain image-plus-scrim with no
+   filter and no compositing layer, which is what to do once the files
+   themselves are pre-blurred. They are not yet — they are downscaled and
+   compressed, with their edges intact — so the filter stays.
+
+   The radius is in screen pixels, applied to the rendered box, so shrinking
+   the source files did not change what a given radius does. What it changed is
+   how much structure is left for the radius to eat: a 640px source shown
+   across a ~1920px band is upscaled ~3x, so every screen pixel of blur now
+   costs three times as much of the image. Hence the step down from 14px. */
+.prtflo-band--image {
+  position: relative;
+  overflow: hidden;
+  /* Keeps the ::before's stacking to this band, so it can never rise above the
+     sticky nav. */
+  isolation: isolate;
+}
+
+.prtflo-band--image::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--band-blur) * -3);
+  z-index: 0;
+  background:
+    linear-gradient(
+      to right,
+      var(--band-scrim-edge) 0,
+      var(--band-scrim) calc(50% - var(--page-max) / 2),
+      var(--band-scrim) calc(50% + var(--page-max) / 2),
+      var(--band-scrim-edge) 100%
+    ),
+    var(--band-image) center / cover no-repeat;
+  filter: blur(var(--band-blur));
+  pointer-events: none;
+}
+
+/* The column has to climb above the ::before, which is painted after the
+   band's own background. */
+.prtflo-band--image > .prtflo-page {
+  position: relative;
+  z-index: 1;
+}
+
+/* Which image each band carries. The slug is the same `data-project` value
+   that ORDER in js/main.js uses, so the band keeps its image wherever the
+   profile moves it to. */
+:root {
+  --page-max: 1120px;
+
+  /* Measured, not guessed: the scrim alpha each image needs is within a point
+     of the same value at 2px, 4px and 6px of blur, because blur cannot flatten
+     a large pale panel or a large dark one. Blur and scrim are very nearly
+     independent here, so the radius can be cut to whatever looks right without
+     having to buy it back in opacity. 3px is enough to kill the compression
+     noise and the legibility of any UI text in the shot. */
+  --band-blur: 3px;
+}
+
+/* A phone scales the same 640px source *down*, so a given radius covers more
+   of the image there than it does on a desktop band, not less. It also has no
+   gutters — the column fills the band — so the gradient above is already flat
+   there and the image is only ever seen through the full scrim. */
+@media (max-width: 680px) {
+  :root {
+    --band-blur: 2px;
+  }
+}
+
+#top { --band-image: url("../assets/backgrounds/portfolio-bg.webp"); }
+
+[data-project="crm-agent"]        { --band-image: url("../assets/backgrounds/crm-agent-bg.webp"); }
+[data-project="myhive-assistant"] { --band-image: url("../assets/backgrounds/myhive-assistant-bg.webp"); }
+[data-project="homoeo-quiz"]      { --band-image: url("../assets/backgrounds/homoeo-quiz-bg.webp"); }
+[data-project="storylines"]       { --band-image: url("../assets/backgrounds/storylines-bg.webp"); }
+[data-project="trestle-reso"]     { --band-image: url("../assets/backgrounds/trestle-reso-bg.webp"); }
+[data-project="ims-techable"]     { --band-image: url("../assets/backgrounds/ims-techable-bg.webp"); }
+[data-project="vanshbel"]         { --band-image: url("../assets/backgrounds/vanshbel-bg.webp"); }
+
 .prtflo-page {
   width: 100%;
-  max-width: 1120px;
+  max-width: var(--page-max);
   margin: 0 auto;
   padding: 0 var(--space-5);
   text-align: center;
@@ -179,9 +365,18 @@ main > .prtflo-band:nth-child(even) {
 }
 
 /* ---------- site nav ----------
-   The bar is the inverse of the band beneath it: dark over a light band,
-   light over a dark one. Script sets data-over from the band currently
-   crossing the strip under the bar; these two blocks do the rest. */
+   One bar, dark on every band. It used to invert itself against whatever band
+   was passing underneath, which meant a script reading each band's tone and a
+   second palette to keep in step. Two edges do that job instead:
+
+   - the light hairline reads as an edge over a dark band, where a dark shadow
+     would be invisible;
+   - the shadow does the separating over a light band, where the hairline has
+     nothing to show against.
+
+   Both are always on, so nothing has to know what is below. The alpha is high
+   enough that the bar never samples enough of a band — or of a background
+   image — to merge with it. */
 .site-nav {
   position: sticky;
   top: env(safe-area-inset-top, 0px);
@@ -190,22 +385,40 @@ main > .prtflo-band:nth-child(even) {
   -webkit-backdrop-filter: saturate(180%) blur(14px);
   backdrop-filter: saturate(180%) blur(14px);
 
-  /* Default, and the state over a light band. */
-  background: rgba(18, 17, 16, 0.82);
-  border-bottom: 1px solid #302C28;
-  box-shadow: 0 2px 20px rgba(18, 17, 16, 0.14);
+  /* A warm charcoal, deliberately lighter than the dark band's #121110. At
+     the band's own colour the bar vanished into it; this reads as a separate
+     surface on both tones without becoming a light bar. */
+  background: rgba(44, 40, 36, 0.92);
+
+  /* The hairline is the only thing separating the bar from a dark band, so it
+     carries real weight: 2px and a third opaque. Over a light band it is a
+     light line against a light surface and simply does not register, which is
+     why the shadow is there instead. */
+  border-bottom: 2px solid rgba(250, 249, 247, 0.32);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+
+  /* The bar's own contrast floor: its background composited over white, the
+     brightest thing any band or image could put behind it. Checked in
+     tools/verify.js, because a bar that no longer inverts has to hold up over
+     every band rather than over one. Approximate — the backdrop-filter also
+     saturates — but conservative, since nothing behind the bar is brighter
+     than white.
+
+     Recompute this by hand if the background above changes, or the check
+     measures against a stale bound. */
+  --nav-floor: #3D3936;
+
   --nav-ink: #FAF9F7;
   --nav-ink-soft: #C2BEB7;
   --nav-accent: #93BAF2;
 }
 
-.site-nav[data-over="dark"] {
-  background: rgba(247, 245, 242, 0.88);
-  border-bottom-color: #E3DED6;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
-  --nav-ink: #141312;
-  --nav-ink-soft: #5E5A54;
-  --nav-accent: #2A5796;
+/* Without backdrop-filter the bar is just translucent, and a band scrolling
+   under it shows straight through. Opaque is the safe fallback. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-nav {
+    background: #2C2824;
+  }
 }
 
 .site-nav__inner {
@@ -472,19 +685,10 @@ main > .prtflo-band:nth-child(even) {
 /* Gated items are collapsed, never removed — they stay in the page, keep their
    ids, and open on click, on `?r=swe`, on a #hash link or on find-in-page. */
 
-/* Document order is the GenAI profile, so the default view needs no reordering
-   and its tab order matches what is on screen. The SWE profile leads with the
-   production client work instead; `order` moves the cards visually without
-   touching the DOM, so every id stays where links and the assistant expect. */
-:root[data-profile="swe"] #project-storylines    { order: 1; }
-:root[data-profile="swe"] #project-trestle-reso  { order: 2; }
-:root[data-profile="swe"] #project-ims-techable  { order: 3; }
-:root[data-profile="swe"] #project-vanshbel      { order: 4; }
-:root[data-profile="swe"] #project-myhive-assistant { order: 5; }
-:root[data-profile="swe"] #project-crm-agent     { order: 6; }
-:root[data-profile="swe"] #project-homoeo-quiz   { order: 7; }
-
-
+/* Project order is not a CSS concern. Each project now sits alone in its own
+   band, and `order` only moves an item among its flex/grid siblings, so the
+   seven rules that used to live here could never have worked. The SWE profile
+   reorders the band elements themselves — see ORDER in js/main.js. */
 
 .project__disclosure {
   /* The card already carries the padding; the disclosure just fills it. */
@@ -721,7 +925,7 @@ main > .prtflo-band:nth-child(even) {
    disclosure is opened. Three collapsed bands in a row then read as a
    striped list rather than three near-empty screens. */
 .prtflo-band:has(.project__disclosure:not([open])) {
-  padding-block: clamp(34px, 3.5vw, 52px);
+  --band-pad: clamp(34px, 3.5vw, 52px);
 }
 
 .prtflo-band:has(.project__disclosure:not([open])) .prtflo-projects {
@@ -1100,6 +1304,39 @@ main > .prtflo-band:nth-child(even) {
    Transitions and reveals are opt-in: they apply only when the visitor
    has not asked for reduced motion, and only to compositor-friendly
    properties (opacity / transform) so they never trigger layout. */
+/* ---------- band image: when the image should not be there ----------
+   Each of these drops the ::before entirely rather than fading it. The band's
+   own --color-paper is already underneath, so removing the layer leaves the
+   flat tone the rest of the page uses, and every contrast pair goes back to
+   being measured against --color-paper instead of --band-floor. */
+
+/* Asked not to be shown layered translucent surfaces. */
+@media (prefers-reduced-transparency: reduce) {
+  .prtflo-band--image::before {
+    display: none;
+  }
+}
+
+/* Metered or slow connections: ~740KB of imagery is the single largest thing
+   the page would download. */
+@media (prefers-reduced-data: reduce) {
+  .prtflo-band--image::before {
+    display: none;
+  }
+}
+
+/* Backgrounds mostly do not print anyway, and a scrimmed photograph behind
+   body copy is worse on paper than nothing. */
+@media print {
+  .prtflo-band--image::before {
+    display: none;
+  }
+
+  .site-nav {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .site-nav__link,
   .site-nav__link::after,
