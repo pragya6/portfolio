@@ -2,7 +2,7 @@
 # markup, styles, script and images are left out of this deploy — that keeps
 # the portfolio from being published a second time at a vercel.app address.
 #
-# data/ is NOT listed: the assistant reads data/corpus.json at runtime.
+# data/ and lib/ are NOT listed: app.py reads data/corpus.json through lib/.
 
 index.html
 css/
