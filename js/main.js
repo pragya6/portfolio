@@ -61,7 +61,16 @@
     return PROFILES.indexOf(requested) === -1 ? null : requested;
   }
 
+  /* The head script has already resolved this and put it on the root, before
+     anything painted and before the project bands were re-stacked. Reading it
+     back keeps one answer in play; the URL is still parsed above, but only to
+     tell "asked for genai" apart from "asked for nothing", which the hero uses
+     to decide whether to offer one resume or both. */
   function currentProfile() {
+    var set = root.getAttribute('data-profile');
+    if (PROFILES.indexOf(set) > -1) {
+      return set;
+    }
     return requestedProfile() || DEFAULT_PROFILE;
   }
 
@@ -260,7 +269,8 @@
   function initProfile() {
     var profile = currentProfile();
 
-    /* On the root so CSS, and anything reading the page, can see the profile. */
+    /* Already on the root from the head script; restated here so the attribute
+       is still correct if that script was skipped. */
     root.setAttribute('data-profile', profile);
 
     applyContent(profile);
@@ -382,7 +392,7 @@
     });
   }
 
-  /* ---------- nav: stuck state and current section ---------- */
+  /* ---------- nav: current section ---------- */
   function initNav() {
     var nav = document.getElementById('site-nav');
     var bands = [].slice.call(document.querySelectorAll('.prtflo-band'));
@@ -423,11 +433,9 @@
         return;
       }
 
-      /* Read the band's own token rather than its class list: tone is set by
-         position for the bands inside <main>. */
-      var tone = window.getComputedStyle(current).getPropertyValue('--band-tone').trim();
-      nav.setAttribute('data-over', tone === 'dark' ? 'dark' : 'light');
-
+      /* The bar no longer inverts against the band beneath it — it is dark on
+         every band, separated by a hairline and a shadow — so nothing here
+         needs to know the band's tone. All that is left is the current link. */
       var id = current.getAttribute('data-nav') || current.id;
       Object.keys(byId).forEach(function (key) {
         if (key === id) {

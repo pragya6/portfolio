@@ -59,6 +59,10 @@ const PAIRS = [
   { label: 'dark band — accent on card', scope: '.prtflo-band--dark', fg: '--color-accent', bg: '--color-card', min: 4.5 },
   { label: 'dark band — on accent', scope: '.prtflo-band--dark', fg: '--color-on-accent', bg: '--color-accent', min: 4.5 },
   { label: 'dark band — accent-ink on tint', scope: '.prtflo-band--dark', fg: '--color-accent-ink', bg: '--color-accent-bg', min: 4.5 },
+
+  { label: 'nav — mark and links', scope: '.site-nav', fg: '--nav-ink', bg: '--nav-floor', min: 4.5 },
+  { label: 'nav — soft text', scope: '.site-nav', fg: '--nav-ink-soft', bg: '--nav-floor', min: 4.5 },
+  { label: 'nav — accent', scope: '.site-nav', fg: '--nav-accent', bg: '--nav-floor', min: 4.5 },
 ];
 
 /* ---------- reporting ---------- */
@@ -80,6 +84,34 @@ if (missing.length) {
 
 const html = fs.readFileSync(HTML_FILE, 'utf8');
 const css = fs.readFileSync(CSS_FILE, 'utf8');
+const js = fs.readFileSync(JS_FILE, 'utf8');
+
+/* ------------------------------------------------------------
+   Case-exact path check.
+
+   fs.existsSync is case-insensitive on Windows and on macOS, so a reference
+   to assets/backgrounds/ resolves locally even when the folder on disk is
+   assets/Backgrounds/ — and then 404s on a Linux host. Walking the real
+   directory entries compares the names as they are actually spelled, so the
+   mismatch is caught on the machine the page is authored on.
+   ------------------------------------------------------------ */
+function existsExact(relative) {
+  const parts = relative.split('/').filter((part) => part && part !== '.');
+  let dir = ROOT;
+
+  for (const part of parts) {
+    let entries;
+    try {
+      entries = fs.readdirSync(dir);
+    } catch (error) {
+      return false;
+    }
+    if (!entries.includes(part)) return false;
+    dir = path.join(dir, part);
+  }
+
+  return true;
+}
 
 /* Strip comments so they never count as real usage. */
 const cssCode = css.replace(/\/\*[\s\S]*?\*\//g, '');
@@ -128,11 +160,17 @@ const htmlClasses = new Set();
   m[1].split(/\s+/).filter(Boolean).forEach((c) => htmlClasses.add(c))
 );
 
-const cssClasses = new Set([...cssCode.matchAll(/\.(-?[_a-zA-Z][\w-]*)/g)].map((m) => m[1]));
+/* url() contents are blanked first: a file extension inside a path — the .webp
+   in url(../assets/backgrounds/crm-agent-bg.webp) — otherwise reads as a class
+   selector and gets reported as a rule nothing uses. */
+const cssClasses = new Set(
+  [...cssCode.replace(/url\([^)]*\)/g, 'url()').matchAll(/\.(-?[_a-zA-Z][\w-]*)/g)]
+    .map((m) => m[1])
+);
 
 /* Classes the scripts add at runtime, so they are never in the markup.
    Looks in js/main.js and in any inline <script> in the page. */
-const scriptSources = [fs.readFileSync(JS_FILE, 'utf8')].concat(
+const scriptSources = [js].concat(
   [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map((m) => m[1])
 );
 
@@ -189,8 +227,10 @@ if (!localRefs.length) {
 } else {
   localRefs.forEach((ref) => {
     const clean = ref.split(/[?#]/)[0];
-    if (fs.existsSync(path.join(ROOT, clean))) pass(clean);
-    else fail(`${clean} is referenced but not on disk`);
+    if (existsExact(clean)) pass(clean);
+    else if (fs.existsSync(path.join(ROOT, clean))) {
+      fail(`${clean} resolves here but its spelling on disk differs — it will 404 on a case-sensitive host`);
+    } else fail(`${clean} is referenced but not on disk`);
   });
 }
 
@@ -271,10 +311,20 @@ const VOID_TAGS = new Set([
 const COUNTED = ['div', 'section', 'main', 'footer', 'header', 'nav',
   'article', 'details', 'ul', 'ol', 'dl', 'figure'];
 
+/* Inline script and style bodies are not markup, so they are emptied before
+   anything counts or walks tags. */
+function markupOnly(source) {
+  return source
+    .replace(/(<script\b[^>]*>)[\s\S]*?(<\/script>)/gi, '$1$2')
+    .replace(/(<style\b[^>]*>)[\s\S]*?(<\/style>)/gi, '$1$2');
+}
+
+const counted = markupOnly(html);
+
 let unbalanced = 0;
 COUNTED.forEach((tag) => {
-  const open = (html.match(new RegExp('<' + tag + '(?=[\\s>])', 'g')) || []).length;
-  const close = (html.match(new RegExp('</' + tag + '>', 'g')) || []).length;
+  const open = (counted.match(new RegExp('<' + tag + '(?=[\\s>])', 'g')) || []).length;
+  const close = (counted.match(new RegExp('</' + tag + '>', 'g')) || []).length;
   if (open !== close) {
     fail(`<${tag}>: ${open} opened, ${close} closed`);
     unbalanced++;
@@ -282,9 +332,12 @@ COUNTED.forEach((tag) => {
 });
 if (!unbalanced) pass(COUNTED.length + ' element types balanced');
 
-/* Attribute values are blanked first: the favicon is a data: URI carrying
-   literal <svg> markup that would otherwise read as real tags. */
-const walkable = html.replace(/="[^"]*"/g, '=""');
+/* Two things are blanked before walking. Attribute values, because the favicon
+   is a data: URI carrying literal <svg> markup. And the body of every inline
+   <script>, because a comment or a string in one may mention a tag — a head
+   script explaining that the document body is not parsed yet should not be
+   read as opening one. */
+const walkable = markupOnly(html).replace(/="[^"]*"/g, '=""');
 const stack = [];
 let nesting = null;
 
@@ -304,13 +357,239 @@ if (nesting) fail('nesting: ' + nesting);
 else if (stack.length) fail('nesting: never closed -> ' + stack.join(' > '));
 else pass('every tag closes in order');
 
-/* ---------- 10. script parses ---------- */
-heading('10. Script syntax');
+/* ---------- 10. band tone ----------
+   Two mechanisms, and each band must use exactly one.
+
+   The seven project bands sit in .prtflo-work and take their tone from
+   :nth-child, so the alternation survives being reordered. A tone class on one
+   of those would override the rule and freeze it.
+
+   Every other band is fixed in place and declares its tone outright.
+
+   The fragile part is the wrapper's contents: :nth-child counts every element
+   sibling, so a single stray element inside .prtflo-work shifts the parity of
+   everything after it, with no error anywhere. That is what the last check
+   here is for.
+   ------------------------------------------------------------ */
+heading('10. Band tone');
+
+const bandTags = [...html.matchAll(/<section\b[^>]*class="[^"]*\bprtflo-band\b[^"]*"[^>]*>/g)]
+  .map((m) => m[0]);
+
+const workOpen = html.search(/<div\b[^>]*\bclass="[^"]*\bprtflo-work\b/);
+const workBody = workOpen === -1 ? '' : (() => {
+  /* Walk to the matching </div> so nested divs do not end the slice early. */
+  let depth = 0;
+  const from = html.indexOf('>', workOpen) + 1;
+  const re = /<(\/?)div\b[^>]*>/g;
+  re.lastIndex = from;
+  for (let m = re.exec(html); m; m = re.exec(html)) {
+    if (m[1]) {
+      if (depth === 0) return html.slice(from, m.index);
+      depth--;
+    } else depth++;
+  }
+  return '';
+})();
+
+const inWork = new Set(
+  [...workBody.matchAll(/<section\b[^>]*\sdata-project="([^"]+)"/g)].map((m) => m[1])
+);
+
+if (workOpen === -1) {
+  fail('no .prtflo-work wrapper — the project bands have nothing to alternate inside');
+} else {
+  let toneProblems = 0;
+
+  bandTags.forEach((tag) => {
+    const slug = (tag.match(/\sdata-project="([^"]+)"/) || [])[1];
+    const name = slug || (tag.match(/\sid="([^"]+)"/) || [, '(unnamed)'])[1];
+    const light = /\bprtflo-band--light\b/.test(tag);
+    const dark = /\bprtflo-band--dark\b/.test(tag);
+
+    if (slug && inWork.has(slug)) {
+      if (light || dark) {
+        fail(`project band "${name}" declares a tone class, which overrides its :nth-child tone`);
+        toneProblems++;
+      }
+    } else if (light && dark) {
+      fail(`band "${name}" carries both --light and --dark`);
+      toneProblems++;
+    } else if (!light && !dark) {
+      fail(`band "${name}" declares no tone — add prtflo-band--light or --dark`);
+      toneProblems++;
+    }
+  });
+
+  if (!toneProblems) {
+    pass(`${inWork.size} project bands toned by position, ${bandTags.length - inWork.size} by class`);
+  }
+
+  /* Element children of the wrapper that are not project bands. Comments are
+     not elements, so they are not a problem and are not looked for. */
+  const strays = [...workBody.matchAll(/<([a-zA-Z][\w-]*)\b[^>]*>/g)]
+    .filter((m) => {
+      const before = workBody.slice(0, m.index);
+      const open = (before.match(/<(?!\/)[a-zA-Z][\w-]*\b[^>]*>/g) || []).length;
+      const close = (before.match(/<\/[a-zA-Z][\w-]*>/g) || []).length;
+      return open === close;
+    })
+    .filter((m) => !/\sdata-project="/.test(m[0]));
+
+  if (strays.length) {
+    strays.forEach((m) =>
+      fail(`<${m[1]}> sits directly in .prtflo-work and will shift every tone after it`)
+    );
+  } else {
+    pass('.prtflo-work holds project bands and nothing else');
+  }
+}
+
+/* ---------- 11. project order ----------
+   ORDER moved into the head script, so it can run before first paint. It names
+   bands by their data-project slug; a renamed slug on either side is silent —
+   the band simply keeps its markup position and the profile looks like it never
+   reordered.
+   ------------------------------------------------------------ */
+heading('11. Project order');
+
+const projectSlugs = [...html.matchAll(/\sdata-project="([^"]+)"/g)].map((m) => m[1]);
+
+const ORDER_BLOCK = (html.match(/window\.PORTFOLIO_ORDER\s*=\s*\{([\s\S]*?)\n\s*\};/) || [, ''])[1];
+const ORDER_PATTERNS = {
+  genai: /\bgenai\s*:\s*\[([^\]]*)\]/,
+  swe: /\bswe\s*:\s*\[([^\]]*)\]/,
+};
+
+function orderFor(profile) {
+  const block = ORDER_BLOCK.match(ORDER_PATTERNS[profile]);
+  if (!block) return null;
+  return [...block[1].matchAll(/'([^']+)'|"([^"]+)"/g)].map((m) => m[1] || m[2]);
+}
+
+const orders = { genai: orderFor('genai'), swe: orderFor('swe') };
+
+if (!projectSlugs.length) {
+  skip('no data-project bands in the markup');
+} else if (!orders.genai || !orders.swe) {
+  fail('could not read window.PORTFOLIO_ORDER from index.html');
+} else {
+  const markup = new Set(projectSlugs);
+  let orderProblems = 0;
+
+  [...new Set(projectSlugs.filter((v, i) => projectSlugs.indexOf(v) !== i))].forEach((slug) => {
+    fail(`data-project="${slug}" is used on more than one band`);
+    orderProblems++;
+  });
+
+  Object.keys(orders).forEach((profile) => {
+    const list = orders[profile];
+    list.filter((slug) => !markup.has(slug)).forEach((slug) => {
+      fail(`ORDER.${profile} names "${slug}", which no band carries`);
+      orderProblems++;
+    });
+    [...markup].filter((slug) => list.indexOf(slug) === -1).forEach((slug) => {
+      fail(`band "${slug}" is missing from ORDER.${profile}`);
+      orderProblems++;
+    });
+    list.filter((slug, i) => list.indexOf(slug) !== i).forEach((slug) => {
+      fail(`ORDER.${profile} lists "${slug}" twice`);
+      orderProblems++;
+    });
+  });
+
+  if (!orderProblems) pass(`${projectSlugs.length} bands, both profiles order all of them`);
+}
+
+/* ---------- 11b. band alternation ----------
+   The seam rules are gone, because with the run alternating and the bands
+   either side of it fixed, no two bands of the same tone ever meet. That is a
+   claim about the whole page, not just the run — the band before the wrapper
+   has to be dark so the first project (odd, light) follows it, and the band
+   after has to be the opposite of the last project. Add an eighth project and
+   the tail flips. Nothing in the CSS can notice; this can.
+   ------------------------------------------------------------ */
+heading('11b. Band alternation');
+
+function toneOfTag(tag) {
+  return /\bprtflo-band--dark\b/.test(tag) ? 'dark' : 'light';
+}
+
+if (workOpen === -1 || !orders.genai) {
+  skip('cannot build the band sequence');
+} else {
+  const before = bandTags.filter((t) => html.indexOf(t) < workOpen);
+  const after = bandTags.filter((t) => html.indexOf(t) > workOpen && !/\sdata-project=/.test(t));
+  let broken = 0;
+
+  Object.keys(orders).forEach((profile) => {
+    /* Position in the run decides tone: 1st, 3rd, 5th… light, the rest dark. */
+    const run = orders[profile].map((slug, i) => ({
+      key: slug,
+      tone: i % 2 === 0 ? 'light' : 'dark',
+    }));
+
+    const seq = [
+      ...before.map((t) => ({ key: 'fixed', tone: toneOfTag(t) })),
+      ...run,
+      ...after.map((t) => ({ key: 'fixed', tone: toneOfTag(t) })),
+    ];
+
+    const clashes = seq.filter((b, i) => i > 0 && seq[i - 1].tone === b.tone);
+    const strip = seq.map((b) => (b.tone === 'dark' ? 'D' : 'L')).join(' ');
+
+    if (clashes.length) {
+      fail(`${profile}: ${strip} — ${clashes.length} same-tone join(s)`);
+      broken++;
+    } else {
+      pass(`${profile.padEnd(5)} ${strip}`);
+    }
+  });
+
+  if (!broken) pass('every band is the opposite tone to the one before it');
+}
+
+/* ---------- 12. script parses ---------- */
+heading('12. Script syntax');
 try {
   execFileSync(process.execPath, ['--check', JS_FILE], { stdio: 'pipe' });
   pass('js/main.js parses');
 } catch (error) {
   fail('js/main.js does not parse:\n' + String(error.stderr || error.message).trim());
+}
+
+/* ------------------------------------------------------------
+   14. Assistant corpus.
+
+   data/corpus.json is the grounding text for the assistant, and its own
+   checks live in tools/corpus-check.js. It runs as a child process rather
+   than being required, so the two scripts stay independent and either can
+   be run on its own. Only the verdict is reported here; the child's own
+   output is printed when it fails, so a failure never needs a second run.
+
+   The corpus is optional — the page works without it — so a missing file
+   is a skip rather than a failure.
+   ------------------------------------------------------------ */
+heading('13. Assistant corpus');
+const CORPUS_CHECK = path.join(__dirname, 'corpus-check.js');
+const CORPUS_FILE = path.join(ROOT, 'data', 'corpus.json');
+
+if (!fs.existsSync(CORPUS_FILE)) {
+  skip('data/corpus.json is not on disk');
+} else if (!fs.existsSync(CORPUS_CHECK)) {
+  warn('tools/corpus-check.js is missing, so the corpus is unchecked');
+} else {
+  try {
+    const out = execFileSync(process.execPath, [CORPUS_CHECK], { stdio: 'pipe' }).toString();
+    const counts = [...out.matchAll(/^ {2}ok {4}(\d+)/gm)].map((m) => Number(m[1]));
+    const spans = /(\d+) spans all appear verbatim/.exec(out);
+    pass('data/corpus.json' + (spans ? ` — ${spans[1]} spans verbatim` : '') +
+      (counts.length ? `, ${counts[0]} entries` : ''));
+  } catch (error) {
+    const out = String(error.stdout || '') + String(error.stderr || '');
+    fail('data/corpus.json has problems — node tools/corpus-check.js\n' +
+      out.split('\n').filter((line) => /FAIL|warn/.test(line)).join('\n').trimEnd());
+  }
 }
 
 /* ---------- summary ---------- */

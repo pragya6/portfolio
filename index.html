@@ -23,6 +23,23 @@
     /* Flag scripting before first paint, so anything that reveals on scroll
        stays visible when JavaScript is unavailable. */
     document.documentElement.classList.add('js');
+
+    /* The profile the URL asks for, settled before anything paints. The
+       reorder itself cannot happen here — nothing in <body> is parsed yet — so
+       it runs from a short script just after the project wrapper, which is
+       still before first paint. js/main.js reads the result off the root
+       rather than parsing the URL a second time. */
+    window.PORTFOLIO_ORDER = {
+      genai: ['crm-agent', 'myhive-assistant', 'homoeo-quiz', 'storylines',
+              'trestle-reso', 'ims-techable', 'vanshbel'],
+      swe: ['storylines', 'trestle-reso', 'ims-techable', 'vanshbel',
+            'myhive-assistant', 'crm-agent', 'homoeo-quiz']
+    };
+
+    document.documentElement.setAttribute(
+      'data-profile',
+      /(?:^|[?&])r=swe(?:&|$)/.test(window.location.search) ? 'swe' : 'genai'
+    );
   </script>
 </head>
 <body>
@@ -117,7 +134,19 @@
 
   <main id="main">
 
-    <section class="prtflo-band" id="work" data-nav="work" aria-labelledby="work-title">
+    <!-- The seven project bands, and nothing else. Their light/dark tone comes
+         from :nth-child inside this wrapper, so it follows whatever order they
+         are in rather than being written on each one. That only holds while the
+         wrapper's element children are exactly these sections: :nth-child counts
+         every element sibling, so one stray element in here flips every tone
+         after it. Comments are not elements, so those are safe.
+
+         #work is on the wrapper rather than on the first project, so the nav's
+         Work link lands at the top of the run in either profile. -->
+    <div class="prtflo-work" id="work">
+
+
+    <section class="prtflo-band" data-nav="work" aria-labelledby="work-title" data-project="crm-agent">
       <div class="prtflo-page prtflo-section">
         <p class="prtflo-section__eyebrow" id="work-title" data-reveal>Selected work · Agentic AI</p>
         <div class="prtflo-projects">
@@ -211,7 +240,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band" data-nav="work" aria-labelledby="myhive-title">
+    <section class="prtflo-band" data-nav="work" aria-labelledby="myhive-title" data-project="myhive-assistant">
       <div class="prtflo-page prtflo-section">
         <p class="prtflo-section__eyebrow" id="myhive-title" data-reveal>Selected work · LLM in production</p>
         <div class="prtflo-projects">
@@ -250,7 +279,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band" data-nav="work" aria-labelledby="homoeo-quiz-title">
+    <section class="prtflo-band" data-nav="work" aria-labelledby="homoeo-quiz-title" data-project="homoeo-quiz">
       <div class="prtflo-page prtflo-section">
         <p class="prtflo-section__eyebrow" id="homoeo-quiz-title" data-reveal>Selected work · Grounded RAG</p>
         <div class="prtflo-projects">
@@ -301,7 +330,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band" data-nav="work" aria-labelledby="storylines-title">
+    <section class="prtflo-band" data-nav="work" aria-labelledby="storylines-title" data-project="storylines">
       <div class="prtflo-page prtflo-section">
         <p class="prtflo-section__eyebrow" id="storylines-title" data-reveal>Selected work · Platform engineering</p>
         <div class="prtflo-projects">
@@ -333,7 +362,7 @@
          removed: the cards stay in the page and keep their ids, so a link,
          a search or the assistant can always open one and point at it. -->
 
-    <section class="prtflo-band" data-nav="work" aria-labelledby="trestle-title">
+    <section class="prtflo-band" data-nav="work" aria-labelledby="trestle-title" data-project="trestle-reso">
       <div class="prtflo-page prtflo-section">
         <p class="prtflo-section__eyebrow" id="trestle-title" data-reveal>Selected work · CodeIgniter</p>
         <div class="prtflo-projects">
@@ -374,7 +403,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band" data-nav="work" aria-labelledby="ims-title">
+    <section class="prtflo-band" data-nav="work" aria-labelledby="ims-title" data-project="ims-techable">
       <div class="prtflo-page prtflo-section">
         <p class="prtflo-section__eyebrow" id="ims-title" data-reveal>Selected work · Laravel</p>
         <div class="prtflo-projects">
@@ -416,7 +445,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band" data-nav="work" aria-labelledby="vanshbel-title">
+    <section class="prtflo-band" data-nav="work" aria-labelledby="vanshbel-title" data-project="vanshbel">
       <div class="prtflo-page prtflo-section">
         <p class="prtflo-section__eyebrow" id="vanshbel-title" data-reveal>Selected work · CodeIgniter 4</p>
         <div class="prtflo-projects">
@@ -460,8 +489,36 @@
         </div>
       </div>
     </section>
+    </div>
 
-    <section class="prtflo-band" id="experience" aria-labelledby="experience-title">
+    <script>
+      /* Re-stack the project bands for this profile, before first paint.
+
+         Appending an element that is already in the document moves it rather
+         than copying it, so the markup is the single source of every project
+         and nothing is rendered by script. Moving the nodes, instead of setting
+         CSS `order`, keeps the visual order, the tab order and the order a
+         screen reader reads in agreement — and it is what lets :nth-child
+         assign the tones, since that counts the DOM and `order` would not. */
+      (function () {
+        var wrap = document.getElementById('work');
+        var order = window.PORTFOLIO_ORDER[
+          document.documentElement.getAttribute('data-profile')
+        ];
+        if (!wrap || !order) {
+          return;
+        }
+
+        order.forEach(function (slug) {
+          var band = wrap.querySelector('[data-project="' + slug + '"]');
+          if (band) {
+            wrap.appendChild(band);
+          }
+        });
+      })();
+    </script>
+
+    <section class="prtflo-band prtflo-band--dark" id="experience" aria-labelledby="experience-title">
       <div class="prtflo-page prtflo-section">
         <p class="prtflo-section__eyebrow" data-reveal>Experience</p>
         <h2 class="prtflo-section__heading" id="experience-title" data-reveal>Software Engineer, 29 Kreativ</h2>
@@ -477,7 +534,7 @@
       </div>
     </section>
 
-    <section class="prtflo-band" id="skills" aria-labelledby="skills-title">
+    <section class="prtflo-band prtflo-band--light" id="skills" aria-labelledby="skills-title">
       <div class="prtflo-page prtflo-section">
         <p class="prtflo-section__eyebrow" id="skills-title" data-reveal>Skills</p>
         <dl class="prtflo-skills" data-reveal>
@@ -561,7 +618,7 @@
     </section>
 
 
-    <section class="prtflo-band prtflo-band--spacious" id="contact" aria-labelledby="contact-title">
+    <section class="prtflo-band prtflo-band--dark prtflo-band--spacious" id="contact" aria-labelledby="contact-title">
       <div class="prtflo-page prtflo-section">
         <p class="prtflo-section__eyebrow" data-reveal>Contact</p>
         <h2 class="prtflo-section__heading" id="contact-title" data-reveal>Let's talk.</h2>
@@ -584,7 +641,7 @@
 
   </main>
 
-  <footer class="prtflo-strip">
+  <footer class="prtflo-strip" id="education">
     <div class="prtflo-page prtflo-strip__inner">
       <span>B.Tech Electronics &amp; Communication · ADGITM, Delhi</span>
       <span>2018 — 2022</span>

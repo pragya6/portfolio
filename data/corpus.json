@@ -1,0 +1,415 @@
+{
+  "version": 1,
+  "note": "Grounding corpus for the portfolio assistant. Every string in \"text\" is verbatim page copy, so a citation can always be highlighted on screen. The file deliberately holds no URLs, file paths, email addresses or phone numbers: the assistant names a link_key and the server resolves it.",
+  "profiles": [
+    "genai",
+    "swe"
+  ],
+  "deny_ids": [
+    "work",
+    "main",
+    "site-nav",
+    "hero-tagline",
+    "hero-summary",
+    "hero-availability",
+    "results-eyebrow",
+    "results-title",
+    "skills-title",
+    "contact-title",
+    "experience-title",
+    "work-title"
+  ],
+  "link_keys": [
+    "SWE_RESUME",
+    "GENAI_RESUME",
+    "PORTFOLIO",
+    "LINKEDIN",
+    "GITHUB",
+    "CRM_AGENT",
+    "HOMOEO_QUIZ"
+  ],
+  "entries": [
+    {
+      "id": "hero",
+      "anchor": "top",
+      "section": "Intro",
+      "heading": "Pragya Singhal",
+      "track": "both",
+      "text": {
+        "genai": [
+          "Software Engineer · New Delhi, India",
+          "Pragya Singhal",
+          "I build AI features that are measured, guarded, and shipped.",
+          "Around four years building and maintaining production systems across backend, REST APIs and enterprise integrations — now building applied GenAI on top of that foundation: stateful LangGraph agents with tool calling and human-in-the-loop controls, grounded RAG, and the evaluation harnesses that prove the whole thing actually works.",
+          "Open to Applied Engineer and Software Engineer roles with hands-on GenAI work"
+        ],
+        "swe": [
+          "Software Engineer · New Delhi, India",
+          "Pragya Singhal",
+          "Four years of production systems. Now shipping the AI that runs on them.",
+          "Around four years building production systems — backend services, REST APIs, enterprise integrations and event-driven workflows. Recently, on top of those fundamentals, I have been building GenAI systems end to end: agents with tool calling and human-in-the-loop controls, grounded RAG, and the evaluation harnesses that show they hold up.",
+          "Open to Software Engineer roles — backend, platform, and hands-on GenAI"
+        ]
+      },
+      "has_page_link": true,
+      "link_keys": [
+        "GENAI_RESUME",
+        "SWE_RESUME",
+        "LINKEDIN",
+        "GITHUB"
+      ]
+    },
+    {
+      "id": "results",
+      "anchor": "results",
+      "section": "Headline results",
+      "heading": "Measured results",
+      "track": "both",
+      "text": {
+        "genai": [
+          "Measured, not claimed",
+          "Every number here came off an eval harness I wrote."
+        ],
+        "swe": [
+          "Built and shipped",
+          "Four years of systems that had to keep running."
+        ]
+      },
+      "metrics": {
+        "genai": [
+          {
+            "value": "0.0",
+            "label": "Hallucination rate",
+            "note": "RAG · 102 served queries"
+          },
+          {
+            "value": "13/13",
+            "label": "Sensitive actions gated",
+            "note": "every action that reached the gate"
+          },
+          {
+            "value": "0.87",
+            "label": "Retrieval hit@k",
+            "note": "n=30 · Wilson 95% CI"
+          },
+          {
+            "value": "2.9%",
+            "label": "Over-refusal rate",
+            "note": "with 27/27 correct refusals"
+          }
+        ],
+        "swe": [
+          {
+            "value": "~75–80%",
+            "label": "Manual effort reduced",
+            "note": "CRM, payment and notification workflows"
+          },
+          {
+            "value": "2",
+            "label": "Framework migrations",
+            "note": "zero regression, large codebases"
+          },
+          {
+            "value": "~4",
+            "label": "Years in production",
+            "note": "backend, APIs, integrations"
+          },
+          {
+            "value": "~40K",
+            "label": "Users on the platform",
+            "note": "served by workflows I built"
+          }
+        ]
+      },
+      "has_page_link": false,
+      "link_keys": []
+    },
+    {
+      "id": "project-crm-agent",
+      "section": "Projects",
+      "heading": "CRM Agent",
+      "track": "genai",
+      "collapsed_on_genai": false,
+      "tags": [],
+      "stack": "LangGraph · FastAPI · Supabase · Gradio · HF Spaces",
+      "text": [
+        "An agent that can update and delete CRM records needs safety that does not depend on the prompt. So the approval gate lives in code: a LangGraph interrupt that pauses every sensitive action for a human, whatever the model decides to say.",
+        "Stateful LangGraph agent orchestrating 6 CRM tools with structured JSON outputs.",
+        "Human-in-the-loop approval gates for sensitive actions, enforced at the graph level rather than in the system prompt.",
+        "Classified error recovery: retry-with-backoff plus an iteration circuit breaker, with structured JSON logging and cost tracking.",
+        "A 50-query evaluation harness comparing guardrails off against on, three runs each, fully stable across runs.",
+        "13/14 sensitive actions gated — every action that reached the gate was correctly caught. The one miss never reached it, because the agent picked the wrong tool, so no interrupt fired.",
+        "Guardrails lifted tool selection and parameter extraction to 100%."
+      ],
+      "note": null,
+      "has_page_link": true,
+      "link_keys": [
+        "CRM_AGENT"
+      ]
+    },
+    {
+      "id": "project-myhive-assistant",
+      "section": "Projects",
+      "heading": "MyHive Assistant",
+      "track": "genai",
+      "collapsed_on_genai": false,
+      "tags": [],
+      "stack": "OpenAI GPT · TypeScript · Firebase · Ionic · Angular · Node.js",
+      "text": [
+        "A production conversational assistant on a cohort-based wellness marketplace, answering users' health queries and recommending available practitioners from the platform's catalogue. This was the team's first user-facing LLM capability.",
+        "The assistant itself, shipped to real users on a live marketplace.",
+        "Personalised exercise recommendations mapping each user's mood, pain, sleep and daily health cycles to relevant programs in the platform's catalogue."
+      ],
+      "note": null,
+      "has_page_link": true,
+      "link_keys": []
+    },
+    {
+      "id": "project-homoeo-quiz",
+      "section": "Projects",
+      "heading": "Homoeo Quiz",
+      "track": "genai",
+      "collapsed_on_genai": false,
+      "tags": [],
+      "stack": "Python · Gemini 2.5 Flash-Lite · ChromaDB · sentence-transformers · HF Spaces",
+      "text": [
+        "A strict-grounding question-answering system over a fixed canonical corpus, where every answer and explanation has to cite a source passage. The interesting part is not the retrieval — it is the harness that proves the system is not making things up.",
+        "Hybrid architecture — local embeddings (bge-small) with remote generation (Gemini 2.5 Flash-Lite) — a deliberate cost, latency and rate-limit trade-off.",
+        "A guardrail that refuses to answer when the source material does not cover a topic, rather than improvising.",
+        "An automated evaluation harness reporting Wilson 95% confidence intervals.",
+        "Hallucination rate held at 0.0 and quote validity at 1.0 across 102 served queries.",
+        "Correct refusals 27/27, while over-refusing only 2.9% of the time.",
+        "Retrieval hit@k of 0.87 (n=30) at a p50 latency of roughly 2.0s."
+      ],
+      "note": null,
+      "has_page_link": true,
+      "link_keys": [
+        "HOMOEO_QUIZ"
+      ]
+    },
+    {
+      "id": "project-storylines",
+      "section": "Projects",
+      "heading": "Storylines",
+      "track": "swe",
+      "collapsed_on_genai": false,
+      "tags": [],
+      "stack": "HubSpot · HubL · PHP · Laravel · REST APIs · MySQL",
+      "text": [
+        "A high-traffic cruise-ship booking platform. I built automated workflows, developed REST APIs, integrated the Secuconnect payment gateway and the Google Sheets API, and resolved production performance issues."
+      ],
+      "note": null,
+      "has_page_link": true,
+      "link_keys": []
+    },
+    {
+      "id": "project-trestle-reso",
+      "section": "Projects",
+      "heading": "Trestle Reso — Real Estate Platform Backend",
+      "track": "swe",
+      "collapsed_on_genai": true,
+      "tags": [
+        "Production"
+      ],
+      "stack": "PHP · CodeIgniter · MySQL · Git · Adminer · FileZilla Backend development and maintenance on a live production real-estate platform handling international property listings — the kind of system where every fix ships against real traffic and real data.",
+      "text": [
+        "Backend development and maintenance on a live production real-estate platform handling international property listings — the kind of system where every fix ships against real traffic and real data.",
+        "Debugged production errors on a live system, working with Adminer for database management and FileZilla for deployment.",
+        "New features and search / property filters over the international listings catalogue."
+      ],
+      "note": "Associated with 29Kreativ · client work, no public link.",
+      "has_page_link": false,
+      "link_keys": []
+    },
+    {
+      "id": "project-ims-techable",
+      "section": "Projects",
+      "heading": "IMS Techable — Inventory Management System",
+      "track": "swe",
+      "collapsed_on_genai": true,
+      "tags": [
+        "Production"
+      ],
+      "stack": "PHP · Laravel · MySQL · Tabulator.js · Python · jQuery Backend and frontend work on a large-scale Laravel inventory management system, where the data grid was the product. Replacing that grid without breaking anything mattered more than replacing it quickly.",
+      "text": [
+        "Backend and frontend work on a large-scale Laravel inventory management system, where the data grid was the product. Replacing that grid without breaking anything mattered more than replacing it quickly.",
+        "Migrated the data-grid layer from DataTables.js to Tabulator.js with zero regression across existing functionality.",
+        "Backend logic for bulk operations — bulk edit and bulk download — over large record sets.",
+        "Complex multi-column sorting across the grid, resolved server-side so pagination stayed correct."
+      ],
+      "note": "Associated with 29Kreativ · client work, no public link.",
+      "has_page_link": false,
+      "link_keys": []
+    },
+    {
+      "id": "project-vanshbel",
+      "section": "Projects",
+      "heading": "Vanshbel — Family Tree Platform",
+      "track": "swe",
+      "collapsed_on_genai": true,
+      "tags": [
+        "Production"
+      ],
+      "stack": "PHP · CodeIgniter 3 → 4 · MySQL · phpMyAdmin · JavaScript · Figma A complete framework migration and a full UI/UX overhaul on the same platform. The interesting part was the family tree itself: a graph that has to stay usable under drag, zoom and reordering, on a phone as well as a desktop.",
+      "text": [
+        "A complete framework migration and a full UI/UX overhaul on the same platform. The interesting part was the family tree itself: a graph that has to stay usable under drag, zoom and reordering, on a phone as well as a desktop.",
+        "Led the CodeIgniter 3 → 4 migration end to end.",
+        "A full UI/UX overhaul implemented from Figma designs.",
+        "Interactive family-tree features — tree drag, pinch-to-zoom and sortable elements — working across devices."
+      ],
+      "note": "Associated with 29Kreativ.",
+      "has_page_link": true,
+      "link_keys": []
+    },
+    {
+      "id": "role-29-kreativ",
+      "section": "Experience",
+      "heading": "Software Engineer, 29 Kreativ",
+      "track": "both",
+      "period": "Aug 2022 — Present",
+      "text": [
+        "Designed and shipped REST APIs, and integrated external enterprise systems through APIs and webhooks — including Stripe and Secuconnect — handling authentication, data mapping, error handling and production debugging.",
+        "Built event-driven workflows for CRM operations, payment-status synchronisation and customer notifications across a platform serving ~40K users, reducing manual operational effort by ~75–80%.",
+        "Integrated OpenAI GPT into production, delivering the team's first user-facing chatbot and AI-assisted capabilities.",
+        "Led a legacy CodeIgniter 3 → 4 migration and a DataTables.js → Tabulator.js migration with zero regression on a large Laravel application.",
+        "Mentored 5+ junior developers on engineering practices, debugging and cross-stack troubleshooting."
+      ],
+      "has_page_link": false,
+      "link_keys": []
+    },
+    {
+      "id": "skills-agent-llm",
+      "section": "Skills",
+      "heading": "Agent / LLM systems",
+      "track": "both",
+      "text": [
+        "Agent / LLM systems LangGraph LangChain RAG Agentic AI Tool calling Structured outputs MCP LLM evaluation Guardrails HITL Embeddings Cost / latency optimisation"
+      ],
+      "items": [
+        "LangGraph",
+        "LangChain",
+        "RAG",
+        "Agentic AI",
+        "Tool calling",
+        "Structured outputs",
+        "MCP",
+        "LLM evaluation",
+        "Guardrails",
+        "HITL",
+        "Embeddings",
+        "Cost / latency optimisation"
+      ],
+      "has_page_link": false,
+      "link_keys": []
+    },
+    {
+      "id": "skills-backend",
+      "section": "Skills",
+      "heading": "Backend & languages",
+      "track": "both",
+      "text": [
+        "Backend & languages TypeScript JavaScript Python Node.js FastAPI PHP Laravel CodeIgniter"
+      ],
+      "items": [
+        "TypeScript",
+        "JavaScript",
+        "Python",
+        "Node.js",
+        "FastAPI",
+        "PHP",
+        "Laravel",
+        "CodeIgniter"
+      ],
+      "has_page_link": false,
+      "link_keys": []
+    },
+    {
+      "id": "skills-apis",
+      "section": "Skills",
+      "heading": "APIs & systems",
+      "track": "both",
+      "text": [
+        "APIs & systems REST API design Webhooks Authentication Enterprise integrations Workflow orchestration Retries Circuit breakers"
+      ],
+      "items": [
+        "REST API design",
+        "Webhooks",
+        "Authentication",
+        "Enterprise integrations",
+        "Workflow orchestration",
+        "Retries",
+        "Circuit breakers"
+      ],
+      "has_page_link": false,
+      "link_keys": []
+    },
+    {
+      "id": "skills-data-infra",
+      "section": "Skills",
+      "heading": "Data & infrastructure",
+      "track": "both",
+      "text": [
+        "Data & infrastructure MySQL Firebase Supabase SQLite ChromaDB FAISS Docker Git / GitHub CI/CD Hugging Face Spaces"
+      ],
+      "items": [
+        "MySQL",
+        "Firebase",
+        "Supabase",
+        "SQLite",
+        "ChromaDB",
+        "FAISS",
+        "Docker",
+        "Git / GitHub",
+        "CI/CD",
+        "Hugging Face Spaces"
+      ],
+      "has_page_link": false,
+      "link_keys": []
+    },
+    {
+      "id": "skills-frontend",
+      "section": "Skills",
+      "heading": "Frontend",
+      "track": "both",
+      "text": [
+        "Frontend Angular Ionic HTML / CSS"
+      ],
+      "items": [
+        "Angular",
+        "Ionic",
+        "HTML / CSS"
+      ],
+      "has_page_link": false,
+      "link_keys": []
+    },
+    {
+      "id": "contact",
+      "section": "Contact",
+      "heading": "Contact",
+      "track": "both",
+      "text": [
+        "I want to put four years of production fundamentals — reliable APIs, integrations and error handling — to work on GenAI systems that hold up outside a demo, and to keep learning and growing alongside people already building them well."
+      ],
+      "contact_note": "An email address and a phone number sit on the page in this section. Neither is in this corpus. Never read one out or guess at one: scroll the visitor here, or offer to send the links by email.",
+      "has_page_link": true,
+      "link_keys": [
+        "LINKEDIN",
+        "GITHUB",
+        "GENAI_RESUME"
+      ]
+    },
+    {
+      "id": "education",
+      "section": "Education",
+      "heading": "Education",
+      "track": "both",
+      "text": [
+        "B.Tech Electronics & Communication · ADGITM, Delhi",
+        "2018 — 2022",
+        "New Delhi, India"
+      ],
+      "has_page_link": false,
+      "link_keys": []
+    }
+  ]
+}
